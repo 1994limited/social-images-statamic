@@ -11,7 +11,7 @@
 -->
 <script>
 import { Head } from '@statamic/cms/inertia';
-import { Button, Header, Modal } from '@statamic/cms/ui';
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSeparator, Header, Modal } from '@statamic/cms/ui';
 import icon from '../../brand/nav-icon.svg?raw';
 import Canvas from '../components/designer/Canvas.vue';
 import Icon from '../components/designer/Icon.vue';
@@ -23,7 +23,7 @@ import { bindingKey, fetchKey, newImage, newShape, newText, uid } from '../desig
 const HISTORY = 100;
 
 export default {
-    components: { Button, Canvas, Head, Header, Icon, LayerList, Modal, Properties },
+    components: { Button, Canvas, Dropdown, DropdownItem, DropdownMenu, DropdownSeparator, Head, Header, Icon, LayerList, Modal, Properties },
 
     props: {
         template: { type: Object, required: true },
@@ -88,6 +88,10 @@ export default {
                 label: this.presets[handle]?.title ?? handle,
                 size: `${layout.width}×${layout.height}`,
             }));
+        },
+
+        activeTab() {
+            return this.layoutTabs.find((tab) => tab.handle === this.active) ?? this.layoutTabs[0];
         },
 
         missingPresets() {
@@ -539,21 +543,25 @@ export default {
         <div class="si-designer__bar">
             <input class="si-input si-designer__title" :value="design.title" :aria-label="__('Template name')" @input="change(() => (design.title = $event.target.value))" />
 
-            <div class="si-tabs" role="tablist" :aria-label="__('Layouts')">
-                <button
-                    v-for="tab in layoutTabs"
-                    :key="tab.handle"
-                    type="button"
-                    role="tab"
-                    :aria-selected="tab.handle === active"
-                    :class="{ 'is-on': tab.handle === active }"
-                    @click="switchLayout(tab.handle)"
-                >
-                    {{ tab.label }} <span>{{ tab.size }}</span>
-                    <span v-if="tab.handle !== 'og' && tab.handle === active" class="si-tabs__remove" role="button" tabindex="0" :aria-label="__('Remove this size')" :title="__('Remove this size')" @click.stop="removeLayout(tab.handle)" @keydown.enter.stop.prevent="removeLayout(tab.handle)"><Icon name="close" /></span>
-                </button>
-                <button type="button" class="si-tabs__add" @click="addingLayout = true"><Icon name="plus" /> {{ __('Size') }}</button>
-            </div>
+            <Dropdown align="start">
+                <template #trigger>
+                    <Button size="sm" icon-append="chevron-down" :aria-label="__('Size: :size', { size: activeTab.label })">
+                        {{ activeTab.label }} <span class="si-size">{{ activeTab.size }}</span>
+                    </Button>
+                </template>
+                <DropdownMenu>
+                    <DropdownItem
+                        v-for="tab in layoutTabs"
+                        :key="tab.handle"
+                        :text="`${tab.label} · ${tab.size}`"
+                        :icon="tab.handle === active ? 'checkmark' : 'crop'"
+                        @click="switchLayout(tab.handle)"
+                    />
+                    <DropdownSeparator />
+                    <DropdownItem :text="__('Add a size…')" icon="plus" @click="addingLayout = true" />
+                    <DropdownItem v-if="active !== 'og'" :text="__('Remove :size', { size: activeTab.label })" icon="trash" variant="destructive" @click="removeLayout(active)" />
+                </DropdownMenu>
+            </Dropdown>
 
             <div class="si-designer__entry">
                 <label class="si-label" for="si-entry">{{ __('Preview with') }}</label>
@@ -777,41 +785,16 @@ export default {
     color: inherit;
 }
 
-.si-tabs {
-    display: flex;
-    gap: 0.25rem;
+.si-size {
+    margin-left: 0.25rem;
+    font-size: 0.75rem;
+    opacity: 0.6;
+    font-variant-numeric: tabular-nums;
 }
 
-.si-tabs button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.3rem 0.625rem;
-    border-radius: 0.375rem;
-    font-size: 0.8125rem;
-}
-
-.si-tabs button span {
-    font-size: 0.6875rem;
-    color: #6b7280;
-}
-
-.si-tabs button.is-on {
-    background: rgb(59 130 246 / 0.12);
-}
-
-.si-tabs__remove {
-    display: inline-flex;
-    margin-left: 0.125rem;
-    border-radius: 0.25rem;
-}
-
-.si-tabs__remove:focus-visible {
-    outline: 2px solid #3b82f6;
-}
-
-.si-tabs__add {
-    color: #2563eb;
+.si-designer__entry .si-label {
+    margin: 0;
+    white-space: nowrap;
 }
 
 .si-choice {

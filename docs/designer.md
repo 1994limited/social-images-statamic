@@ -109,7 +109,7 @@ Text and image layers already leave themselves out when they have nothing to sho
 
 ## Sizes
 
-The tabs at the top are the template's layouts. Every template has **Open Graph** (1200 × 630). **+ Size** adds another: Square (1080 × 1080), Portrait (1080 × 1350), Pinterest (1000 × 1500), Story (1080 × 1920), or any size from 200 to 2400 pixels each way. A new size starts as a copy of the Open Graph layout, scaled to fit; then arrange it as it should be. Each size has its own layers.
+The size menu at the top (it shows the one you're working on) lists the template's layouts and switches between them. Every template has **Open Graph** (1200 × 630). **Add a size…** in the menu adds another: Square (1080 × 1080), Portrait (1080 × 1350), Pinterest (1000 × 1500), Story (1080 × 1920), or any size from 200 to 2400 pixels each way. A new size starts as a copy of the Open Graph layout, scaled to fit; then arrange it as it should be. Each size has its own layers. **Remove** in the same menu deletes the size you're on (Open Graph can't be removed).
 
 Which sizes are made, and when, is up to the [settings](choosing-templates.md#sizes).
 
