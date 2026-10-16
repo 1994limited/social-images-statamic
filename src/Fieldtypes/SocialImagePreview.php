@@ -39,6 +39,7 @@ class SocialImagePreview extends Fieldtype
 
         return [
             'url' => $card->exists() ? $card->previewUrl() : null,
+            'previous' => $card->exists() ? null : $card->previousPreviewUrl(),
             'status_url' => cp_route('social-images.images.show', $entry->id()),
             'regenerate_url' => cp_route('social-images.images.regenerate', $entry->id()),
             'template' => $card->template->title(),

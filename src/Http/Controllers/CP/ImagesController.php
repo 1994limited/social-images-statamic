@@ -60,11 +60,33 @@ class ImagesController extends CpController
     public function show(Request $request, string $entryId): JsonResponse
     {
         $entry = $this->entry($entryId);
-        $card = $this->cards->for($entry, $this->layout($request));
+        $layout = $this->layout($request);
+        $card = $this->cards->for($entry, $layout);
         $override = $this->cards->override($entry);
+        $current = $card && $card->exists();
+
+        // Missing or out of date (the template changed, say): start making
+        // it, as a page asking for it would. Repeated asks are one render.
+        if ($card && ! $current && config('social-images.enabled')) {
+            GenerateImage::dispatchWithoutBlocking($entry, $layout);
+        }
+
+        $failed = $card && ! $current && GenerateImage::recentlyFailed($entry->id(), $layout, $card->hash());
+        $since = $card && ! $current ? $card->renderingSince() : null;
 
         return response()->json([
-            'url' => $card && $card->exists() ? $card->previewUrl() : null,
+            'url' => $current ? $card->previewUrl() : null,
+            'previous' => $card && ! $current ? $card->previousPreviewUrl() : null,
+            'failed' => $failed,
+            // current, failed, rendering (with seconds so far) or queued
+            'state' => match (true) {
+                ! $card => null,
+                $current => 'current',
+                $failed => 'failed',
+                $since !== null => 'rendering',
+                default => 'queued',
+            },
+            'seconds' => $since !== null ? max(0, time() - $since) : null,
             'override' => $override?->url(),
             'template' => $card?->template->title(),
         ]);

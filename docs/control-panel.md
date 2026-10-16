@@ -30,7 +30,7 @@ Runs go one image at a time from the page, so you can watch them land and **Stop
 
 Add the **Social image** fieldset to a blueprint (see [Installation](installation.md#first-steps)) and each entry's sidebar shows:
 
-- **The image**, as it is now. Click it to open it full size. After a save that changes it, it shows **Generating…** until the new one is ready.
+- **The image**, as it is now. Click it to open it full size. When it's missing or out of date (the entry or its template changed), opening the entry starts making it, and the panel shows the previous image (if there is one) with where it's got to: **Waiting to start…** while it's queued, then **Rendering…** with a count of seconds. It swaps in the new image when it's ready, usually in a few seconds.
 - **Regenerate**, to remake it now (for instance after replacing a picture's file in place).
 - **Template**: leave it empty to use the collection's, or choose another, or **No image**.
 - **Use this image instead**: an image of your own to share for this entry.

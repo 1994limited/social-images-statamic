@@ -4,6 +4,7 @@ namespace NineteenNinetyFour\SocialImages\Tests\Feature;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use NineteenNinetyFour\SocialImages\Library\Fonts;
 use NineteenNinetyFour\SocialImages\Templates\Porter;
@@ -309,6 +310,39 @@ class ControlPanelTest extends TestCase
         $this->app->terminate();
 
         $this->assertStringContainsString('/storage/social-images/one/og-', $this->getJson(cp_route('social-images.images.show', 'one'))->json('url'));
+    }
+
+    public function test_asking_for_a_missing_image_starts_making_it_and_offers_the_previous_one(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $this->entry();
+        $this->actingAs($this->cpUser());
+
+        $first = $this->getJson(cp_route('social-images.images.show', 'one'))->assertOk();
+        $this->assertNull($first->json('url'));
+        $this->assertNull($first->json('previous'));
+
+        $this->app->terminate();
+        $made = $this->getJson(cp_route('social-images.images.show', 'one'))->json('url');
+        $this->assertStringContainsString('/og-', $made);
+
+        // The template changes: the old image is offered while the new one is made.
+        $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'New {title}']]);
+        $stale = $this->getJson(cp_route('social-images.images.show', 'one'));
+        $this->assertNull($stale->json('url'));
+        $this->assertSame(strtok($made, '?'), strtok($stale->json('previous'), '?'));
+        $this->assertFalse($stale->json('failed'));
+        $this->assertSame('queued', $stale->json('state'));
+
+        // While a render runs, the state says so, with how long so far.
+        // (Each test request finishes the render the last one started, so
+        // change the template again for one that hasn't been made.)
+        $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'Newer {title}']]);
+        Cache::put('social-images:rendering:one:og', time() - 2, 60);
+        $running = $this->getJson(cp_route('social-images.images.show', 'one'));
+        $this->assertSame('rendering', $running->json('state'));
+        $this->assertGreaterThanOrEqual(2, $running->json('seconds'));
     }
 
     public function test_the_settings_page_has_the_template_rules(): void

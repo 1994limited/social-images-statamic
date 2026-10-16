@@ -77,6 +77,39 @@ class Card
     }
 
     /**
+     * When the render now running for this entry and layout started, if
+     * one is.
+     */
+    public function renderingSince(): ?int
+    {
+        $started = Cache::get($this->renderingKey());
+
+        return is_int($started) ? $started : null;
+    }
+
+    protected function renderingKey(): string
+    {
+        return 'social-images:rendering:'.$this->entry->id().':'.$this->layout;
+    }
+
+    /**
+     * The previous image's preview URL, if there is one, for the Control
+     * Panel to show while the current one is made.
+     */
+    public function previousPreviewUrl(): ?string
+    {
+        $previous = $this->previous();
+
+        if (! $previous) {
+            return null;
+        }
+
+        $url = $this->output()->url($previous);
+
+        return (parse_url($url, PHP_URL_PATH) ?: $url).'?v='.$this->output()->lastModified($previous);
+    }
+
+    /**
      * This layout's files on disk, current or stale.
      *
      * @return array<int, string>
@@ -98,7 +131,15 @@ class Card
     {
         $size = $this->template->layouts()[$this->layout];
 
-        $png = app(Camera::class)->capture($this->template->html($this->entry, $this->layout), $size['width'], $size['height']);
+        // Marked while it runs, so the Control Panel can say it's rendering
+        // (not just waiting in the queue).
+        Cache::put($this->renderingKey(), time(), 300);
+
+        try {
+            $png = app(Camera::class)->capture($this->template->html($this->entry, $this->layout), $size['width'], $size['height']);
+        } finally {
+            Cache::forget($this->renderingKey());
+        }
 
         // One render at a time replaces this layout's files, and none
         // deletes the image that's current now: a slow render of an older

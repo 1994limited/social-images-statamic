@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Fixed
+- An entry whose image was missing or out of date (after a template change or an update) showed "Generating…" in its panel without anything being made. Opening the entry now starts it.
+
+### Added
+- The entry's panel shows where a render has got to (waiting to start, then rendering with a count of seconds) and the previous image while the new one is made.
+
 ## 1.0.1 (2026-10-16)
 
 ### Added

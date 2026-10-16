@@ -4,10 +4,10 @@
     images.regenerate CP route and swaps in the URL it returns, which carries
     a ?v= time so the browser drops its cached copy.
 
-    A save that changes the image renders it after the save response has
-    gone, so the form reloads before the new file exists. While the image is
-    missing the preview asks images.show for a while and swaps it in when it
-    lands.
+    While the image is missing or out of date (just saved, or the template
+    changed) the preview asks images.show, which starts making it, and
+    swaps it in when it lands. Until then it shows the previous image, if
+    there is one.
 -->
 <script>
 import { FieldtypeMixin } from '@statamic/cms';
@@ -21,6 +21,10 @@ export default {
     data() {
         return {
             url: this.meta.url,
+            previous: this.meta.previous,
+            failed: false,
+            state: null,
+            seconds: 0,
             override: null,
             regenerating: false,
             polling: false,
@@ -29,6 +33,30 @@ export default {
     },
 
     computed: {
+        /**
+         * What's happening, in words: waiting for the queue, or rendering
+         * and for how long.
+         */
+        progress() {
+            if (this.regenerating) {
+                return this.__('Rendering…');
+            }
+
+            if (this.state === 'rendering') {
+                return this.__('Rendering… :s s', { s: this.seconds });
+            }
+
+            if (this.state === 'queued') {
+                return this.__('Waiting to start…');
+            }
+
+            return this.__('Generating…');
+        },
+
+        busy() {
+            return this.polling || this.regenerating;
+        },
+
         ratio() {
             return `${this.meta.width || 1200} / ${this.meta.height || 630}`;
         },
@@ -37,6 +65,8 @@ export default {
     watch: {
         meta(meta) {
             this.url = meta.url;
+            this.previous = meta.previous;
+            this.failed = false;
             this.pollIfMissing();
         },
     },
@@ -65,19 +95,23 @@ export default {
                     .get(this.meta.status_url)
                     .then(({ data }) => {
                         this.url = data.url || this.url;
+                        this.previous = data.previous ?? this.previous;
+                        this.failed = data.failed;
+                        this.state = data.state;
+                        this.seconds = data.seconds ?? 0;
                         this.override = data.override;
                     })
                     .catch(() => {})
                     .finally(() => {
-                        if (this.url || ++attempts >= 20 || !this.polling) {
+                        if (this.url || this.failed || ++attempts >= 45 || !this.polling) {
                             this.stopPolling();
                         } else {
-                            this.pollTimer = setTimeout(check, 1500);
+                            this.pollTimer = setTimeout(check, 1000);
                         }
                     });
             };
 
-            this.pollTimer = setTimeout(check, 1000);
+            this.pollTimer = setTimeout(check, 300);
         },
 
         stopPolling() {
@@ -94,6 +128,7 @@ export default {
                 .post(this.meta.regenerate_url)
                 .then(({ data }) => {
                     this.url = data.url;
+                    this.failed = false;
                     this.$toast.success(data.message);
                 })
                 .catch((error) => {
@@ -113,10 +148,17 @@ export default {
             <a v-if="url" :href="url" target="_blank" rel="noopener" class="si-preview__frame" :style="{ aspectRatio: ratio }">
                 <img :src="url" alt="" class="si-preview__image" />
             </a>
+            <div v-else-if="previous && !failed" class="si-preview__frame si-preview__updating" :style="{ aspectRatio: ratio }">
+                <img :src="previous" alt="" class="si-preview__image" />
+                <span class="si-preview__badge">{{ busy ? progress : __('Out of date') }}</span>
+                <span v-if="busy" class="si-preview__bar" />
+            </div>
             <div v-else class="si-preview__frame si-preview__empty" :style="{ aspectRatio: ratio }">
                 <template v-if="!meta.enabled">{{ __('Social images are turned off') }}</template>
-                <template v-else-if="polling || regenerating">{{ __('Generating…') }}</template>
+                <template v-else-if="failed">{{ __('It couldn’t be generated. Choose Regenerate to see why.') }}</template>
+                <template v-else-if="busy">{{ progress }}</template>
                 <template v-else>{{ __('Not generated yet') }}</template>
+                <span v-if="busy && !failed" class="si-preview__bar" />
             </div>
 
             <div class="si-preview__footer">
@@ -156,7 +198,64 @@ export default {
     object-fit: cover;
 }
 
+.si-preview__updating,
 .si-preview__empty {
+    position: relative;
+}
+
+/* An indeterminate bar: renders take seconds, with nothing to count. */
+.si-preview__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    overflow: hidden;
+    background: rgb(59 130 246 / 0.2);
+}
+
+.si-preview__bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 35%;
+    background: #3b82f6;
+    animation: si-preview-bar 1.2s ease-in-out infinite;
+}
+
+@keyframes si-preview-bar {
+    from { left: -35%; }
+    to { left: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .si-preview__bar::after {
+        animation: none;
+        left: 0;
+        width: 100%;
+        opacity: 0.6;
+    }
+}
+
+.si-preview__updating .si-preview__image {
+    opacity: 0.55;
+}
+
+.si-preview__badge {
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.5rem;
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.7);
+    color: #fff;
+    font-size: 0.75rem;
+}
+
+.si-preview__empty {
+    text-align: center;
+    padding: 0 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
