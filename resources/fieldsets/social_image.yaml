@@ -14,7 +14,7 @@ fields:
       instructions: 'Leave as is to use the template set for this collection.'
       listable: false
   -
-    handle: social_image
+    handle: social_image_override
     field:
       type: assets
       display: 'Use this image instead'

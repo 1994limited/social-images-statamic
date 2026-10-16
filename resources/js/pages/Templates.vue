@@ -137,7 +137,8 @@ export default {
     <div class="si-templates">
         <div v-for="row in rows" :key="row.handle" class="si-template">
             <component :is="row.edit_url ? 'a' : 'div'" :href="row.edit_url" class="si-template__preview">
-                <Thumbnail :src="row.preview_url" :width="row.layouts.og.width" :height="row.layouts.og.height" />
+                <LayoutPreview v-if="row.layout" :layout="row.layout" :preview-url="urls.preview" />
+                <Thumbnail v-else :src="row.preview_url" :width="row.layouts.og.width" :height="row.layouts.og.height" />
             </component>
 
             <div class="mt-2 flex items-start justify-between gap-2">

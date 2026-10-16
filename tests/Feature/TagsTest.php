@@ -7,6 +7,7 @@ use NineteenNinetyFour\SocialImages\Images\Cards;
 use NineteenNinetyFour\SocialImages\Tests\TestCase;
 use Statamic\Contracts\Entries\Entry;
 use Statamic\Facades\Antlers;
+use Statamic\Facades\Blueprint;
 
 class TagsTest extends TestCase
 {
@@ -49,6 +50,22 @@ class TagsTest extends TestCase
         $this->assertStringContainsString('<meta property="og:image:width" content="1200">', $meta);
         $this->assertStringContainsString('<meta property="og:image:alt" content="Fish &quot;&amp;&quot; chips">', $meta);
         $this->assertStringContainsString('<meta name="twitter:card" content="summary_large_image">', $meta);
+    }
+
+    public function test_the_tag_works_beside_the_social_image_fields(): void
+    {
+        Blueprint::make('article')->setNamespace('collections.articles')->setContents(['fields' => [
+            ['handle' => 'title', 'field' => ['type' => 'text']],
+            ['import' => 'social-images::social_image'],
+        ]])->save();
+        $this->asset();
+
+        $entry = $this->generated();
+        $context = $entry->toAugmentedArray();
+
+        $this->assertArrayHasKey('social_image_override', $context);
+        $this->assertStringEndsWith(app(Cards::class)->for($entry)->path(), $this->render('{{ social_image }}', $context));
+        $this->assertStringContainsString('@font-face{font-family:"Inter"', $this->render('{{ social_image:font family="Inter" }}', $context));
     }
 
     public function test_nothing_without_an_image(): void

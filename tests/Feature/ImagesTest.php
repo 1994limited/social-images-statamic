@@ -211,7 +211,7 @@ class ImagesTest extends TestCase
     {
         Blueprint::make('article')->setNamespace('collections.articles')->setContents(['fields' => [
             ['handle' => 'title', 'field' => ['type' => 'text']],
-            ['handle' => 'social_image', 'field' => ['type' => 'assets', 'container' => 'assets', 'max_files' => 1]],
+            ['handle' => 'social_image_override', 'field' => ['type' => 'assets', 'container' => 'assets', 'max_files' => 1]],
         ]])->save();
 
         $this->asset('fallback.png', 1200, 600);
@@ -231,7 +231,7 @@ class ImagesTest extends TestCase
         $this->assertSame('Hello world', $this->cards()->image($entry)['alt']);
 
         $this->asset('mine.png', 1200, 630);
-        $entry->set('social_image', 'mine.png')->save();
+        $entry->set('social_image_override', 'mine.png')->save();
         $this->assertSame('override', $this->cards()->image(Entry::find('one'))['source']);
         $this->assertStringEndsWith('/mine.png', $this->cards()->image(Entry::find('one'))['url']);
     }

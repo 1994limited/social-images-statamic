@@ -22,7 +22,7 @@ use Statamic\Fields\Value;
 class Cards
 {
     /** The entry field holding an uploaded image to use instead. */
-    public const OVERRIDE_FIELD = 'social_image';
+    public const OVERRIDE_FIELD = 'social_image_override';
 
     /** The entry field choosing a template ("none" for no image). */
     public const TEMPLATE_FIELD = 'social_image_template';
@@ -91,8 +91,9 @@ class Cards
      */
     public function override(Entry $entry): ?Asset
     {
-        $value = $entry->augmentedValue(self::OVERRIDE_FIELD);
-        $value = $value instanceof Value ? $value->value() : $value;
+        // An assets field with no container to look in throws.
+        $value = rescue(fn () => $entry->augmentedValue(self::OVERRIDE_FIELD), null, false);
+        $value = $value instanceof Value ? rescue(fn () => $value->value(), null, false) : $value;
         $value = is_iterable($value) ? collect($value)->first() : $value;
 
         return $value instanceof Asset ? $value : null;

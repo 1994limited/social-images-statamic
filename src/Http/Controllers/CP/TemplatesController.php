@@ -54,6 +54,7 @@ class TemplatesController extends CpController
                 'kind' => $template->kind(),
                 'view' => $template instanceof ViewTemplate ? $template->view() : null,
                 'layouts' => $template->layouts(),
+                'layout' => $template instanceof JsonTemplate ? $template->layout(Schema::BASE_LAYOUT) : null,
                 'used_by' => $rules->where('template', $template->handle())->count(),
                 'edit_url' => $template instanceof JsonTemplate ? cp_route('social-images.templates.edit', $template->handle()) : null,
                 'export_url' => $template instanceof JsonTemplate ? cp_route('social-images.templates.export', $template->handle()) : null,
