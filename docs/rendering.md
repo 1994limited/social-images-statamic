@@ -61,16 +61,32 @@ A site with a few hundred entries fits in a day on the free plan. For more, gene
 
 ## Queues
 
-Images are made in a queued job, so a save never waits for one. With a queue worker running (`QUEUE_CONNECTION=redis`, `database` and so on), jobs go to it. To use a different connection or queue for images only:
+Images are rendered in the background wherever they can be, so nobody waits for one. How depends on whether you run a queue worker (`QUEUE_CONNECTION=redis`, `database` and so on, with `php artisan queue:work` running), or use the `sync` queue, Laravel's default on new sites, which has no worker.
+
+| What starts a render | With a queue worker | On the `sync` queue |
+| --- | --- | --- |
+| Saving an entry | Queued | Rendered after the response has been sent |
+| A page asking for an image that's missing or out of date | Queued | Rendered after the response has been sent |
+| Opening an entry in the Control Panel | Queued | Rendered after the response has been sent |
+| Saving a template | Queued, for every entry that uses it | Nothing: made on demand, as above, or from the Images page |
+| **Regenerate** in an entry, and **Generate** / **Regenerate all** on the Images page | Rendered there and then, one image per request, so you see each land | The same |
+| `social-images:generate` | Rendered by the command, one at a time (`--queue` queues them instead) | The same |
+| **Regenerate social images** in a collection listing | Queued | Rendered during the action's request |
+
+"After the response has been sent" means the page or save finishes first and the render runs in the same PHP process straight afterwards, so no one waits for it, but it does hold that process for the second or two it takes. A template save on the `sync` queue doesn't render everything at once for that reason: on a big site that could be hundreds of renders in one process.
+
+So a queue worker isn't required, but it's the better choice on a site with many entries, or with Cloudflare's rate limits: queued renders that are turned away for going too fast wait and try again (after 15 seconds, then a minute, then five).
+
+To use a different connection or queue for images only:
 
 ```env
 SOCIAL_IMAGES_QUEUE_CONNECTION=redis
 SOCIAL_IMAGES_QUEUE=images
 ```
 
-On the `sync` queue (Laravel's default on new sites, or a `SOCIAL_IMAGES_QUEUE_CONNECTION` using the `sync` driver), there's no worker: the image is made **after** the response has been sent instead, so the editor saving the entry doesn't wait either. The entry's preview in the Control Panel shows the image when it's ready.
+Renders are unique per entry, size and content: saving an entry five times in a minute without changing what its image shows makes nothing; changing it twice makes two renders, and the second replaces the first. A render queued for a version of an entry that has since changed stands down, since the change queued its own.
 
-Jobs are unique per entry, size and content: saving an entry five times in a minute without changing what its image shows makes nothing; changing it twice makes two renders, and the second replaces the first.
+Nothing is deleted before its replacement exists: pages and the Control Panel keep showing an entry's previous image until the new one is ready.
 
 ## Turning it off
 
