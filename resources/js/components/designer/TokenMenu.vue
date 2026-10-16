@@ -7,6 +7,9 @@ export default {
     props: {
         collections: { type: Array, required: true },
         kind: { type: String, default: 'text' },
+        // Which side of the link the menu lines up with: "right" opens
+        // leftwards (for a link at the panel's right edge), "left" rightwards.
+        align: { type: String, default: 'right' },
     },
 
     emits: ['insert'],
@@ -66,7 +69,7 @@ export default {
 <template>
     <div class="si-tokens">
         <button type="button" class="si-link" @click="open = !open">{{ kind === 'image' ? __('Add a field') : __('Insert a field') }}</button>
-        <div v-if="open" class="si-tokens__menu" @keydown.esc="open = false">
+        <div v-if="open" class="si-tokens__menu" :class="`si-tokens__menu--${align}`" @keydown.esc="open = false">
             <input v-model="query" class="si-input" :placeholder="__('Search fields')" autofocus />
             <div v-for="group in groups" :key="group.title" class="si-tokens__group">
                 <p class="si-tokens__title">{{ group.title }}</p>
@@ -89,14 +92,22 @@ export default {
     position: absolute;
     z-index: 20;
     top: 1.5rem;
-    right: 0;
     width: 17rem;
+    max-width: calc(100vw - 2rem);
     max-height: 22rem;
     overflow-y: auto;
     padding: 0.5rem;
     background: var(--si-surface);
     border-radius: 0.5rem;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08), 0 12px 24px -8px rgb(0 0 0 / 0.25);
+}
+
+.si-tokens__menu--right {
+    right: 0;
+}
+
+.si-tokens__menu--left {
+    left: 0;
 }
 
 .si-tokens__title {
@@ -124,6 +135,8 @@ export default {
 }
 
 .si-tokens__item code {
+    padding: 0;
+    background: none;
     font-size: 0.6875rem;
     color: #6b7280;
 }

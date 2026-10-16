@@ -82,8 +82,8 @@ export default {
             <button type="button" class="si-icon-button" :aria-label="__('Remove')" :title="__('Remove')" @click="remove(index)"><Icon name="close" /></button>
         </div>
         <p v-if="!modelValue.length" class="si-hint">{{ __('No picture yet.') }}</p>
-        <div class="flex items-center justify-between gap-2">
-            <TokenMenu :collections="collections" kind="image" @insert="add('field:' + $event)" />
+        <div class="flex items-baseline justify-between gap-2">
+            <TokenMenu :collections="collections" kind="image" align="left" @insert="add('field:' + $event)" />
             <label class="si-link cursor-pointer">
                 {{ uploading ? __('Uploading…') : __('Upload an image') }}
                 <input type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml,image/avif" class="sr-only" @change="upload" />
