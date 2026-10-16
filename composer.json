@@ -1,0 +1,70 @@
+{
+    "name": "1994/social-images-statamic",
+    "description": "Social share images for Statamic: design Open Graph cards in the Control Panel, bind them to your entries' fields, and have them generated on save. Templates import and export as JSON.",
+    "type": "statamic-addon",
+    "license": "proprietary",
+    "keywords": [
+        "statamic",
+        "statamic-addon",
+        "open graph",
+        "og image",
+        "social image",
+        "share image",
+        "seo"
+    ],
+    "authors": [
+        {
+            "name": "1994",
+            "email": "hello@1994.co.uk",
+            "homepage": "https://1994.co.uk"
+        }
+    ],
+    "support": {
+        "email": "hello@1994.co.uk"
+    },
+    "autoload": {
+        "psr-4": {
+            "NineteenNinetyFour\\SocialImages\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "NineteenNinetyFour\\SocialImages\\Tests\\": "tests"
+        }
+    },
+    "require": {
+        "php": "^8.3",
+        "spatie/laravel-screenshot": "^1.2",
+        "statamic/cms": "^6.35"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.20",
+        "orchestra/testbench": "^10.0|^11.0",
+        "phpunit/phpunit": "^12.0",
+        "statamic/seo-pro": "^7.15"
+    },
+    "suggest": {
+        "statamic/seo-pro": "SEO Pro's og:image and twitter:image can use the generated images (SEO Pro ^7.15)."
+    },
+    "extra": {
+        "statamic": {
+            "name": "Social Images",
+            "description": "Design share images in the Control Panel and have them generated for every entry. Templates import and export as JSON.",
+            "developer": "1994",
+            "developer-url": "https://1994.co.uk"
+        },
+        "laravel": {
+            "providers": [
+                "NineteenNinetyFour\\SocialImages\\ServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pixelfear/composer-dist-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

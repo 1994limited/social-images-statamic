@@ -1,0 +1,338 @@
+[
+  {
+    "family": "Inter",
+    "category": "sans-serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "inter/inter-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "inter/inter-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      },
+      {
+        "file": "inter/inter-latin-ext-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "inter/inter-latin-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "DM Sans",
+    "category": "sans-serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "dm-sans/dm-sans-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          1000
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "dm-sans/dm-sans-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          1000
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      },
+      {
+        "file": "dm-sans/dm-sans-latin-ext-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          1000
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "dm-sans/dm-sans-latin-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          1000
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "Manrope",
+    "category": "sans-serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "manrope/manrope-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          200,
+          800
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "manrope/manrope-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          200,
+          800
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "Space Grotesk",
+    "category": "sans-serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "space-grotesk/space-grotesk-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          300,
+          700
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "space-grotesk/space-grotesk-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          300,
+          700
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "Fraunces",
+    "category": "serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "fraunces/fraunces-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "fraunces/fraunces-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      },
+      {
+        "file": "fraunces/fraunces-latin-ext-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "fraunces/fraunces-latin-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          900
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "Playfair Display",
+    "category": "serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "playfair-display/playfair-display-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          400,
+          900
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "playfair-display/playfair-display-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          400,
+          900
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      },
+      {
+        "file": "playfair-display/playfair-display-latin-ext-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          400,
+          900
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "playfair-display/playfair-display-latin-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          400,
+          900
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "Newsreader",
+    "category": "serif",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "newsreader/newsreader-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          200,
+          800
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "newsreader/newsreader-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          200,
+          800
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      },
+      {
+        "file": "newsreader/newsreader-latin-ext-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          200,
+          800
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "newsreader/newsreader-latin-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          200,
+          800
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  },
+  {
+    "family": "JetBrains Mono",
+    "category": "monospace",
+    "license": "OFL-1.1",
+    "files": [
+      {
+        "file": "jetbrains-mono/jetbrains-mono-latin-ext-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          800
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "jetbrains-mono/jetbrains-mono-latin-wght-normal.woff2",
+        "style": "normal",
+        "weight": [
+          100,
+          800
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      },
+      {
+        "file": "jetbrains-mono/jetbrains-mono-latin-ext-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          800
+        ],
+        "subset": "latin-ext",
+        "unicode_range": "U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF"
+      },
+      {
+        "file": "jetbrains-mono/jetbrains-mono-latin-wght-italic.woff2",
+        "style": "italic",
+        "weight": [
+          100,
+          800
+        ],
+        "subset": "latin",
+        "unicode_range": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+      }
+    ]
+  }
+]
