@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.1 (2026-10-16)
 
 ### Added
 - **Twelve more starters**, also in the gallery: Podcast, Newsroom, Event, Product, Recipe, Docs, Hiring, Case study, Portfolio, Quote, Minimal and Magazine, each in Open Graph and square.
