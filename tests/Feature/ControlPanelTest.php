@@ -2,6 +2,7 @@
 
 namespace NineteenNinetyFour\SocialImages\Tests\Feature;
 
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use NineteenNinetyFour\SocialImages\Library\Fonts;
@@ -235,6 +236,18 @@ class ControlPanelTest extends TestCase
         $family = collect(app(Fonts::class)->families())->firstWhere('family', 'Lora');
         $this->assertSame([400, 500, 600, 700], $family['weights']);
         $this->assertSame([400, 700], app(Fonts::class)->match('Lora', 400)->first()['weight']);
+    }
+
+    public function test_a_failed_font_download_is_explained(): void
+    {
+        Http::fake([
+            'fonts.googleapis.com/*' => Http::response("/* latin */\n@font-face { font-family: 'Lora'; font-style: normal; font-weight: 400; src: url(https://fonts.gstatic.com/s/lora/l.woff2) format('woff2'); }"),
+            'fonts.gstatic.com/*' => fn () => throw new ConnectionException('timed out'),
+        ]);
+
+        $this->actingAs($this->cpUser())->postJson(cp_route('social-images.fonts.google'), ['family' => 'Lora'])
+            ->assertStatus(422)
+            ->assertJsonPath('message', 'Google Fonts couldn’t be reached. Try again in a moment.');
     }
 
     public function test_an_unknown_google_font_is_explained(): void

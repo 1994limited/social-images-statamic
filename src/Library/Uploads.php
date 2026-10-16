@@ -42,6 +42,25 @@ class Uploads
      */
     public function put(string $contents, string $extension): string
     {
+        $extension = $this->check($contents, $extension);
+
+        $name = sha1($contents).'.'.$extension;
+
+        if (! $this->exists($name)) {
+            $this->files->ensureDirectoryExists($this->directory());
+            $this->files->put($this->path($name), $contents);
+        }
+
+        return $name;
+    }
+
+    /**
+     * Check an image without storing it. Returns its extension.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function check(string $contents, string $extension): string
+    {
         $extension = strtolower($extension) === 'jpeg' ? 'jpg' : strtolower($extension);
 
         if (! isset(self::TYPES[$extension])) {
@@ -56,14 +75,7 @@ class Uploads
             throw new InvalidArgumentException(__('That file isn’t the kind of image its name says it is.'));
         }
 
-        $name = sha1($contents).'.'.$extension;
-
-        if (! $this->exists($name)) {
-            $this->files->ensureDirectoryExists($this->directory());
-            $this->files->put($this->path($name), $contents);
-        }
-
-        return $name;
+        return $extension;
     }
 
     public function exists(string $name): bool

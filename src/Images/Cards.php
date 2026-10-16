@@ -15,9 +15,10 @@ use Statamic\Fields\Value;
 /**
  * Which image an entry gets, and where to find it.
  *
- * In order: the image uploaded to the entry's own `social_image` field;
- * the image generated from its template; and, while that's still being
- * made (or for pages with no template), the fallback image from settings.
+ * In order: the image uploaded to the entry's own `social_image_override`
+ * field; the image generated from its template (or, while a new one is
+ * being made, the one it replaces); and for pages with no image yet, the
+ * fallback image from settings.
  */
 class Cards
 {
@@ -131,6 +132,17 @@ class Cards
 
             if (config('social-images.enabled')) {
                 GenerateImage::dispatchWithoutBlocking($entry, $layout);
+            }
+
+            // Until the new one is made, the image it replaces.
+            if ($previous = $card->previous()) {
+                return [
+                    'url' => $this->output->url($previous),
+                    'width' => $card->width(),
+                    'height' => $card->height(),
+                    'alt' => (string) $entry->get('title'),
+                    'source' => 'generated',
+                ];
             }
         }
 

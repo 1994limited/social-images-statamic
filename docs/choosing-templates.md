@@ -37,7 +37,7 @@ The **Use this image instead** field in an entry's Social image panel takes an u
 
 ## The fallback image
 
-Under **Settings → Generating → Fallback image**, an image for pages that have no social image yet: while an entry's image is being made, and for pages with no template (like your home page, if no rule covers it).
+Under **Settings → Generating → Fallback image**, an image for pages that have no social image yet: while an entry's first image is being made (later ones replace the previous image only once they're ready), and for pages with no template (like your home page, if no rule covers it).
 
 With SEO Pro, while an entry's image is being made, SEO Pro's own image (from its site or section defaults) is used if it has one, before this fallback. See [SEO Pro](seo.md).
 

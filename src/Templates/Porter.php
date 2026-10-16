@@ -81,27 +81,34 @@ class Porter
         // Check the template before storing anything it brings.
         Schema::normalize($data);
 
-        $renamed = [];
+        $fonts = is_array($data['fonts'] ?? null) ? $data['fonts'] : [];
+        $images = [];
 
-        foreach (is_array($data['uploads'] ?? null) ? $data['uploads'] : [] as $name => $uri) {
-            if (! is_string($uri) || ! preg_match('#^data:image/(png|jpeg|webp|gif|svg\+xml|avif);base64,([A-Za-z0-9+/=\s]+)$#', $uri, $matches)) {
-                throw new InvalidTemplate(__('An image in this template isn’t one Social Images can use.'));
-            }
-
-            $extension = ['jpeg' => 'jpg', 'svg+xml' => 'svg'][$matches[1]] ?? $matches[1];
-
-            try {
-                $renamed[(string) $name] = $this->uploads->put(base64_decode($matches[2]), $extension);
-            } catch (InvalidArgumentException $exception) {
-                throw new InvalidTemplate($exception->getMessage());
-            }
-        }
-
+        // Check every image and font first, so a template that fails
+        // part-way through leaves nothing behind.
         try {
-            $this->fonts->import(is_array($data['fonts'] ?? null) ? $data['fonts'] : []);
+            foreach (is_array($data['uploads'] ?? null) ? $data['uploads'] : [] as $name => $uri) {
+                if (! is_string($uri) || ! preg_match('#^data:image/(png|jpeg|webp|gif|svg\+xml|avif);base64,([A-Za-z0-9+/=\s]+)$#', $uri, $matches)) {
+                    throw new InvalidTemplate(__('An image in this template isn’t one Social Images can use.'));
+                }
+
+                $contents = base64_decode($matches[2]);
+                $extension = $this->uploads->check($contents, ['jpeg' => 'jpg', 'svg+xml' => 'svg'][$matches[1]] ?? $matches[1]);
+                $images[(string) $name] = [$contents, $extension];
+            }
+
+            $this->fonts->checkImport($fonts);
         } catch (InvalidArgumentException $exception) {
             throw new InvalidTemplate($exception->getMessage());
         }
+
+        $renamed = [];
+
+        foreach ($images as $name => [$contents, $extension]) {
+            $renamed[$name] = $this->uploads->put($contents, $extension);
+        }
+
+        $this->fonts->import($fonts);
 
         // Uploads are named by their contents, so the names should match,
         // but a hand-edited file may not.

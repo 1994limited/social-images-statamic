@@ -79,7 +79,7 @@ For another entry, give its ID: `{{ social_image :entry="id" }}` in a listing, o
 
 ## Which image
 
-The entry's own image if it has one, otherwise its generated image, otherwise the fallback. An entry whose generated image hasn't been made yet (just saved, or a size that's never been asked for) gets the fallback this time, and its image is made in the background for the next visitor. The page never waits. See [Choosing templates](choosing-templates.md).
+The entry's own image if it has one, otherwise its generated image, otherwise the fallback. When an entry's image needs making again (it was just changed), pages keep the image it replaces until the new one is ready; an entry that has never had one (or a size that's never been asked for) gets the fallback. Either way the new image is made in the background for the next visitor, and the page never waits. See [Choosing templates](choosing-templates.md).
 
 ## In code templates
 

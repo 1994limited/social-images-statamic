@@ -167,30 +167,7 @@ class Fonts
      */
     public function add(string $family, string $contents, string $extension, array|int $weight = 400, string $style = 'normal', ?string $unicodeRange = null, string $source = 'upload'): array
     {
-        $family = Schema::family($family) ?? throw new InvalidArgumentException(__('Font names can use letters, numbers, spaces, dots, dashes and ampersands.'));
-        $extension = strtolower($extension);
-
-        if (! isset(self::TYPES[$extension])) {
-            throw new InvalidArgumentException(__('Fonts must be WOFF2, WOFF, TTF or OTF files.'));
-        }
-
-        if (strlen($contents) > self::MAX_BYTES) {
-            throw new InvalidArgumentException(__('Fonts must be smaller than 5 MB.'));
-        }
-
-        $magic = substr($contents, 0, 4);
-
-        if (! match ($extension) {
-            'woff2' => $magic === 'wOF2',
-            'woff' => $magic === 'wOFF',
-            'ttf', 'otf' => in_array($magic, ["\x00\x01\x00\x00", 'OTTO', 'true'], true),
-        }) {
-            throw new InvalidArgumentException(__('That file isn’t the kind of font its name says it is.'));
-        }
-
-        if ($this->isBundled($family)) {
-            throw new InvalidArgumentException(__(':family comes with Social Images already.', ['family' => $family]));
-        }
+        [$family, $extension] = $this->check($family, $contents, $extension);
 
         $weight = is_array($weight) ? $weight : [$weight, $weight];
         $weight = [max(100, min(1000, (int) $weight[0])), max(100, min(1000, (int) ($weight[1] ?? $weight[0])))];
@@ -235,6 +212,43 @@ class Fonts
     }
 
     /**
+     * Check a font without storing it. Returns its family and extension.
+     *
+     * @return array{0: string, 1: string}
+     *
+     * @throws InvalidArgumentException
+     */
+    public function check(string $family, string $contents, string $extension): array
+    {
+        $family = Schema::family($family) ?? throw new InvalidArgumentException(__('Font names can use letters, numbers, spaces, dots, dashes and ampersands.'));
+        $extension = strtolower($extension);
+
+        if (! isset(self::TYPES[$extension])) {
+            throw new InvalidArgumentException(__('Fonts must be WOFF2, WOFF, TTF or OTF files.'));
+        }
+
+        if (strlen($contents) > self::MAX_BYTES) {
+            throw new InvalidArgumentException(__('Fonts must be smaller than 5 MB.'));
+        }
+
+        $magic = substr($contents, 0, 4);
+
+        if (! match ($extension) {
+            'woff2' => $magic === 'wOF2',
+            'woff' => $magic === 'wOFF',
+            'ttf', 'otf' => in_array($magic, ["\x00\x01\x00\x00", 'OTTO', 'true'], true),
+        }) {
+            throw new InvalidArgumentException(__('That file isn’t the kind of font its name says it is.'));
+        }
+
+        if ($this->isBundled($family)) {
+            throw new InvalidArgumentException(__(':family comes with Social Images already.', ['family' => $family]));
+        }
+
+        return [$family, $extension];
+    }
+
+    /**
      * Remove one of the site's families and its files.
      */
     public function delete(string $family): void
@@ -276,6 +290,8 @@ class Fonts
      */
     public function import(array $faces): void
     {
+        $this->checkImport($faces);
+
         foreach ($faces as $face) {
             if (! is_array($face) || ! is_string($face['data'] ?? null)) {
                 continue;
@@ -300,6 +316,31 @@ class Fonts
                 is_string($face['unicode_range'] ?? null) ? $face['unicode_range'] : null,
                 ($face['source'] ?? null) === 'google' ? 'google' : 'upload',
             );
+        }
+    }
+
+    /**
+     * Check exported faces (as export() makes them) without storing any,
+     * so an import that would fail part-way stores nothing.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function checkImport(array $faces): void
+    {
+        foreach ($faces as $face) {
+            if (! is_array($face) || ! is_string($face['data'] ?? null)) {
+                continue;
+            }
+
+            if (! preg_match('#^data:font/(woff2|woff|ttf|otf);base64,([A-Za-z0-9+/=]+)$#', $face['data'], $matches)) {
+                throw new InvalidArgumentException(__('A font in this template isn’t a WOFF2, WOFF, TTF or OTF file.'));
+            }
+
+            $family = Schema::family($face['family'] ?? null);
+
+            if ($family && ! $this->isBundled($family)) {
+                $this->check($family, base64_decode($matches[2]), $matches[1]);
+            }
         }
     }
 

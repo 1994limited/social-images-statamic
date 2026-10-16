@@ -197,6 +197,45 @@ class ImagesTest extends TestCase
         Storage::disk('public')->assertExists($current->path());
     }
 
+    public function test_a_render_for_the_old_template_finishing_late_keeps_the_new_templates_image(): void
+    {
+        $this->template('a');
+        $this->template('b', [['id' => 'title', 'type' => 'text', 'text' => 'B {title}']]);
+        $this->settings(['templates' => [['template' => 'a']], 'generate_on_save' => false]);
+
+        $entry = $this->entry();
+        $old = app(Cards::class)->for($entry);
+        $old->hash();
+
+        $this->settings(['templates' => [['template' => 'b']], 'generate_on_save' => false]);
+        $new = app(Cards::class)->for(Entry::find('one'));
+        $new->render();
+
+        $old->render();
+
+        Storage::disk('public')->assertExists($new->path());
+    }
+
+    public function test_while_a_new_image_is_made_pages_keep_the_one_it_replaces(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+
+        $entry = $this->entry();
+        $first = app(Cards::class)->for($entry);
+        $first->render();
+
+        config(['queue.default' => 'redis']);
+        Queue::fake();
+        $entry->set('title', 'Changed')->save();
+
+        $image = app(Cards::class)->image(Entry::find('one'));
+
+        $this->assertSame('generated', $image['source']);
+        $this->assertStringEndsWith($first->path(), $image['url']);
+        Queue::assertPushed(GenerateImage::class);
+    }
+
     public function test_jobs_are_unique_per_entry_layout_and_fingerprint(): void
     {
         $this->assertSame('one:og:abc', (new GenerateImage('one', 'og', hash: 'abc'))->uniqueId());

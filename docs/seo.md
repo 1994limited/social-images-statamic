@@ -14,7 +14,7 @@ Under **Settings → SEO Pro**:
 
 An image set in SEO Pro's section defaults that points at a field (`@seo:featured_image`) doesn't count as the entry's own: the social image is used.
 
-While an entry's image is still being made, SEO Pro keeps its own image (from its site or section defaults) if it has one, and the [fallback image](choosing-templates.md#the-fallback-image) otherwise.
+While an entry's new image is being made, its previous one is used. An entry that has never had one keeps SEO Pro's own image (from its site or section defaults) if there is one, and the [fallback image](choosing-templates.md#the-fallback-image) otherwise.
 
 For pages that aren't entries (taxonomy pages, routes of your own), SEO Pro works as it did.
 

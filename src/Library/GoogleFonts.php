@@ -68,7 +68,11 @@ class GoogleFonts
                 continue;
             }
 
-            $file = Http::withUserAgent(self::USER_AGENT)->timeout(15)->get($face['url']);
+            try {
+                $file = Http::withUserAgent(self::USER_AGENT)->timeout(15)->get($face['url']);
+            } catch (Throwable) {
+                throw new InvalidArgumentException(__('Google Fonts couldn’t be reached. Try again in a moment.'));
+            }
 
             if (! $file->successful()) {
                 continue;

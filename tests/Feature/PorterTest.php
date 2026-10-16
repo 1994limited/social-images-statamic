@@ -93,6 +93,27 @@ class PorterTest extends TestCase
         ]);
     }
 
+    public function test_an_import_that_fails_part_way_stores_nothing(): void
+    {
+        try {
+            $this->porter()->import([
+                'schema' => 'social-images/1',
+                'layouts' => ['og' => []],
+                'uploads' => ['a.png' => 'data:image/png;base64,'.base64_encode(FakeCamera::PNG)],
+                'fonts' => [
+                    ['family' => 'Good Sans', 'weight' => 400, 'style' => 'normal', 'data' => 'data:font/woff2;base64,'.base64_encode('wOF2good')],
+                    ['family' => 'Bad Sans', 'weight' => 400, 'style' => 'normal', 'data' => 'data:font/woff2;base64,'.base64_encode('not a font')],
+                ],
+            ]);
+            $this->fail('The import went through.');
+        } catch (InvalidTemplate) {
+        }
+
+        $this->assertFalse(app(Uploads::class)->exists(sha1(FakeCamera::PNG).'.png'));
+        $this->assertFalse(app(Fonts::class)->has('Good Sans'));
+        $this->assertCount(0, app(TemplateRepository::class)->all());
+    }
+
     public function test_html_masquerading_as_an_image_type_is_refused(): void
     {
         $this->expectException(InvalidTemplate::class);

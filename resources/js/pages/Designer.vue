@@ -54,7 +54,7 @@ export default {
             entryOptions: [...this.entries],
             entrySearch: '',
             fetchTimer: null,
-            saving: false,
+            saving: false, // the request's promise while a save is out
             rendering: false,
             rendered: null,
             renderError: null,
@@ -147,12 +147,19 @@ export default {
 
         fetchPreview() {
             const handle = this.active;
+            const signature = this.fetchSignature;
             const layout = JSON.parse(JSON.stringify(this.layout));
             const keys = Object.fromEntries(layout.layers.map((layer) => [layer.id, bindingKey(layer)]));
 
             this.$axios
                 .post(this.urls.preview, { layout, entry: this.entry })
                 .then(({ data }) => {
+                    // A slower answer to an earlier question (another
+                    // entry, an older binding) is thrown away.
+                    if (signature !== this.fetchSignature) {
+                        return;
+                    }
+
                     this.resolved = {
                         ...this.resolved,
                         [handle]: { layers: data.data.layers, fonts: data.data.fonts, categories: data.data.categories, keys },
@@ -399,23 +406,49 @@ export default {
 
         /* Saving and rendering ---------------------------------------------- */
 
+        /**
+         * Save the design as it is now. Edits made while the request is out
+         * are kept (and the page stays unsaved); only if nothing changed
+         * meanwhile is the design replaced by the server's normalised copy.
+         * Resolves true when saved.
+         */
         save() {
-            this.commit();
-            this.saving = true;
+            if (this.saving) {
+                return this.saving;
+            }
 
-            return this.$axios
-                .patch(this.urls.update, { template: this.design })
+            this.commit();
+            const sent = JSON.stringify(this.design);
+
+            this.saving = this.$axios
+                .patch(this.urls.update, { template: JSON.parse(sent) })
                 .then(({ data }) => {
                     const { handle, ...saved } = data.template;
-                    this.savedSnapshot = JSON.stringify(saved);
-                    // Keep ids and order as the server normalised them.
-                    this.design = saved;
-                    this.snapshot = this.savedSnapshot;
-                    this.keepSelection();
+                    const normalised = JSON.stringify(saved);
+
+                    if (JSON.stringify(this.design) === sent) {
+                        // Keep ids and order as the server normalised them.
+                        this.design = saved;
+                        this.snapshot = normalised;
+                        this.savedSnapshot = normalised;
+                        this.keepSelection();
+                    } else {
+                        // Saved what was sent; what's been done since isn't.
+                        this.savedSnapshot = sent;
+                    }
+
                     this.$toast.success(this.__('Saved'));
+
+                    return true;
                 })
-                .catch((error) => this.$toast.error(error.response?.data?.message ?? this.__('Something went wrong')))
+                .catch((error) => {
+                    this.$toast.error(error.response?.data?.message ?? this.__('Something went wrong'));
+
+                    return false;
+                })
                 .finally(() => (this.saving = false));
+
+            return this.saving;
         },
 
         render() {
@@ -432,8 +465,8 @@ export default {
         },
 
         async exportTemplate() {
-            if (this.dirty) {
-                await this.save();
+            if (this.dirty && !(await this.save())) {
+                return;
             }
 
             window.location.href = this.urls.export;
@@ -498,7 +531,7 @@ export default {
         <Button icon="redo" variant="ghost" :aria-label="__('Redo')" :disabled="!future.length" @click="redo" />
         <Button :text="__('Export')" icon="download" @click="exportTemplate" />
         <Button :text="__('Render')" icon="image" :loading="rendering" @click="render" />
-        <Button variant="primary" :text="dirty ? __('Save') : __('Saved')" :loading="saving" :disabled="!dirty" @click="save" />
+        <Button variant="primary" :text="dirty ? __('Save') : __('Saved')" :loading="!!saving" :disabled="!dirty" @click="save" />
     </Header>
 
     <div class="si-designer">

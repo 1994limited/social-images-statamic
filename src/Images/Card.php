@@ -124,7 +124,21 @@ class Card
     {
         $entry = Entries::find($this->entry->id());
 
-        return $entry ? rescue(fn () => (new self($entry, $this->template, $this->layout))->path(), null, false) : null;
+        // Through Cards, so a change of template since this render began
+        // counts too.
+        return $entry ? rescue(fn () => app(Cards::class)->for($entry, $this->layout)?->path(), null, false) : null;
+    }
+
+    /**
+     * The newest earlier image for this layout, if there is one: what to
+     * show while the current one is being made.
+     */
+    public function previous(): ?string
+    {
+        return collect($this->files())
+            ->reject(fn (string $file) => $file === $this->path())
+            ->sortByDesc(fn (string $file) => $this->output()->lastModified($file))
+            ->first();
     }
 
     protected function output(): Output
