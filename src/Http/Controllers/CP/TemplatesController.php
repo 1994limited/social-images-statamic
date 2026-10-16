@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use NineteenNinetyFour\SocialImages\Images\Camera;
+use NineteenNinetyFour\SocialImages\Images\Cards;
 use NineteenNinetyFour\SocialImages\Library\Fonts;
 use NineteenNinetyFour\SocialImages\Rendering\Page;
 use NineteenNinetyFour\SocialImages\Rendering\Resolver;
@@ -274,7 +275,8 @@ class TemplatesController extends CpController
         $this->authorize('view social images');
 
         $template = $this->templates->find($handle) ?? abort(404);
-        $entry = $this->entry($request->query('entry'));
+        $entry = $this->entry($request->query('entry'))
+            ?? ($template instanceof ViewTemplate ? $this->exampleEntry($template) : null);
 
         try {
             $html = $template->html($entry, Schema::BASE_LAYOUT);
@@ -289,6 +291,22 @@ class TemplatesController extends CpController
             'Content-Security-Policy' => "sandbox allow-scripts; default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'",
             'X-Robots-Tag' => 'noindex',
         ]);
+    }
+
+    /**
+     * A recent entry that uses the template, which the user can see, to
+     * preview a code template with. A view has nothing to show but the
+     * title without one, while a designer template has sample text.
+     */
+    protected function exampleEntry(Template $template): ?EntryContract
+    {
+        $cards = app(Cards::class);
+        $user = User::current();
+
+        return Entry::query()->orderBy('date', 'desc')->limit(200)->get()
+            ->first(fn (EntryContract $entry) => $cards->supports($entry)
+                && $cards->templateFor($entry)?->handle() === $template->handle()
+                && $user->can('view', $entry));
     }
 
     public function entries(Request $request): JsonResponse

@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- A code template's preview on the Templates page shows a recent entry that uses it, instead of a title with nothing else.
+- A new Control Panel icon: a share card with a folded corner.
+
 ## 1.0.2 (2026-10-16)
 
 ### Fixed

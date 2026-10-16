@@ -81,6 +81,17 @@ class CodeTemplatesTest extends TestCase
         $this->assertNotSame($hash, app(Cards::class)->for(Entry::find('one'))->hash());
     }
 
+    public function test_a_code_templates_thumbnail_shows_an_entry_that_uses_it(): void
+    {
+        $this->useTemplate('article');
+        $this->entry('one', 'A real title');
+
+        $this->actingAs($this->cpUser())
+            ->get(cp_route('social-images.templates.thumbnail', 'article'))
+            ->assertOk()
+            ->assertSee('A real title');
+    }
+
     public function test_a_designer_template_cannot_take_a_code_templates_handle(): void
     {
         $this->expectException(InvalidTemplate::class);
