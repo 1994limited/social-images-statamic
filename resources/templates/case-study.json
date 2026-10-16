@@ -1,0 +1,303 @@
+{
+  "schema": "social-images/1",
+  "title": "Case study",
+  "description": "A photo fading into midnight blue, the project’s title and the client (from a client field, or the collection). For agencies and portfolios.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#0b1220"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 520,
+          "height": 630,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#1e293b"
+          }
+        },
+        {
+          "id": "fade",
+          "name": "Fade",
+          "type": "shape",
+          "x": 260,
+          "y": 0,
+          "width": 262,
+          "height": 630,
+          "fill": {
+            "type": "linear",
+            "angle": 90,
+            "stops": [
+              {
+                "color": "#0b122000",
+                "position": 0
+              },
+              {
+                "color": "#0b122066",
+                "position": 40
+              },
+              {
+                "color": "#0b1220",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "text",
+          "text": "Case study",
+          "x": 580,
+          "y": 80,
+          "width": 560,
+          "height": 36,
+          "font": {
+            "family": "Inter",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 14,
+          "color": "#38bdf8",
+          "transform": "uppercase",
+          "letter_spacing": 0.14,
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 580,
+          "y": 130,
+          "width": 560,
+          "height": 270,
+          "font": {
+            "family": "Inter",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 60,
+          "min_size": 30,
+          "color": "#f8fafc",
+          "valign": "middle",
+          "line_height": 1.06,
+          "letter_spacing": -0.02,
+          "max_lines": 4
+        },
+        {
+          "id": "client",
+          "name": "Client",
+          "type": "text",
+          "text": "{client ?? collection:title}",
+          "x": 580,
+          "y": 430,
+          "width": 560,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 24,
+          "min_size": 16,
+          "color": "#cbd5e1",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "rule",
+          "name": "Rule",
+          "type": "shape",
+          "x": 580,
+          "y": 494,
+          "width": 80,
+          "height": 4,
+          "fill": {
+            "type": "solid",
+            "color": "#38bdf8"
+          }
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 580,
+          "y": 530,
+          "width": 560,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 14,
+          "color": "#64748b",
+          "balance": false
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "solid",
+        "color": "#0b1220"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 560,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#1e293b"
+          }
+        },
+        {
+          "id": "fade",
+          "name": "Fade",
+          "type": "shape",
+          "x": 0,
+          "y": 300,
+          "width": 1080,
+          "height": 262,
+          "fill": {
+            "type": "linear",
+            "angle": 180,
+            "stops": [
+              {
+                "color": "#0b122000",
+                "position": 0
+              },
+              {
+                "color": "#0b122066",
+                "position": 40
+              },
+              {
+                "color": "#0b1220",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "text",
+          "text": "Case study",
+          "x": 80,
+          "y": 600,
+          "width": 920,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 14,
+          "color": "#38bdf8",
+          "transform": "uppercase",
+          "letter_spacing": 0.14,
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 650,
+          "width": 920,
+          "height": 240,
+          "font": {
+            "family": "Inter",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 72,
+          "min_size": 32,
+          "color": "#f8fafc",
+          "valign": "middle",
+          "line_height": 1.06,
+          "letter_spacing": -0.02,
+          "max_lines": 3
+        },
+        {
+          "id": "client",
+          "name": "Client",
+          "type": "text",
+          "text": "{client ?? collection:title}",
+          "x": 80,
+          "y": 920,
+          "width": 700,
+          "height": 44,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 28,
+          "min_size": 16,
+          "color": "#cbd5e1",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 700,
+          "y": 920,
+          "width": 300,
+          "height": 44,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 24,
+          "min_size": 14,
+          "color": "#64748b",
+          "align": "right",
+          "balance": false
+        }
+      ]
+    }
+  }
+}

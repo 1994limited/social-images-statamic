@@ -1,0 +1,412 @@
+{
+    "schema": "social-images/1",
+    "title": "Newsroom",
+    "description": "A red section label, a bold serif headline and the photo alongside. For news and announcements.",
+    "layouts": {
+        "og": {
+            "width": 1200,
+            "height": 630,
+            "background": {
+                "type": "solid",
+                "color": "#ffffff"
+            },
+            "layers": [
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "x": 660,
+                    "y": 0,
+                    "width": 540,
+                    "height": 630,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "cover",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": {
+                        "type": "solid",
+                        "color": "#e5e7eb"
+                    }
+                },
+                {
+                    "id": "bar",
+                    "type": "shape",
+                    "name": "Bar",
+                    "x": 0,
+                    "y": 0,
+                    "width": 12,
+                    "height": 630,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#dc2626"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "label",
+                    "type": "text",
+                    "name": "Section",
+                    "x": 72,
+                    "y": 64,
+                    "width": 520,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 18,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.1,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#dc2626"
+                    },
+                    "padding": [
+                        7,
+                        12,
+                        7,
+                        12
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Headline",
+                    "x": 72,
+                    "y": 130,
+                    "width": 540,
+                    "height": 340,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Playfair Display",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 64,
+                    "min_size": 32,
+                    "line_height": 1.08,
+                    "letter_spacing": 0,
+                    "color": "#111827",
+                    "align": "left",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 4,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "rule",
+                    "type": "shape",
+                    "name": "Rule",
+                    "x": 72,
+                    "y": 500,
+                    "width": 540,
+                    "height": 1,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#d1d5db"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "meta",
+                    "type": "text",
+                    "name": "Date and site",
+                    "x": 72,
+                    "y": 520,
+                    "width": 540,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{date:j F Y} · {site:name}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 500,
+                        "style": "normal"
+                    },
+                    "size": 20,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#4b5563",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 1,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        },
+        "square": {
+            "width": 1080,
+            "height": 1080,
+            "background": {
+                "type": "solid",
+                "color": "#ffffff"
+            },
+            "layers": [
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 520,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "cover",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": {
+                        "type": "solid",
+                        "color": "#e5e7eb"
+                    }
+                },
+                {
+                    "id": "bar",
+                    "type": "shape",
+                    "name": "Bar",
+                    "x": 0,
+                    "y": 520,
+                    "width": 1080,
+                    "height": 12,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#dc2626"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "label",
+                    "type": "text",
+                    "name": "Section",
+                    "x": 72,
+                    "y": 580,
+                    "width": 900,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 20,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.1,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#dc2626"
+                    },
+                    "padding": [
+                        7,
+                        12,
+                        7,
+                        12
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Headline",
+                    "x": 72,
+                    "y": 640,
+                    "width": 936,
+                    "height": 300,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Playfair Display",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 72,
+                    "min_size": 34,
+                    "line_height": 1.08,
+                    "letter_spacing": 0,
+                    "color": "#111827",
+                    "align": "left",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 4,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "meta",
+                    "type": "text",
+                    "name": "Date and site",
+                    "x": 72,
+                    "y": 970,
+                    "width": 936,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{date:j F Y} · {site:name}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 500,
+                        "style": "normal"
+                    },
+                    "size": 22,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#4b5563",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 1,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        }
+    },
+    "fonts": [],
+    "uploads": []
+}

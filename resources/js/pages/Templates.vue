@@ -179,6 +179,7 @@ export default {
             <button type="button" class="si-starter" :disabled="busy" @click="create()">
                 <div class="si-starter__blank"><Icon name="plus" /></div>
                 <span class="font-medium">{{ __('Blank') }}</span>
+                <span class="text-xs text-gray-500">{{ __('An empty canvas, to start from scratch.') }}</span>
             </button>
             <button v-for="starter in starters" :key="starter.key" type="button" class="si-starter" :disabled="busy" @click="create(starter.key)">
                 <LayoutPreview v-if="starter.layout" :layout="starter.layout" :preview-url="urls.preview" class="si-starter__preview" />
@@ -245,7 +246,19 @@ export default {
 }
 
 .si-starter:hover {
-    background: rgb(0 0 0 / 0.04);
+    background: var(--si-hover);
+}
+
+.si-starter:focus,
+.si-starter:focus-visible {
+    outline: none;
+}
+
+/* Focus shows on the picture, as hover does on the card. */
+.si-starter:focus-visible .si-starter__blank,
+.si-starter:focus-visible .si-starter__preview {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
 }
 
 .si-starter__preview {
@@ -259,9 +272,10 @@ export default {
     aspect-ratio: 1200 / 630;
     align-items: center;
     justify-content: center;
-    border: 1px dashed rgb(0 0 0 / 0.2);
+    border: 2px dashed #6b7280;
     border-radius: 0.375rem;
     color: #9ca3af;
+    box-sizing: border-box;
 }
 
 .si-starter__blank .si-icon {

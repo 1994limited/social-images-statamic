@@ -71,6 +71,10 @@ class TokensTest extends TestCase
         $this->assertSame(Tokens::SAMPLES['title'], $this->tokens()->text('{title}', null));
         $this->assertSame('Subtitle', $this->tokens()->text('{subtitle}', null));
         $this->assertSame('Read more', $this->tokens()->text('{"Read more"}', null));
+        $this->assertSame('16 Oct · Friday', $this->tokens()->text('{date:j M} · {date:l}', null));
+        $this->assertSame('/your-entry', $this->tokens()->text('{path}', null));
+        $this->assertSame(Tokens::SAMPLES['title'], $this->tokens()->text('{quote ?? excerpt ?? title}', null));
+        $this->assertSame('Excerpt', $this->tokens()->text('{quote ?? excerpt}', null));
     }
 
     public function test_filled_decides_a_layers_show_only_when(): void

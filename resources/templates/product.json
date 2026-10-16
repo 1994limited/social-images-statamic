@@ -1,0 +1,273 @@
+{
+  "schema": "social-images/1",
+  "title": "Product",
+  "description": "The product’s picture on a sunny blob, its name and its price (from a price field, if it has one). For shops.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "linear",
+        "angle": 120,
+        "stops": [
+          {
+            "color": "#fef3c7",
+            "position": 0
+          },
+          {
+            "color": "#fde68a",
+            "position": 100
+          }
+        ]
+      },
+      "layers": [
+        {
+          "id": "blob",
+          "name": "Blob",
+          "type": "shape",
+          "x": 660,
+          "y": 65,
+          "width": 500,
+          "height": 500,
+          "fill": {
+            "type": "solid",
+            "color": "#fbbf24"
+          },
+          "shape": "ellipse",
+          "opacity": 0.5
+        },
+        {
+          "id": "photo",
+          "name": "Product",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 690,
+          "y": 70,
+          "width": 440,
+          "height": 490,
+          "fit": "contain"
+        },
+        {
+          "id": "label",
+          "name": "Label",
+          "type": "text",
+          "text": "{collection:title}",
+          "x": 72,
+          "y": 80,
+          "width": 560,
+          "height": 40,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 14,
+          "color": "#92400e",
+          "hug": true,
+          "background": {
+            "type": "solid",
+            "color": "#ffffff"
+          },
+          "padding": [
+            8,
+            16,
+            8,
+            16
+          ],
+          "radius": 999,
+          "transform": "uppercase",
+          "letter_spacing": 0.08,
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Name",
+          "type": "text",
+          "text": "{title}",
+          "x": 72,
+          "y": 140,
+          "width": 580,
+          "height": 250,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 68,
+          "min_size": 34,
+          "color": "#1c1917",
+          "valign": "middle",
+          "line_height": 1.04,
+          "letter_spacing": -0.03,
+          "max_lines": 3
+        },
+        {
+          "id": "price",
+          "name": "Price",
+          "type": "text",
+          "text": "£{price}",
+          "x": 72,
+          "y": 420,
+          "width": 580,
+          "height": 70,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 52,
+          "min_size": 28,
+          "color": "#b45309",
+          "when": "price",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 72,
+          "y": 520,
+          "width": 580,
+          "height": 40,
+          "font": {
+            "family": "Manrope",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 14,
+          "color": "#78350f",
+          "balance": false
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "linear",
+        "angle": 120,
+        "stops": [
+          {
+            "color": "#fef3c7",
+            "position": 0
+          },
+          {
+            "color": "#fde68a",
+            "position": 100
+          }
+        ]
+      },
+      "layers": [
+        {
+          "id": "blob",
+          "name": "Blob",
+          "type": "shape",
+          "x": 240,
+          "y": 60,
+          "width": 600,
+          "height": 600,
+          "fill": {
+            "type": "solid",
+            "color": "#fbbf24"
+          },
+          "shape": "ellipse",
+          "opacity": 0.5
+        },
+        {
+          "id": "photo",
+          "name": "Product",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 240,
+          "y": 70,
+          "width": 600,
+          "height": 580,
+          "fit": "contain"
+        },
+        {
+          "id": "title",
+          "name": "Name",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 700,
+          "width": 920,
+          "height": 180,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 72,
+          "min_size": 34,
+          "color": "#1c1917",
+          "align": "center",
+          "valign": "middle",
+          "line_height": 1.04,
+          "letter_spacing": -0.03,
+          "max_lines": 2
+        },
+        {
+          "id": "price",
+          "name": "Price",
+          "type": "text",
+          "text": "£{price}",
+          "x": 80,
+          "y": 890,
+          "width": 920,
+          "height": 70,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 56,
+          "min_size": 28,
+          "color": "#b45309",
+          "align": "center",
+          "when": "price",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 80,
+          "y": 980,
+          "width": 920,
+          "height": 40,
+          "font": {
+            "family": "Manrope",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 24,
+          "min_size": 14,
+          "color": "#78350f",
+          "align": "center",
+          "balance": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,397 @@
+{
+  "schema": "social-images/1",
+  "title": "Event",
+  "description": "A calendar card with the entry’s date, the title, where it is and a button. For events, talks and launches.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#064e3b",
+            "position": 0
+          },
+          {
+            "color": "#065f46",
+            "position": 100
+          }
+        ]
+      },
+      "layers": [
+        {
+          "id": "card",
+          "name": "Date card",
+          "type": "shape",
+          "x": 72,
+          "y": 72,
+          "width": 200,
+          "height": 220,
+          "fill": {
+            "type": "solid",
+            "color": "#ffffff"
+          },
+          "radius": 20,
+          "shadow": {
+            "x": 0,
+            "y": 16,
+            "blur": 40,
+            "color": "#00000040"
+          }
+        },
+        {
+          "id": "month",
+          "name": "Month",
+          "type": "text",
+          "text": "{date:M}",
+          "x": 72,
+          "y": 92,
+          "width": 200,
+          "height": 50,
+          "font": {
+            "family": "DM Sans",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 30,
+          "min_size": 18,
+          "color": "#047857",
+          "align": "center",
+          "transform": "uppercase",
+          "letter_spacing": 0.12,
+          "balance": false
+        },
+        {
+          "id": "day",
+          "name": "Day",
+          "type": "text",
+          "text": "{date:j}",
+          "x": 72,
+          "y": 132,
+          "width": 200,
+          "height": 120,
+          "font": {
+            "family": "DM Sans",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 110,
+          "min_size": 60,
+          "color": "#064e3b",
+          "align": "center",
+          "valign": "middle",
+          "line_height": 1,
+          "balance": false
+        },
+        {
+          "id": "weekday",
+          "name": "Weekday",
+          "type": "text",
+          "text": "{date:l}",
+          "x": 72,
+          "y": 248,
+          "width": 200,
+          "height": 30,
+          "font": {
+            "family": "DM Sans",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 12,
+          "color": "#6b7280",
+          "align": "center",
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 330,
+          "y": 72,
+          "width": 800,
+          "height": 300,
+          "font": {
+            "family": "DM Sans",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 66,
+          "min_size": 32,
+          "color": "#ffffff",
+          "valign": "middle",
+          "line_height": 1.05,
+          "letter_spacing": -0.02,
+          "max_lines": 3
+        },
+        {
+          "id": "rule",
+          "name": "Rule",
+          "type": "shape",
+          "x": 72,
+          "y": 430,
+          "width": 1056,
+          "height": 2,
+          "fill": {
+            "type": "solid",
+            "color": "#34d39966"
+          }
+        },
+        {
+          "id": "where",
+          "name": "Where",
+          "type": "text",
+          "text": "{venue ?? location ?? site:name}",
+          "x": 72,
+          "y": 460,
+          "width": 700,
+          "height": 44,
+          "font": {
+            "family": "DM Sans",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 28,
+          "min_size": 18,
+          "color": "#d1fae5",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "cta",
+          "name": "Call to action",
+          "type": "text",
+          "text": "Book now",
+          "x": 900,
+          "y": 456,
+          "width": 228,
+          "height": 52,
+          "font": {
+            "family": "DM Sans",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 16,
+          "color": "#064e3b",
+          "align": "right",
+          "hug": true,
+          "background": {
+            "type": "solid",
+            "color": "#6ee7b7"
+          },
+          "padding": [
+            12,
+            24,
+            12,
+            24
+          ],
+          "radius": 999,
+          "balance": false
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{domain}",
+          "x": 72,
+          "y": 540,
+          "width": 700,
+          "height": 36,
+          "font": {
+            "family": "DM Sans",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 20,
+          "min_size": 14,
+          "color": "#6ee7b7",
+          "balance": false
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#064e3b",
+            "position": 0
+          },
+          {
+            "color": "#065f46",
+            "position": 100
+          }
+        ]
+      },
+      "layers": [
+        {
+          "id": "card",
+          "name": "Date card",
+          "type": "shape",
+          "x": 380,
+          "y": 90,
+          "width": 320,
+          "height": 340,
+          "fill": {
+            "type": "solid",
+            "color": "#ffffff"
+          },
+          "radius": 28,
+          "shadow": {
+            "x": 0,
+            "y": 16,
+            "blur": 40,
+            "color": "#00000040"
+          }
+        },
+        {
+          "id": "month",
+          "name": "Month",
+          "type": "text",
+          "text": "{date:M}",
+          "x": 380,
+          "y": 120,
+          "width": 320,
+          "height": 60,
+          "font": {
+            "family": "DM Sans",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 40,
+          "min_size": 20,
+          "color": "#047857",
+          "align": "center",
+          "transform": "uppercase",
+          "letter_spacing": 0.12,
+          "balance": false
+        },
+        {
+          "id": "day",
+          "name": "Day",
+          "type": "text",
+          "text": "{date:j}",
+          "x": 380,
+          "y": 180,
+          "width": 320,
+          "height": 180,
+          "font": {
+            "family": "DM Sans",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 170,
+          "min_size": 80,
+          "color": "#064e3b",
+          "align": "center",
+          "valign": "middle",
+          "line_height": 1,
+          "balance": false
+        },
+        {
+          "id": "weekday",
+          "name": "Weekday",
+          "type": "text",
+          "text": "{date:l}",
+          "x": 380,
+          "y": 370,
+          "width": 320,
+          "height": 40,
+          "font": {
+            "family": "DM Sans",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 14,
+          "color": "#6b7280",
+          "align": "center",
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 480,
+          "width": 920,
+          "height": 300,
+          "font": {
+            "family": "DM Sans",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 76,
+          "min_size": 34,
+          "color": "#ffffff",
+          "align": "center",
+          "valign": "middle",
+          "line_height": 1.05,
+          "letter_spacing": -0.02,
+          "max_lines": 3
+        },
+        {
+          "id": "where",
+          "name": "Where",
+          "type": "text",
+          "text": "{venue ?? location ?? site:name}",
+          "x": 80,
+          "y": 820,
+          "width": 920,
+          "height": 50,
+          "font": {
+            "family": "DM Sans",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 32,
+          "min_size": 18,
+          "color": "#d1fae5",
+          "align": "center",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "cta",
+          "name": "Call to action",
+          "type": "text",
+          "text": "Book now",
+          "x": 80,
+          "y": 900,
+          "width": 920,
+          "height": 60,
+          "font": {
+            "family": "DM Sans",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 16,
+          "color": "#064e3b",
+          "align": "center",
+          "hug": true,
+          "background": {
+            "type": "solid",
+            "color": "#6ee7b7"
+          },
+          "padding": [
+            14,
+            30,
+            14,
+            30
+          ],
+          "radius": 999,
+          "balance": false
+        }
+      ]
+    }
+  }
+}

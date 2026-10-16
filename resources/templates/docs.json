@@ -1,0 +1,275 @@
+{
+  "schema": "social-images/1",
+  "title": "Docs",
+  "description": "A clean page with a breadcrumb, a bold title, a summary and the page’s address. For documentation and guides.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#f8fafc"
+      },
+      "layers": [
+        {
+          "id": "panel",
+          "name": "Panel",
+          "type": "shape",
+          "x": 0,
+          "y": 0,
+          "width": 14,
+          "height": 630,
+          "fill": {
+            "type": "linear",
+            "angle": 180,
+            "stops": [
+              {
+                "color": "#2563eb",
+                "position": 0
+              },
+              {
+                "color": "#7c3aed",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 80,
+          "y": 70,
+          "width": 700,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 16,
+          "color": "#0f172a",
+          "balance": false
+        },
+        {
+          "id": "crumb",
+          "name": "Breadcrumb",
+          "type": "text",
+          "text": "Docs / {collection:title}",
+          "x": 80,
+          "y": 120,
+          "width": 800,
+          "height": 36,
+          "font": {
+            "family": "JetBrains Mono",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 20,
+          "min_size": 14,
+          "color": "#2563eb",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 180,
+          "width": 1040,
+          "height": 260,
+          "font": {
+            "family": "Inter",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 72,
+          "min_size": 34,
+          "color": "#0f172a",
+          "valign": "middle",
+          "line_height": 1.05,
+          "letter_spacing": -0.03,
+          "max_lines": 3
+        },
+        {
+          "id": "summary",
+          "name": "Summary",
+          "type": "text",
+          "text": "{excerpt ?? description ?? summary}",
+          "x": 80,
+          "y": 460,
+          "width": 900,
+          "height": 80,
+          "font": {
+            "family": "Inter",
+            "weight": 400,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 18,
+          "color": "#475569",
+          "line_height": 1.35,
+          "max_lines": 2
+        },
+        {
+          "id": "url",
+          "name": "Address",
+          "type": "text",
+          "text": "{domain}{path}",
+          "x": 80,
+          "y": 556,
+          "width": 1040,
+          "height": 34,
+          "font": {
+            "family": "JetBrains Mono",
+            "weight": 400,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 12,
+          "color": "#94a3b8",
+          "balance": false,
+          "max_lines": 1
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "solid",
+        "color": "#f8fafc"
+      },
+      "layers": [
+        {
+          "id": "panel",
+          "name": "Panel",
+          "type": "shape",
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 14,
+          "fill": {
+            "type": "linear",
+            "angle": 90,
+            "stops": [
+              {
+                "color": "#2563eb",
+                "position": 0
+              },
+              {
+                "color": "#7c3aed",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 80,
+          "y": 90,
+          "width": 900,
+          "height": 44,
+          "font": {
+            "family": "Inter",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 30,
+          "min_size": 16,
+          "color": "#0f172a",
+          "balance": false
+        },
+        {
+          "id": "crumb",
+          "name": "Breadcrumb",
+          "type": "text",
+          "text": "Docs / {collection:title}",
+          "x": 80,
+          "y": 150,
+          "width": 900,
+          "height": 40,
+          "font": {
+            "family": "JetBrains Mono",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 24,
+          "min_size": 14,
+          "color": "#2563eb",
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 260,
+          "width": 920,
+          "height": 420,
+          "font": {
+            "family": "Inter",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 88,
+          "min_size": 36,
+          "color": "#0f172a",
+          "valign": "middle",
+          "line_height": 1.05,
+          "letter_spacing": -0.03,
+          "max_lines": 4
+        },
+        {
+          "id": "summary",
+          "name": "Summary",
+          "type": "text",
+          "text": "{excerpt ?? description ?? summary}",
+          "x": 80,
+          "y": 720,
+          "width": 920,
+          "height": 140,
+          "font": {
+            "family": "Inter",
+            "weight": 400,
+            "style": "normal"
+          },
+          "size": 30,
+          "min_size": 18,
+          "color": "#475569",
+          "line_height": 1.35,
+          "max_lines": 3
+        },
+        {
+          "id": "url",
+          "name": "Address",
+          "type": "text",
+          "text": "{domain}{path}",
+          "x": 80,
+          "y": 960,
+          "width": 920,
+          "height": 40,
+          "font": {
+            "family": "JetBrains Mono",
+            "weight": 400,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 12,
+          "color": "#94a3b8",
+          "balance": false,
+          "max_lines": 1
+        }
+      ]
+    }
+  }
+}

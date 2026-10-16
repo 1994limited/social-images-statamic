@@ -1,0 +1,336 @@
+{
+  "schema": "social-images/1",
+  "title": "Magazine",
+  "description": "A magazine cover: the photo full size, the site’s name as the masthead and the title as the cover line.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#111111"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 1200,
+          "height": 630,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#262626"
+          }
+        },
+        {
+          "id": "top",
+          "name": "Top shade",
+          "type": "shape",
+          "x": 0,
+          "y": 0,
+          "width": 1200,
+          "height": 200,
+          "fill": {
+            "type": "linear",
+            "angle": 180,
+            "stops": [
+              {
+                "color": "#000000aa",
+                "position": 0
+              },
+              {
+                "color": "#00000000",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "bottom",
+          "name": "Bottom shade",
+          "type": "shape",
+          "x": 0,
+          "y": 280,
+          "width": 1200,
+          "height": 350,
+          "fill": {
+            "type": "linear",
+            "angle": 180,
+            "stops": [
+              {
+                "color": "#00000000",
+                "position": 0
+              },
+              {
+                "color": "#000000dd",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "masthead",
+          "name": "Masthead",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 60,
+          "y": 36,
+          "width": 1080,
+          "height": 90,
+          "font": {
+            "family": "Playfair Display",
+            "weight": 900,
+            "style": "normal"
+          },
+          "size": 76,
+          "min_size": 36,
+          "color": "#ffffff",
+          "transform": "uppercase",
+          "letter_spacing": 0.06,
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "issue",
+          "name": "Issue",
+          "type": "text",
+          "text": "{date:F Y}",
+          "x": 900,
+          "y": 50,
+          "width": 240,
+          "height": 30,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 12,
+          "color": "#ffffffcc",
+          "align": "right",
+          "transform": "uppercase",
+          "letter_spacing": 0.1,
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Cover line",
+          "type": "text",
+          "text": "{title}",
+          "x": 60,
+          "y": 330,
+          "width": 900,
+          "height": 200,
+          "font": {
+            "family": "Playfair Display",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 58,
+          "min_size": 28,
+          "color": "#ffffff",
+          "valign": "bottom",
+          "line_height": 1.08,
+          "max_lines": 3
+        },
+        {
+          "id": "section",
+          "name": "Section",
+          "type": "text",
+          "text": "{collection:title}",
+          "x": 60,
+          "y": 552,
+          "width": 900,
+          "height": 32,
+          "font": {
+            "family": "Inter",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 12,
+          "color": "#fbbf24",
+          "transform": "uppercase",
+          "letter_spacing": 0.14,
+          "balance": false
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "solid",
+        "color": "#111111"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1080,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#262626"
+          }
+        },
+        {
+          "id": "top",
+          "name": "Top shade",
+          "type": "shape",
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 300,
+          "fill": {
+            "type": "linear",
+            "angle": 180,
+            "stops": [
+              {
+                "color": "#000000aa",
+                "position": 0
+              },
+              {
+                "color": "#00000000",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "bottom",
+          "name": "Bottom shade",
+          "type": "shape",
+          "x": 0,
+          "y": 560,
+          "width": 1080,
+          "height": 520,
+          "fill": {
+            "type": "linear",
+            "angle": 180,
+            "stops": [
+              {
+                "color": "#00000000",
+                "position": 0
+              },
+              {
+                "color": "#000000dd",
+                "position": 100
+              }
+            ]
+          }
+        },
+        {
+          "id": "masthead",
+          "name": "Masthead",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 60,
+          "y": 50,
+          "width": 960,
+          "height": 130,
+          "font": {
+            "family": "Playfair Display",
+            "weight": 900,
+            "style": "normal"
+          },
+          "size": 110,
+          "min_size": 40,
+          "color": "#ffffff",
+          "align": "center",
+          "transform": "uppercase",
+          "letter_spacing": 0.06,
+          "balance": false,
+          "max_lines": 1
+        },
+        {
+          "id": "issue",
+          "name": "Issue",
+          "type": "text",
+          "text": "{date:F Y}",
+          "x": 60,
+          "y": 190,
+          "width": 960,
+          "height": 34,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 12,
+          "color": "#ffffffcc",
+          "align": "center",
+          "transform": "uppercase",
+          "letter_spacing": 0.12,
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Cover line",
+          "type": "text",
+          "text": "{title}",
+          "x": 60,
+          "y": 680,
+          "width": 960,
+          "height": 250,
+          "font": {
+            "family": "Playfair Display",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 72,
+          "min_size": 32,
+          "color": "#ffffff",
+          "valign": "bottom",
+          "line_height": 1.08,
+          "max_lines": 3
+        },
+        {
+          "id": "section",
+          "name": "Section",
+          "type": "text",
+          "text": "{collection:title}",
+          "x": 60,
+          "y": 950,
+          "width": 960,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 12,
+          "color": "#fbbf24",
+          "transform": "uppercase",
+          "letter_spacing": 0.14,
+          "balance": false
+        }
+      ]
+    }
+  }
+}

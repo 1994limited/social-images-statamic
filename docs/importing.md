@@ -26,7 +26,7 @@ Templates refer to entry fields by handle (`{subtitle}`, `field:featured_image`)
 
 ## The gallery
 
-[The gallery](../gallery/README.md) has templates to import by address, each with a preview: the six starters that come with the addon, and more as we make them.
+[The gallery](../gallery/README.md) has templates to import by address, each with a preview: the seventeen starters that come with the addon, and more as we make them.
 
 ## For code templates
 

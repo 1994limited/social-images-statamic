@@ -1,0 +1,141 @@
+{
+  "schema": "social-images/1",
+  "title": "Minimal",
+  "description": "Just the title, centred in black on white, with the site’s name. Goes with anything.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#ffffff"
+      },
+      "layers": [
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 120,
+          "y": 120,
+          "width": 960,
+          "height": 330,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 72,
+          "min_size": 32,
+          "color": "#0a0a0a",
+          "align": "center",
+          "valign": "middle",
+          "line_height": 1.08,
+          "letter_spacing": -0.035,
+          "max_lines": 4
+        },
+        {
+          "id": "dot",
+          "name": "Dot",
+          "type": "shape",
+          "x": 594.0,
+          "y": 490,
+          "width": 12,
+          "height": 12,
+          "fill": {
+            "type": "solid",
+            "color": "#0a0a0a"
+          },
+          "shape": "ellipse"
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 120,
+          "y": 520,
+          "width": 960,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 14,
+          "color": "#737373",
+          "align": "center",
+          "balance": false
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "solid",
+        "color": "#ffffff"
+      },
+      "layers": [
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 120,
+          "y": 200,
+          "width": 840,
+          "height": 560,
+          "font": {
+            "family": "Inter",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 88,
+          "min_size": 32,
+          "color": "#0a0a0a",
+          "align": "center",
+          "valign": "middle",
+          "line_height": 1.08,
+          "letter_spacing": -0.035,
+          "max_lines": 4
+        },
+        {
+          "id": "dot",
+          "name": "Dot",
+          "type": "shape",
+          "x": 534.0,
+          "y": 880,
+          "width": 12,
+          "height": 12,
+          "fill": {
+            "type": "solid",
+            "color": "#0a0a0a"
+          },
+          "shape": "ellipse"
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 120,
+          "y": 910,
+          "width": 840,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 14,
+          "color": "#737373",
+          "align": "center",
+          "balance": false
+        }
+      ]
+    }
+  }
+}

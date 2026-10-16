@@ -123,7 +123,8 @@ export async function render(root, layout, data = {}, options = {}) {
 
     for (const layer of layout.layers) {
         const resolved = layers[layer.id] || {};
-        const unavailable = resolved.hidden || (layer.type === 'image' && !resolved.src && !options.designer);
+        const placeholder = layer.type === 'image' && !resolved.src && (options.designer || options.placeholders);
+        const unavailable = !placeholder && (resolved.hidden || (layer.type === 'image' && !resolved.src));
 
         if (layer.hidden || (unavailable && !options.designer)) {
             continue;
@@ -317,6 +318,31 @@ function clamp(value, low, high, fallback) {
     return Number.isFinite(number) ? Math.min(high, Math.max(low, number)) : fallback;
 }
 
+const PLACEHOLDER_ICON = 'data:image/svg+xml,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'
+    + '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M3 17l5-5 4 4 3-3 6 6"/></svg>',
+);
+
+/**
+ * Where a picture would go, before there is one: a soft grey panel with a
+ * picture icon, so a layout reads right without an entry's photo.
+ */
+function drawPlaceholder(element, layer, doc) {
+    Object.assign(element.style, {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%)',
+    });
+
+    const icon = doc.createElement('img');
+    icon.alt = '';
+    icon.src = PLACEHOLDER_ICON;
+    const size = Math.max(16, Math.min(96, Math.min(layer.width, layer.height) * 0.22));
+    Object.assign(icon.style, { width: `${size}px`, height: `${size}px`, opacity: '0.9' });
+    element.appendChild(icon);
+}
+
 function drawImage(element, layer, src, doc, options) {
     Object.assign(element.style, {
         overflow: 'hidden',
@@ -327,10 +353,8 @@ function drawImage(element, layer, src, doc, options) {
     });
 
     if (!src) {
-        if (options.designer) {
-            Object.assign(element.style, {
-                background: fillCss(layer.background) || 'repeating-linear-gradient(45deg, #e5e7eb 0 12px, #f3f4f6 12px 24px)',
-            });
+        if (options.designer || options.placeholders) {
+            drawPlaceholder(element, layer, doc);
         }
 
         return null;

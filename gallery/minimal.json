@@ -1,0 +1,239 @@
+{
+    "schema": "social-images/1",
+    "title": "Minimal",
+    "description": "Just the title, centred in black on white, with the site’s name. Goes with anything.",
+    "layouts": {
+        "og": {
+            "width": 1200,
+            "height": 630,
+            "background": {
+                "type": "solid",
+                "color": "#ffffff"
+            },
+            "layers": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Title",
+                    "x": 120,
+                    "y": 120,
+                    "width": 960,
+                    "height": 330,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 600,
+                        "style": "normal"
+                    },
+                    "size": 72,
+                    "min_size": 32,
+                    "line_height": 1.08,
+                    "letter_spacing": -0.035,
+                    "color": "#0a0a0a",
+                    "align": "center",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 4,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "dot",
+                    "type": "shape",
+                    "name": "Dot",
+                    "x": 594,
+                    "y": 490,
+                    "width": 12,
+                    "height": 12,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "ellipse",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#0a0a0a"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "site",
+                    "type": "text",
+                    "name": "Site",
+                    "x": 120,
+                    "y": 520,
+                    "width": 960,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 500,
+                        "style": "normal"
+                    },
+                    "size": 22,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#737373",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        },
+        "square": {
+            "width": 1080,
+            "height": 1080,
+            "background": {
+                "type": "solid",
+                "color": "#ffffff"
+            },
+            "layers": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Title",
+                    "x": 120,
+                    "y": 200,
+                    "width": 840,
+                    "height": 560,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 600,
+                        "style": "normal"
+                    },
+                    "size": 88,
+                    "min_size": 32,
+                    "line_height": 1.08,
+                    "letter_spacing": -0.035,
+                    "color": "#0a0a0a",
+                    "align": "center",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 4,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "dot",
+                    "type": "shape",
+                    "name": "Dot",
+                    "x": 534,
+                    "y": 880,
+                    "width": 12,
+                    "height": 12,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "ellipse",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#0a0a0a"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "site",
+                    "type": "text",
+                    "name": "Site",
+                    "x": 120,
+                    "y": 910,
+                    "width": 840,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 500,
+                        "style": "normal"
+                    },
+                    "size": 26,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#737373",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        }
+    },
+    "fonts": [],
+    "uploads": []
+}

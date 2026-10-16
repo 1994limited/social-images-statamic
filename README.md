@@ -2,7 +2,7 @@
 
 Share images for every entry, made for you. Design a card once in the Control Panel, bind it to your entries' titles, photos, authors and dates, and Social Images makes a 1200 × 630 image for each entry when it's saved. Your `og:image` and `twitter:image` point at it, so links to your site look like they were designed one by one.
 
-![Six of the templates, each showing the same journal post](docs/images/gallery.png)
+![Nine of the seventeen starter templates, each showing the same journal post](docs/images/gallery.png)
 
 It works with SEO Pro, or with no SEO addon at all, and on any Statamic 6 site.
 
@@ -14,7 +14,7 @@ It works with SEO Pro, or with no SEO addon at all, and on any Statamic 6 site.
 - **Fonts.** Eight open-licence fonts come included. Add any Google Font (copied to your site once) or upload your own.
 - **Preview with real entries.** Pick an entry and the canvas shows its title and photo. Render a real image through the same service your site uses, from the designer.
 - **Every size.** Open Graph (1200 × 630) plus square, portrait, Pinterest, story or any size, each with its own layout in the same template.
-- **Templates you can share.** Export a template as one JSON file, with its images and fonts inside. Import one by pasting it, uploading it, or giving its address. Six starters come with the addon, and [the gallery](gallery/README.md) has them to copy.
+- **Templates you can share.** Export a template as one JSON file, with its images and fonts inside. Import one by pasting it, uploading it, or giving its address. Seventeen starters come with the addon, for blogs, news, shops, events, podcasts, docs, jobs and more, and [the gallery](gallery/README.md) has them to copy.
 - **Or write your own.** Developers can use an Antlers or Blade view as a template, with the same fonts, pictures and text fitting.
 - **Made in the background, only when needed.** An image is made when an entry is saved (or a page first asks for it), and only if what it shows has changed. Pages never wait: until an image exists, they use your fallback image.
 - **In bulk.** Make the missing images, or remake them all, from the Control Panel or with `php please social-images:generate`. Rate limits are waited out.

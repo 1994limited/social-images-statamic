@@ -1,0 +1,193 @@
+{
+  "schema": "social-images/1",
+  "title": "Portfolio",
+  "description": "The photo, full size, with a small white caption card. For photography, art and design work.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#e5e5e5"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 1200,
+          "height": 630,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#d4d4d4"
+          }
+        },
+        {
+          "id": "card",
+          "name": "Caption card",
+          "type": "shape",
+          "x": 48,
+          "y": 400,
+          "width": 620,
+          "height": 182,
+          "fill": {
+            "type": "solid",
+            "color": "#ffffff"
+          },
+          "radius": 4,
+          "shadow": {
+            "x": 0,
+            "y": 10,
+            "blur": 30,
+            "color": "#00000033"
+          }
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 420,
+          "width": 556,
+          "height": 100,
+          "font": {
+            "family": "Newsreader",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 46,
+          "min_size": 26,
+          "color": "#171717",
+          "valign": "middle",
+          "line_height": 1.1,
+          "max_lines": 2
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name} · {collection:title}",
+          "x": 80,
+          "y": 530,
+          "width": 556,
+          "height": 32,
+          "font": {
+            "family": "Inter",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 18,
+          "min_size": 12,
+          "color": "#737373",
+          "balance": false,
+          "max_lines": 1
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "solid",
+        "color": "#e5e5e5"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1080,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#d4d4d4"
+          }
+        },
+        {
+          "id": "card",
+          "name": "Caption card",
+          "type": "shape",
+          "x": 60,
+          "y": 780,
+          "width": 760,
+          "height": 240,
+          "fill": {
+            "type": "solid",
+            "color": "#ffffff"
+          },
+          "radius": 4,
+          "shadow": {
+            "x": 0,
+            "y": 10,
+            "blur": 30,
+            "color": "#00000033"
+          }
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 100,
+          "y": 805,
+          "width": 680,
+          "height": 140,
+          "font": {
+            "family": "Newsreader",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 56,
+          "min_size": 28,
+          "color": "#171717",
+          "valign": "middle",
+          "line_height": 1.1,
+          "max_lines": 2
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name} · {collection:title}",
+          "x": 100,
+          "y": 955,
+          "width": 680,
+          "height": 40,
+          "font": {
+            "family": "Inter",
+            "weight": 500,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 12,
+          "color": "#737373",
+          "balance": false,
+          "max_lines": 1
+        }
+      ]
+    }
+  }
+}

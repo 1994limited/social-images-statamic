@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased
+
+### Added
+- **Twelve more starters**, also in the gallery: Podcast, Newsroom, Event, Product, Recipe, Docs, Hiring, Case study, Portfolio, Quote, Minimal and Magazine, each in Open Graph and square.
+- **Picture placeholders** in the designer and in template previews, where an entry's photo will go.
+- **Sizes in a menu** in the designer, with Add a size and Remove inside.
+
+### Changed
+- Text that fits now takes a slightly smaller size (up to 15%) if it saves a line, so titles wrap as even lines.
+- Text that can't fit at its smallest size is cut after the last whole word, with an ellipsis, instead of clipped.
+- Sample text formats dates as each token asks, and a fallback chain shows the first field that has a sample.
+
+### Removed
+- The Tilted photo starter.
+
+### Fixed
+- The last line's descenders (g, y, p) were cut off with tight line heights.
+- The designer's canvas no longer picks up the Control Panel's font settings.
+- The picture's field menu opens inside the panel.
+- Edits made during a save are kept; export waits for the save; slower previews for an earlier entry are dropped.
+- A render for an entry's old template can't delete its new image, and pages keep the previous image while a new one is made.
+- A failed import stores nothing; a failed Google Fonts download is explained.
+
 ## 1.0.0 (2026-10-16)
 
 ### Added

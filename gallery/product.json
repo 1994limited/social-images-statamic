@@ -1,0 +1,441 @@
+{
+    "schema": "social-images/1",
+    "title": "Product",
+    "description": "The product’s picture on a sunny blob, its name and its price (from a price field, if it has one). For shops.",
+    "layouts": {
+        "og": {
+            "width": 1200,
+            "height": 630,
+            "background": {
+                "type": "linear",
+                "angle": 120,
+                "stops": [
+                    {
+                        "color": "#fef3c7",
+                        "position": 0
+                    },
+                    {
+                        "color": "#fde68a",
+                        "position": 100
+                    }
+                ]
+            },
+            "layers": [
+                {
+                    "id": "blob",
+                    "type": "shape",
+                    "name": "Blob",
+                    "x": 660,
+                    "y": 65,
+                    "width": 500,
+                    "height": 500,
+                    "rotate": 0,
+                    "opacity": 0.5,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "ellipse",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#fbbf24"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Product",
+                    "x": 690,
+                    "y": 70,
+                    "width": 440,
+                    "height": 490,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "contain",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": null
+                },
+                {
+                    "id": "label",
+                    "type": "text",
+                    "name": "Label",
+                    "x": 72,
+                    "y": 80,
+                    "width": 560,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 18,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.08,
+                    "color": "#92400e",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#ffffff"
+                    },
+                    "padding": [
+                        8,
+                        16,
+                        8,
+                        16
+                    ],
+                    "radius": 999,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Name",
+                    "x": 72,
+                    "y": 140,
+                    "width": 580,
+                    "height": 250,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 68,
+                    "min_size": 34,
+                    "line_height": 1.04,
+                    "letter_spacing": -0.03,
+                    "color": "#1c1917",
+                    "align": "left",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 3,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "price",
+                    "type": "text",
+                    "name": "Price",
+                    "x": 72,
+                    "y": 420,
+                    "width": 580,
+                    "height": 70,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": "price",
+                    "text": "£{price}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 52,
+                    "min_size": 28,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#b45309",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 1,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "site",
+                    "type": "text",
+                    "name": "Site",
+                    "x": 72,
+                    "y": 520,
+                    "width": 580,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 22,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#78350f",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        },
+        "square": {
+            "width": 1080,
+            "height": 1080,
+            "background": {
+                "type": "linear",
+                "angle": 120,
+                "stops": [
+                    {
+                        "color": "#fef3c7",
+                        "position": 0
+                    },
+                    {
+                        "color": "#fde68a",
+                        "position": 100
+                    }
+                ]
+            },
+            "layers": [
+                {
+                    "id": "blob",
+                    "type": "shape",
+                    "name": "Blob",
+                    "x": 240,
+                    "y": 60,
+                    "width": 600,
+                    "height": 600,
+                    "rotate": 0,
+                    "opacity": 0.5,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "ellipse",
+                    "fill": {
+                        "type": "solid",
+                        "color": "#fbbf24"
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Product",
+                    "x": 240,
+                    "y": 70,
+                    "width": 600,
+                    "height": 580,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "contain",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Name",
+                    "x": 80,
+                    "y": 700,
+                    "width": 920,
+                    "height": 180,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 72,
+                    "min_size": 34,
+                    "line_height": 1.04,
+                    "letter_spacing": -0.03,
+                    "color": "#1c1917",
+                    "align": "center",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 2,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "price",
+                    "type": "text",
+                    "name": "Price",
+                    "x": 80,
+                    "y": 890,
+                    "width": 920,
+                    "height": 70,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": "price",
+                    "text": "£{price}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 800,
+                        "style": "normal"
+                    },
+                    "size": 56,
+                    "min_size": 28,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#b45309",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 1,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "site",
+                    "type": "text",
+                    "name": "Site",
+                    "x": 80,
+                    "y": 980,
+                    "width": 920,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Manrope",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 24,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#78350f",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        }
+    },
+    "fonts": [],
+    "uploads": []
+}

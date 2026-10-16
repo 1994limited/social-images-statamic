@@ -1,0 +1,280 @@
+{
+  "schema": "social-images/1",
+  "title": "Hiring",
+  "description": "Bold yellow, “We’re hiring”, the role and where it is (a location field, or Remote). For job listings.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#facc15"
+      },
+      "layers": [
+        {
+          "id": "circle",
+          "name": "Circle",
+          "type": "shape",
+          "x": 820,
+          "y": -180,
+          "width": 560,
+          "height": 560,
+          "fill": {
+            "type": "solid",
+            "color": "#1c1917"
+          },
+          "shape": "ellipse"
+        },
+        {
+          "id": "kicker",
+          "name": "Kicker",
+          "type": "text",
+          "text": "We're hiring",
+          "x": 72,
+          "y": 72,
+          "width": 600,
+          "height": 50,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 30,
+          "min_size": 18,
+          "color": "#1c1917",
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Role",
+          "type": "text",
+          "text": "{title}",
+          "x": 72,
+          "y": 150,
+          "width": 760,
+          "height": 280,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 80,
+          "min_size": 36,
+          "color": "#1c1917",
+          "valign": "middle",
+          "line_height": 1.0,
+          "letter_spacing": -0.03,
+          "max_lines": 3
+        },
+        {
+          "id": "where",
+          "name": "Where",
+          "type": "text",
+          "text": "{location ?? \"Remote\"}",
+          "x": 72,
+          "y": 470,
+          "width": 500,
+          "height": 52,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 24,
+          "min_size": 16,
+          "color": "#facc15",
+          "hug": true,
+          "background": {
+            "type": "solid",
+            "color": "#1c1917"
+          },
+          "padding": [
+            12,
+            22,
+            12,
+            22
+          ],
+          "radius": 999,
+          "balance": false
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 600,
+          "y": 540,
+          "width": 528,
+          "height": 40,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 16,
+          "color": "#1c1917",
+          "align": "right",
+          "balance": false
+        },
+        {
+          "id": "arrow",
+          "name": "Arrow",
+          "type": "text",
+          "text": "→",
+          "x": 960,
+          "y": 60,
+          "width": 160,
+          "height": 160,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 110,
+          "min_size": 60,
+          "color": "#facc15",
+          "align": "center",
+          "valign": "middle",
+          "balance": false
+        }
+      ]
+    },
+    "square": {
+      "width": 1080,
+      "height": 1080,
+      "background": {
+        "type": "solid",
+        "color": "#facc15"
+      },
+      "layers": [
+        {
+          "id": "circle",
+          "name": "Circle",
+          "type": "shape",
+          "x": 640,
+          "y": -200,
+          "width": 640,
+          "height": 640,
+          "fill": {
+            "type": "solid",
+            "color": "#1c1917"
+          },
+          "shape": "ellipse"
+        },
+        {
+          "id": "arrow",
+          "name": "Arrow",
+          "type": "text",
+          "text": "→",
+          "x": 820,
+          "y": 60,
+          "width": 200,
+          "height": 200,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 140,
+          "min_size": 70,
+          "color": "#facc15",
+          "align": "center",
+          "valign": "middle",
+          "balance": false
+        },
+        {
+          "id": "kicker",
+          "name": "Kicker",
+          "type": "text",
+          "text": "We're hiring",
+          "x": 80,
+          "y": 420,
+          "width": 900,
+          "height": 60,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 40,
+          "min_size": 20,
+          "color": "#1c1917",
+          "balance": false
+        },
+        {
+          "id": "title",
+          "name": "Role",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 490,
+          "width": 920,
+          "height": 340,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 96,
+          "min_size": 40,
+          "color": "#1c1917",
+          "valign": "middle",
+          "line_height": 1.0,
+          "letter_spacing": -0.03,
+          "max_lines": 3
+        },
+        {
+          "id": "where",
+          "name": "Where",
+          "type": "text",
+          "text": "{location ?? \"Remote\"}",
+          "x": 80,
+          "y": 880,
+          "width": 600,
+          "height": 60,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 600,
+            "style": "normal"
+          },
+          "size": 30,
+          "min_size": 16,
+          "color": "#facc15",
+          "hug": true,
+          "background": {
+            "type": "solid",
+            "color": "#1c1917"
+          },
+          "padding": [
+            14,
+            26,
+            14,
+            26
+          ],
+          "radius": 999,
+          "balance": false
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 80,
+          "y": 980,
+          "width": 920,
+          "height": 44,
+          "font": {
+            "family": "Space Grotesk",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 28,
+          "min_size": 16,
+          "color": "#1c1917",
+          "balance": false
+        }
+      ]
+    }
+  }
+}

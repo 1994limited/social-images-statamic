@@ -1,0 +1,551 @@
+{
+    "schema": "social-images/1",
+    "title": "Magazine",
+    "description": "A magazine cover: the photo full size, the site’s name as the masthead and the title as the cover line.",
+    "layouts": {
+        "og": {
+            "width": 1200,
+            "height": 630,
+            "background": {
+                "type": "solid",
+                "color": "#111111"
+            },
+            "layers": [
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1200,
+                    "height": 630,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "cover",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": {
+                        "type": "solid",
+                        "color": "#262626"
+                    }
+                },
+                {
+                    "id": "top",
+                    "type": "shape",
+                    "name": "Top shade",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1200,
+                    "height": 200,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "linear",
+                        "angle": 180,
+                        "stops": [
+                            {
+                                "color": "#000000aa",
+                                "position": 0
+                            },
+                            {
+                                "color": "#00000000",
+                                "position": 100
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "bottom",
+                    "type": "shape",
+                    "name": "Bottom shade",
+                    "x": 0,
+                    "y": 280,
+                    "width": 1200,
+                    "height": 350,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "linear",
+                        "angle": 180,
+                        "stops": [
+                            {
+                                "color": "#00000000",
+                                "position": 0
+                            },
+                            {
+                                "color": "#000000dd",
+                                "position": 100
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "masthead",
+                    "type": "text",
+                    "name": "Masthead",
+                    "x": 60,
+                    "y": 36,
+                    "width": 1080,
+                    "height": 90,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Playfair Display",
+                        "weight": 900,
+                        "style": "normal"
+                    },
+                    "size": 76,
+                    "min_size": 36,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.06,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 1,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "issue",
+                    "type": "text",
+                    "name": "Issue",
+                    "x": 900,
+                    "y": 50,
+                    "width": 240,
+                    "height": 30,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{date:F Y}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 600,
+                        "style": "normal"
+                    },
+                    "size": 18,
+                    "min_size": 12,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.1,
+                    "color": "#ffffffcc",
+                    "align": "right",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Cover line",
+                    "x": 60,
+                    "y": 330,
+                    "width": 900,
+                    "height": 200,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Playfair Display",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 58,
+                    "min_size": 28,
+                    "line_height": 1.08,
+                    "letter_spacing": 0,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "bottom",
+                    "transform": "none",
+                    "max_lines": 3,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "section",
+                    "type": "text",
+                    "name": "Section",
+                    "x": 60,
+                    "y": 552,
+                    "width": 900,
+                    "height": 32,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 18,
+                    "min_size": 12,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.14,
+                    "color": "#fbbf24",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        },
+        "square": {
+            "width": 1080,
+            "height": 1080,
+            "background": {
+                "type": "solid",
+                "color": "#111111"
+            },
+            "layers": [
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 1080,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "cover",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": {
+                        "type": "solid",
+                        "color": "#262626"
+                    }
+                },
+                {
+                    "id": "top",
+                    "type": "shape",
+                    "name": "Top shade",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 300,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "linear",
+                        "angle": 180,
+                        "stops": [
+                            {
+                                "color": "#000000aa",
+                                "position": 0
+                            },
+                            {
+                                "color": "#00000000",
+                                "position": 100
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "bottom",
+                    "type": "shape",
+                    "name": "Bottom shade",
+                    "x": 0,
+                    "y": 560,
+                    "width": 1080,
+                    "height": 520,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "linear",
+                        "angle": 180,
+                        "stops": [
+                            {
+                                "color": "#00000000",
+                                "position": 0
+                            },
+                            {
+                                "color": "#000000dd",
+                                "position": 100
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "masthead",
+                    "type": "text",
+                    "name": "Masthead",
+                    "x": 60,
+                    "y": 50,
+                    "width": 960,
+                    "height": 130,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Playfair Display",
+                        "weight": 900,
+                        "style": "normal"
+                    },
+                    "size": 110,
+                    "min_size": 40,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.06,
+                    "color": "#ffffff",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 1,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "issue",
+                    "type": "text",
+                    "name": "Issue",
+                    "x": 60,
+                    "y": 190,
+                    "width": 960,
+                    "height": 34,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{date:F Y}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 600,
+                        "style": "normal"
+                    },
+                    "size": 22,
+                    "min_size": 12,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.12,
+                    "color": "#ffffffcc",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Cover line",
+                    "x": 60,
+                    "y": 680,
+                    "width": 960,
+                    "height": 250,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Playfair Display",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 72,
+                    "min_size": 32,
+                    "line_height": 1.08,
+                    "letter_spacing": 0,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "bottom",
+                    "transform": "none",
+                    "max_lines": 3,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "section",
+                    "type": "text",
+                    "name": "Section",
+                    "x": 60,
+                    "y": 950,
+                    "width": 960,
+                    "height": 40,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "Inter",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 22,
+                    "min_size": 12,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.14,
+                    "color": "#fbbf24",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        }
+    },
+    "fonts": [],
+    "uploads": []
+}

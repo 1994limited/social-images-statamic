@@ -2,6 +2,7 @@
 
 namespace NineteenNinetyFour\SocialImages\Rendering;
 
+use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
 use Statamic\Contracts\Assets\Asset;
@@ -69,12 +70,16 @@ class Tokens
 
     public function evaluate(string $expression, ?Entry $entry): string
     {
-        foreach (preg_split('/\s*\?\?\s*/', trim($expression)) as $part) {
+        $parts = preg_split('/\s*\?\?\s*/', trim($expression));
+
+        foreach ($parts as $index => $part) {
             if (preg_match('/^(["\'])(.*)\1$/su', $part, $literal)) {
                 return $literal[2];
             }
 
-            $value = $entry ? $this->token($part, $entry) : $this->sample($part);
+            // Without an entry, a field with no sample of its own gives way
+            // to the next in a chain, so {quote ?? title} shows the title's.
+            $value = $entry ? $this->token($part, $entry) : $this->sample($part, $index === count($parts) - 1);
 
             if ($value !== '') {
                 return $value;
@@ -205,7 +210,7 @@ class Tokens
         return $date ? $date->translatedFormat($format ?: 'j F Y') : '';
     }
 
-    protected function sample(string $token): string
+    protected function sample(string $token, bool $last = true): string
     {
         $token = trim($token);
 
@@ -213,12 +218,21 @@ class Tokens
             return self::SAMPLES[$token];
         }
 
-        if (str_starts_with($token, 'date')) {
-            return self::SAMPLES['date'];
+        // A sample date, in the format the token asks for.
+        if (preg_match('/^date(?::(.+))?$/', $token, $date)) {
+            return Carbon::create(2026, 10, 16)->translatedFormat($date[1] ?? 'j F Y');
         }
 
-        if (in_array($token, ['url', 'path'], true)) {
+        if ($token === 'url') {
             return 'https://example.com/your-entry';
+        }
+
+        if ($token === 'path') {
+            return '/your-entry';
+        }
+
+        if (! $last) {
+            return '';
         }
 
         // Any other field: its name, so the layer has something to show.

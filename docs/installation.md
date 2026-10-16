@@ -22,7 +22,7 @@ Then [set up rendering](rendering.md). On your own computer with Chrome installe
 
 ## First steps
 
-1. **Make a template.** Go to **Tools → Social Images** and choose **Create template**. Start from one of the six starters and change what you like, or start blank. See [The designer](designer.md).
+1. **Make a template.** Go to **Tools → Social Images** and choose **Create template**. Start from one of the seventeen starters and change what you like, or start blank. See [The designer](designer.md).
 2. **Choose who uses it.** In **Settings**, add a rule: which collections (or all of them) use which template. See [Choosing templates](choosing-templates.md).
 3. **Add the fieldset to your blueprints.** The **Social image** fieldset shows each entry's image in its sidebar, with a button to remake it, and lets an entry choose another template or upload its own image. In a blueprint, add a section to the sidebar and import the fieldset `social-images::social_image`:
 

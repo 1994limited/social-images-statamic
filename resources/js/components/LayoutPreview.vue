@@ -24,7 +24,7 @@ export default {
 
         try {
             const { data } = await this.$axios.post(this.previewUrl, { layout: this.layout, entry: this.entry });
-            await render(this.$refs.stage, data.layout, data.data, { fontPrefix: 'si-' });
+            await render(this.$refs.stage, data.layout, data.data, { fontPrefix: 'si-', placeholders: true });
         } catch (error) {
             // A preview that can't be drawn just stays empty.
         }
