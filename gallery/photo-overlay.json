@@ -1,0 +1,321 @@
+{
+    "schema": "social-images/1",
+    "title": "Photo overlay",
+    "description": "The entry’s photo fills the image, darkened at the bottom under a white title.",
+    "layouts": {
+        "og": {
+            "width": 1200,
+            "height": 630,
+            "background": {
+                "type": "solid",
+                "color": "#111827"
+            },
+            "layers": [
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1200,
+                    "height": 630,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "cover",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": null
+                },
+                {
+                    "id": "shade",
+                    "type": "shape",
+                    "name": "Shade",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1200,
+                    "height": 630,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "linear",
+                        "angle": 180,
+                        "stops": [
+                            {
+                                "color": "#00000000",
+                                "position": 30
+                            },
+                            {
+                                "color": "#000000d9",
+                                "position": 100
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "label",
+                    "type": "text",
+                    "name": "Label",
+                    "x": 72,
+                    "y": 330,
+                    "width": 800,
+                    "height": 44,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "DM Sans",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 20,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.08,
+                    "color": "#111827",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#facc15"
+                    },
+                    "padding": [
+                        8,
+                        16,
+                        8,
+                        16
+                    ],
+                    "radius": 6,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Title",
+                    "x": 72,
+                    "y": 390,
+                    "width": 1056,
+                    "height": 180,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "DM Sans",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 64,
+                    "min_size": 32,
+                    "line_height": 1.08,
+                    "letter_spacing": -0.02,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "bottom",
+                    "transform": "none",
+                    "max_lines": 3,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        },
+        "square": {
+            "width": 1080,
+            "height": 1080,
+            "background": {
+                "type": "solid",
+                "color": "#111827"
+            },
+            "layers": [
+                {
+                    "id": "photo",
+                    "type": "image",
+                    "name": "Photo",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 1080,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "source": [
+                        "field:featured_image",
+                        "field:image",
+                        "field:hero_image",
+                        "field:cover_image",
+                        "field:photo",
+                        "field:thumbnail"
+                    ],
+                    "fit": "cover",
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "grayscale": false,
+                    "background": null
+                },
+                {
+                    "id": "shade",
+                    "type": "shape",
+                    "name": "Shade",
+                    "x": 0,
+                    "y": 0,
+                    "width": 1080,
+                    "height": 1080,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "rect",
+                    "fill": {
+                        "type": "linear",
+                        "angle": 180,
+                        "stops": [
+                            {
+                                "color": "#00000000",
+                                "position": 35
+                            },
+                            {
+                                "color": "#000000d9",
+                                "position": 100
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 0
+                },
+                {
+                    "id": "label",
+                    "type": "text",
+                    "name": "Label",
+                    "x": 72,
+                    "y": 690,
+                    "width": 800,
+                    "height": 44,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{collection:title}",
+                    "font": {
+                        "family": "DM Sans",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 22,
+                    "min_size": 14,
+                    "line_height": 1.15,
+                    "letter_spacing": 0.08,
+                    "color": "#111827",
+                    "align": "left",
+                    "valign": "top",
+                    "transform": "uppercase",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#facc15"
+                    },
+                    "padding": [
+                        8,
+                        16,
+                        8,
+                        16
+                    ],
+                    "radius": 6,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Title",
+                    "x": 72,
+                    "y": 750,
+                    "width": 936,
+                    "height": 260,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "DM Sans",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 76,
+                    "min_size": 32,
+                    "line_height": 1.08,
+                    "letter_spacing": -0.02,
+                    "color": "#ffffff",
+                    "align": "left",
+                    "valign": "bottom",
+                    "transform": "none",
+                    "max_lines": 4,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        }
+    },
+    "fonts": [],
+    "uploads": []
+}

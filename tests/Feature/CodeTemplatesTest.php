@@ -7,6 +7,7 @@ use NineteenNinetyFour\SocialImages\Templates\InvalidTemplate;
 use NineteenNinetyFour\SocialImages\Templates\TemplateRepository;
 use NineteenNinetyFour\SocialImages\Templates\ViewTemplate;
 use NineteenNinetyFour\SocialImages\Tests\TestCase;
+use Statamic\Facades\Blueprint;
 use Statamic\Facades\Entry;
 
 class CodeTemplatesTest extends TestCase
@@ -19,6 +20,7 @@ class CodeTemplatesTest extends TestCase
             'article' => ['title' => 'Article', 'view' => 'social/card', 'layouts' => ['og' => [1200, 630], 'square' => ['width' => 1080, 'height' => 1080]]],
             'plain' => ['view' => 'social/blade'],
             'broken' => ['title' => 'No view'],
+            'docs' => ['view' => 'social/docs-blade'],
         ]]);
 
         app(TemplateRepository::class)->refresh();
@@ -50,6 +52,22 @@ class CodeTemplatesTest extends TestCase
         $html = app(TemplateRepository::class)->find('plain')->html($this->entry(), 'og');
 
         $this->assertStringContainsString('<h1>Hello world</h1><p>1200</p>', $html);
+    }
+
+    public function test_the_blade_example_in_the_docs(): void
+    {
+        Blueprint::make('article')->setNamespace('collections.articles')->setContents(['fields' => [
+            ['handle' => 'title', 'field' => ['type' => 'text']],
+            ['handle' => 'cover_image', 'field' => ['type' => 'assets', 'container' => 'assets', 'max_files' => 1]],
+        ]])->save();
+        $this->asset('cover.png', 600, 900);
+
+        $html = app(TemplateRepository::class)->find('docs')->html($this->entry(data: ['cover_image' => 'cover.png']), 'og');
+
+        $this->assertStringContainsString('@font-face{font-family:"Fraunces"', $html);
+        $this->assertStringContainsString('width: 1200px', $html);
+        $this->assertStringContainsString('src="data:image/webp;base64,', $html);
+        $this->assertStringContainsString('<p>16 October 2026</p>', $html);
     }
 
     public function test_any_change_to_the_entry_changes_a_code_templates_fingerprint(): void

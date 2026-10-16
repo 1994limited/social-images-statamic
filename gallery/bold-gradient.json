@@ -1,0 +1,261 @@
+{
+    "schema": "social-images/1",
+    "title": "Bold gradient",
+    "description": "A bright gradient, a big centred title and the site’s name. Needs no photos.",
+    "layouts": {
+        "og": {
+            "width": 1200,
+            "height": 630,
+            "background": {
+                "type": "linear",
+                "angle": 135,
+                "stops": [
+                    {
+                        "color": "#4f46e5",
+                        "position": 0
+                    },
+                    {
+                        "color": "#9333ea",
+                        "position": 55
+                    },
+                    {
+                        "color": "#ec4899",
+                        "position": 100
+                    }
+                ]
+            },
+            "layers": [
+                {
+                    "id": "blob",
+                    "type": "shape",
+                    "name": "Glow",
+                    "x": 760,
+                    "y": -160,
+                    "width": 600,
+                    "height": 600,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "shape": "ellipse",
+                    "fill": {
+                        "type": "radial",
+                        "x": 50,
+                        "y": 50,
+                        "stops": [
+                            {
+                                "color": "#ffffff55",
+                                "position": 0
+                            },
+                            {
+                                "color": "#ffffff00",
+                                "position": 70
+                            }
+                        ]
+                    },
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null,
+                    "blur": 20
+                },
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Title",
+                    "x": 100,
+                    "y": 120,
+                    "width": 1000,
+                    "height": 320,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Space Grotesk",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 88,
+                    "min_size": 40,
+                    "line_height": 1.05,
+                    "letter_spacing": -0.03,
+                    "color": "#ffffff",
+                    "align": "center",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "site",
+                    "type": "text",
+                    "name": "Site",
+                    "x": 100,
+                    "y": 500,
+                    "width": 1000,
+                    "height": 50,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Space Grotesk",
+                        "weight": 500,
+                        "style": "normal"
+                    },
+                    "size": 28,
+                    "min_size": 18,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#ffffffcc",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#ffffff22"
+                    },
+                    "padding": [
+                        10,
+                        24,
+                        10,
+                        24
+                    ],
+                    "radius": 999,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        },
+        "square": {
+            "width": 1080,
+            "height": 1080,
+            "background": {
+                "type": "linear",
+                "angle": 135,
+                "stops": [
+                    {
+                        "color": "#4f46e5",
+                        "position": 0
+                    },
+                    {
+                        "color": "#9333ea",
+                        "position": 55
+                    },
+                    {
+                        "color": "#ec4899",
+                        "position": 100
+                    }
+                ]
+            },
+            "layers": [
+                {
+                    "id": "title",
+                    "type": "text",
+                    "name": "Title",
+                    "x": 90,
+                    "y": 200,
+                    "width": 900,
+                    "height": 600,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{title}",
+                    "font": {
+                        "family": "Space Grotesk",
+                        "weight": 700,
+                        "style": "normal"
+                    },
+                    "size": 110,
+                    "min_size": 44,
+                    "line_height": 1.05,
+                    "letter_spacing": -0.03,
+                    "color": "#ffffff",
+                    "align": "center",
+                    "valign": "middle",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": true,
+                    "hug": false,
+                    "background": null,
+                    "padding": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 0,
+                    "border": null,
+                    "shadow": null
+                },
+                {
+                    "id": "site",
+                    "type": "text",
+                    "name": "Site",
+                    "x": 90,
+                    "y": 900,
+                    "width": 900,
+                    "height": 60,
+                    "rotate": 0,
+                    "opacity": 1,
+                    "hidden": false,
+                    "locked": false,
+                    "when": null,
+                    "text": "{site:name}",
+                    "font": {
+                        "family": "Space Grotesk",
+                        "weight": 500,
+                        "style": "normal"
+                    },
+                    "size": 32,
+                    "min_size": 18,
+                    "line_height": 1.15,
+                    "letter_spacing": 0,
+                    "color": "#ffffffcc",
+                    "align": "center",
+                    "valign": "top",
+                    "transform": "none",
+                    "max_lines": 0,
+                    "balance": false,
+                    "hug": true,
+                    "background": {
+                        "type": "solid",
+                        "color": "#ffffff22"
+                    },
+                    "padding": [
+                        10,
+                        24,
+                        10,
+                        24
+                    ],
+                    "radius": 999,
+                    "border": null,
+                    "shadow": null
+                }
+            ]
+        }
+    },
+    "fonts": [],
+    "uploads": []
+}

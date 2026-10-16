@@ -68,6 +68,17 @@ class TagsTest extends TestCase
         $this->assertStringContainsString('@font-face{font-family:"Inter"', $this->render('{{ social_image:font family="Inter" }}', $context));
     }
 
+    public function test_the_blade_examples_in_the_docs(): void
+    {
+        $entry = $this->generated();
+        $html = view('tags-blade')->render();
+
+        [$url, $size, $meta] = explode('|', trim($html));
+        $this->assertStringEndsWith(app(Cards::class)->for($entry)->path(), $url);
+        $this->assertSame('1200x630', $size);
+        $this->assertStringContainsString('<meta property="og:image"', $meta);
+    }
+
     public function test_nothing_without_an_image(): void
     {
         $this->assertSame('', $this->render('{{ social_image:meta }}'));
