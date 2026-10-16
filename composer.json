@@ -44,6 +44,7 @@
         "statamic/seo-pro": "^7.15"
     },
     "suggest": {
+        "spatie/browsershot": "To render images with Chrome on your own server (with Node.js and Puppeteer). Not needed with Cloudflare Browser Rendering.",
         "statamic/seo-pro": "SEO Pro's og:image and twitter:image can use the generated images (SEO Pro ^7.15)."
     },
     "extra": {

@@ -3,9 +3,10 @@
 -->
 <script>
 import ColorInput from './ColorInput.vue';
+import Icon from './Icon.vue';
 
 export default {
-    components: { ColorInput },
+    components: { ColorInput, Icon },
 
     props: {
         modelValue: { type: Object, default: null },
@@ -81,7 +82,7 @@ export default {
             <div v-for="(stop, index) in modelValue.stops" :key="index" class="si-row">
                 <ColorInput :model-value="stop.color" @update:model-value="setStop(index, { color: $event })" />
                 <input type="number" class="si-input si-input--narrow" min="0" max="100" :value="stop.position" :aria-label="__('Position (%)')" @input="setStop(index, { position: Number($event.target.value) })" />
-                <button v-if="modelValue.stops.length > 2" type="button" class="si-icon-button" :aria-label="__('Remove')" @click="removeStop(index)">×</button>
+                <button v-if="modelValue.stops.length > 2" type="button" class="si-icon-button" :aria-label="__('Remove this colour')" @click="removeStop(index)"><Icon name="close" /></button>
             </div>
             <button v-if="modelValue.stops.length < 8" type="button" class="si-link" @click="addStop">{{ __('Add a colour') }}</button>
         </template>

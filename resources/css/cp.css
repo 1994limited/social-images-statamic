@@ -211,3 +211,41 @@ textarea.si-input {
     padding: 0.75rem 0;
     border-bottom: 1px solid var(--si-line);
 }
+
+.si-icon {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex: none;
+}
+
+.si-icon-button svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.25;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.si-icon-button.is-faint {
+    opacity: 0.4;
+}
+
+/* A visible focus ring on every designer control. */
+.si-icon-button:focus-visible,
+.si-link:focus-visible,
+.si-segment button:focus-visible,
+.si-layers__select:focus-visible,
+.si-designer__add button:focus-visible,
+.si-tabs button:focus-visible,
+.si-layers-bg:focus-visible,
+.si-canvas:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 1px;
+}

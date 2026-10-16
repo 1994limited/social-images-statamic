@@ -229,7 +229,14 @@ export default {
 </script>
 
 <template>
-    <div ref="viewport" class="si-canvas" @pointerdown="backgroundDown">
+    <div
+        ref="viewport"
+        class="si-canvas"
+        tabindex="0"
+        role="group"
+        :aria-label="__('Canvas. Choose a layer in the list, then use the arrow keys here to move it (Shift: 10 pixels).')"
+        @pointerdown="backgroundDown"
+    >
         <div class="si-canvas__page" :style="{ width: `${layout.width * scale}px`, height: `${layout.height * scale}px` }" @pointerdown.self="$emit('select', null)">
             <div ref="stage" class="si-canvas__stage" :style="{ transform: `scale(${scale})` }" />
 
@@ -269,7 +276,7 @@ export default {
     align-items: center;
     justify-content: center;
     height: 100%;
-    min-height: 420px;
+    min-height: 280px;
     overflow: hidden;
     background-color: var(--si-canvas);
     background-image: radial-gradient(var(--si-dots) 1px, transparent 1px);

@@ -6,6 +6,8 @@ Open a template from **Tools → Social Images**. Layers are on the left, the ca
 
 The canvas is drawn by the same code that draws the real image, so what you see is what's made. To be sure, **Render** takes a real screenshot through your [rendering service](rendering.md) and shows it.
 
+On a narrower screen the canvas goes on top, with the layers and settings beneath it.
+
 Changes aren't saved until you choose **Save** (or press ⌘S / Ctrl+S). Leaving with unsaved changes asks first.
 
 ## Previewing with an entry
@@ -20,9 +22,12 @@ Add a **Text**, **Image**, **Box** or **Circle** from the top left. The list sho
 
 On the canvas, drag a layer to move it, and its handles to resize it. Hold Shift on a corner to keep its proportions. Layers snap to the canvas's edges and centre and to other layers' edges, with a pink guide; hold Alt (Option) to move freely. Double-click a text layer to edit its text.
 
+Everything works from the keyboard too: Tab to a layer in the list and press Enter to select it, then use the keys below. Alt (Option) with ↑ or ↓ on a layer in the list moves it in front or behind.
+
 | Keys | |
 | --- | --- |
 | Arrows | Move the selected layer 1 pixel (Shift: 10) |
+| Alt+↑, Alt+↓ | In the layer list: move the layer in front or behind |
 | Delete, Backspace | Delete the selected layer |
 | ⌘D / Ctrl+D | Duplicate it |
 | ⌘Z / Ctrl+Z | Undo (Shift: redo) |

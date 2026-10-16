@@ -3,10 +3,11 @@
     an image is used. Entry fields, or an image uploaded to the template.
 -->
 <script>
+import Icon from './Icon.vue';
 import TokenMenu from './TokenMenu.vue';
 
 export default {
-    components: { TokenMenu },
+    components: { Icon, TokenMenu },
 
     props: {
         modelValue: { type: Array, required: true },
@@ -77,8 +78,8 @@ export default {
         <div v-for="(source, index) in modelValue" :key="source" class="si-source">
             <img v-if="preview(source)" :src="preview(source)" alt="" class="si-source__thumb" />
             <span class="si-source__label">{{ index ? __('else') + ' ' : '' }}{{ label(source) }}</span>
-            <button v-if="index" type="button" class="si-icon-button" :aria-label="__('Move up')" @click="up(index)">↑</button>
-            <button type="button" class="si-icon-button" :aria-label="__('Remove')" @click="remove(index)">×</button>
+            <button v-if="index" type="button" class="si-icon-button" :aria-label="__('Try this one earlier')" :title="__('Try this one earlier')" @click="up(index)"><Icon name="up" /></button>
+            <button type="button" class="si-icon-button" :aria-label="__('Remove')" :title="__('Remove')" @click="remove(index)"><Icon name="close" /></button>
         </div>
         <p v-if="!modelValue.length" class="si-hint">{{ __('No picture yet.') }}</p>
         <div class="flex items-center justify-between gap-2">

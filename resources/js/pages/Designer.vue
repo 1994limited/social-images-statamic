@@ -14,6 +14,7 @@ import { Head } from '@statamic/cms/inertia';
 import { Button, Header, Modal } from '@statamic/cms/ui';
 import icon from '../../brand/nav-icon.svg?raw';
 import Canvas from '../components/designer/Canvas.vue';
+import Icon from '../components/designer/Icon.vue';
 import LayerList from '../components/designer/LayerList.vue';
 import Properties from '../components/designer/Properties.vue';
 import { scaleLayers } from '../designer/geometry.js';
@@ -22,7 +23,7 @@ import { bindingKey, fetchKey, newImage, newShape, newText, uid } from '../desig
 const HISTORY = 100;
 
 export default {
-    components: { Button, Canvas, Head, Header, LayerList, Modal, Properties },
+    components: { Button, Canvas, Head, Header, Icon, LayerList, Modal, Properties },
 
     props: {
         template: { type: Object, required: true },
@@ -293,6 +294,27 @@ export default {
             }, { immediate: true });
         },
 
+        /**
+         * Move a layer one place in front (1) or behind (-1).
+         */
+        step(id, by) {
+            const from = this.layout.layers.findIndex((l) => l.id === id);
+            const to = from + by;
+
+            if (from < 0 || to < 0 || to >= this.layout.layers.length) {
+                return;
+            }
+
+            this.change(() => {
+                const layers = [...this.layout.layers];
+                [layers[from], layers[to]] = [layers[to], layers[from]];
+                this.layout.layers = layers;
+            }, { immediate: true });
+
+            // Keep the moved layer's row focused for the next press.
+            this.$nextTick(() => setTimeout(() => document.querySelector('.si-layers__select[aria-current="true"]')?.focus()));
+        },
+
         nudge(dx, dy) {
             if (this.layer && !this.layer.locked) {
                 this.updateLayer({ x: this.layer.x + dx, y: this.layer.y + dy });
@@ -420,6 +442,10 @@ export default {
         /* Keys --------------------------------------------------------------- */
 
         keydown(event) {
+            if (event.defaultPrevented) {
+                return;
+            }
+
             const typing = ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName) || event.target.isContentEditable;
             const mod = event.metaKey || event.ctrlKey;
 
@@ -491,9 +517,9 @@ export default {
                     @click="switchLayout(tab.handle)"
                 >
                     {{ tab.label }} <span>{{ tab.size }}</span>
-                    <span v-if="tab.handle !== 'og' && tab.handle === active" class="si-tabs__remove" role="button" :aria-label="__('Remove layout')" @click.stop="removeLayout(tab.handle)">×</span>
+                    <span v-if="tab.handle !== 'og' && tab.handle === active" class="si-tabs__remove" role="button" tabindex="0" :aria-label="__('Remove this size')" :title="__('Remove this size')" @click.stop="removeLayout(tab.handle)" @keydown.enter.stop.prevent="removeLayout(tab.handle)"><Icon name="close" /></span>
                 </button>
-                <button type="button" class="si-tabs__add" @click="addingLayout = true">+ {{ __('Size') }}</button>
+                <button type="button" class="si-tabs__add" @click="addingLayout = true"><Icon name="plus" /> {{ __('Size') }}</button>
             </div>
 
             <div class="si-designer__entry">
@@ -510,12 +536,12 @@ export default {
             <!-- Layers -->
             <aside class="si-designer__side">
                 <div class="si-designer__add">
-                    <button type="button" @click="add('text')">{{ __('Text') }}</button>
-                    <button type="button" @click="add('image')">{{ __('Image') }}</button>
-                    <button type="button" @click="add('shape')">{{ __('Box') }}</button>
-                    <button type="button" @click="add('ellipse')">{{ __('Circle') }}</button>
+                    <button type="button" @click="add('text')"><Icon name="text" />{{ __('Text') }}</button>
+                    <button type="button" @click="add('image')"><Icon name="image" />{{ __('Image') }}</button>
+                    <button type="button" @click="add('shape')"><Icon name="rect" />{{ __('Box') }}</button>
+                    <button type="button" @click="add('ellipse')"><Icon name="ellipse" />{{ __('Circle') }}</button>
                 </div>
-                <LayerList :layers="layout.layers" :selected="selected" @select="selected = $event" @toggle="toggle" @reorder="reorder" />
+                <LayerList :layers="layout.layers" :selected="selected" @select="selected = $event" @toggle="toggle" @reorder="reorder" @step="step" />
                 <button type="button" class="si-layers-bg" :class="{ 'is-selected': !selected }" @click="selected = null">{{ __('Background') }}</button>
             </aside>
 
@@ -689,6 +715,10 @@ export default {
 }
 
 .si-designer__add button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
     padding: 0.375rem;
     border-radius: 0.375rem;
     font-size: 0.8125rem;
@@ -738,8 +768,13 @@ export default {
 }
 
 .si-tabs__remove {
+    display: inline-flex;
     margin-left: 0.125rem;
-    font-size: 0.875rem !important;
+    border-radius: 0.25rem;
+}
+
+.si-tabs__remove:focus-visible {
+    outline: 2px solid #3b82f6;
 }
 
 .si-tabs__add {
@@ -759,9 +794,45 @@ export default {
     background: rgb(59 130 246 / 0.06);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
     .si-designer__body {
         grid-template-columns: 11rem 1fr 15rem;
+    }
+}
+
+/* Narrower: the canvas on top, full width, with the layers and settings
+   beneath it, and the page scrolls. */
+@media (max-width: 1100px) {
+    .si-designer {
+        height: auto;
+    }
+
+    .si-designer__body {
+        grid-template-columns: 1fr;
+        grid-template-areas: 'canvas' 'layers' 'settings';
+    }
+
+    .si-designer__canvas {
+        grid-area: canvas;
+        height: 60vw;
+        min-height: 280px;
+        max-height: 520px;
+    }
+
+    .si-designer__side {
+        grid-area: layers;
+        border-right: 0;
+        border-top: 1px solid var(--si-line);
+    }
+
+    .si-designer__side--wide {
+        grid-area: settings;
+        border-left: 0;
+    }
+
+    .si-designer__entry {
+        margin-left: 0;
+        flex-wrap: wrap;
     }
 }
 </style>

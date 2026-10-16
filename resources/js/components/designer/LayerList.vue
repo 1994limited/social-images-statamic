@@ -3,13 +3,16 @@
     show/hide and lock, and drag (or the arrows) to reorder.
 -->
 <script>
+import Icon from './Icon.vue';
 export default {
+    components: { Icon },
+
     props: {
         layers: { type: Array, required: true },
         selected: { type: String, default: null },
     },
 
-    emits: ['select', 'toggle', 'move', 'reorder'],
+    emits: ['select', 'toggle', 'step', 'reorder'],
 
     data() {
         return { dragging: null, over: null };
@@ -23,7 +26,7 @@ export default {
 
     methods: {
         icon(layer) {
-            return { text: 'T', image: '▧', shape: layer.shape === 'ellipse' ? '●' : '■' }[layer.type];
+            return layer.type === 'shape' ? layer.shape : layer.type;
         },
 
         drop(target) {
@@ -39,14 +42,12 @@ export default {
 </script>
 
 <template>
-    <ul class="si-layers" role="listbox" :aria-label="__('Layers')">
+    <ul class="si-layers" :aria-label="__('Layers')">
         <li
-            v-for="layer in rows"
+            v-for="(layer, index) in rows"
             :key="layer.id"
             class="si-layers__row"
             :class="{ 'is-selected': layer.id === selected, 'is-over': layer.id === over, 'is-hidden': layer.hidden }"
-            role="option"
-            :aria-selected="layer.id === selected"
             draggable="true"
             @click="$emit('select', layer.id)"
             @dragstart="dragging = layer.id"
@@ -55,14 +56,27 @@ export default {
             @drop.prevent="drop(layer.id)"
             @dragend="dragging = null; over = null"
         >
-            <span class="si-layers__icon" aria-hidden="true">{{ icon(layer) }}</span>
-            <span class="si-layers__name">{{ layer.name || layer.type }}</span>
-            <span v-if="layer.when" class="si-layers__when" :title="__('Only when :when has a value', { when: layer.when })">?</span>
-            <button type="button" class="si-icon-button" :title="layer.hidden ? __('Show') : __('Hide')" :aria-label="layer.hidden ? __('Show') : __('Hide')" @click.stop="$emit('toggle', layer.id, 'hidden')">
-                {{ layer.hidden ? '◌' : '◉' }}
+            <button
+                type="button"
+                class="si-layers__select"
+                :aria-current="layer.id === selected ? 'true' : null"
+                :title="__('Alt + ↑ or ↓ moves it in front or behind')"
+                @click.stop="$emit('select', layer.id)"
+                @keydown.alt.up.prevent="$emit('step', layer.id, 1)"
+                @keydown.alt.down.prevent="$emit('step', layer.id, -1)"
+            >
+                <Icon :name="icon(layer)" class="si-layers__icon" />
+                <span class="si-layers__name">{{ layer.name || layer.type }}</span>
+                <span v-if="layer.when" class="si-layers__when" :title="__('Only when :when has a value', { when: layer.when })">
+                    <span aria-hidden="true">?</span>
+                    <span class="sr-only">{{ __('Only when :when has a value', { when: layer.when }) }}</span>
+                </span>
             </button>
-            <button type="button" class="si-icon-button" :title="layer.locked ? __('Unlock') : __('Lock')" :aria-label="layer.locked ? __('Unlock') : __('Lock')" @click.stop="$emit('toggle', layer.id, 'locked')">
-                {{ layer.locked ? '🔒' : '·' }}
+            <button type="button" class="si-icon-button" :title="layer.hidden ? __('Show') : __('Hide')" :aria-label="(layer.hidden ? __('Show') : __('Hide')) + ' ' + (layer.name || layer.type)" :aria-pressed="layer.hidden ? 'true' : 'false'" @click.stop="$emit('toggle', layer.id, 'hidden')">
+                <Icon :name="layer.hidden ? 'eye-off' : 'eye'" />
+            </button>
+            <button type="button" class="si-icon-button" :class="{ 'is-faint': !layer.locked }" :title="layer.locked ? __('Unlock') : __('Lock')" :aria-label="(layer.locked ? __('Unlock') : __('Lock')) + ' ' + (layer.name || layer.type)" :aria-pressed="layer.locked ? 'true' : 'false'" @click.stop="$emit('toggle', layer.id, 'locked')">
+                <Icon :name="layer.locked ? 'lock' : 'unlock'" />
             </button>
         </li>
     </ul>
@@ -101,11 +115,19 @@ export default {
     opacity: 0.45;
 }
 
+.si-layers__select {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    gap: 0.375rem;
+    text-align: left;
+    border-radius: 0.25rem;
+}
+
 .si-layers__icon {
-    width: 1.1rem;
-    text-align: center;
+    flex: none;
     color: #6b7280;
-    font-size: 0.75rem;
 }
 
 .si-layers__name {

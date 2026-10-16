@@ -5,12 +5,13 @@
 -->
 <script>
 import ColorInput from './ColorInput.vue';
+import Icon from './Icon.vue';
 import FillInput from './FillInput.vue';
 import SourceList from './SourceList.vue';
 import TokenMenu from './TokenMenu.vue';
 
 export default {
-    components: { ColorInput, FillInput, SourceList, TokenMenu },
+    components: { ColorInput, FillInput, Icon, SourceList, TokenMenu },
 
     props: {
         layer: { type: Object, default: null },
@@ -104,8 +105,8 @@ export default {
         <template v-else>
             <div class="si-props__head">
                 <input class="si-input si-props__name" :value="layer.name" :aria-label="__('Layer name')" @input="set({ name: $event.target.value })" />
-                <button type="button" class="si-icon-button" :title="__('Duplicate')" :aria-label="__('Duplicate')" @click="$emit('duplicate')">⧉</button>
-                <button type="button" class="si-icon-button" :title="__('Delete')" :aria-label="__('Delete')" @click="$emit('remove')">🗑</button>
+                <button type="button" class="si-icon-button" :title="__('Duplicate')" :aria-label="__('Duplicate')" @click="$emit('duplicate')"><Icon name="duplicate" /></button>
+                <button type="button" class="si-icon-button" :title="__('Delete')" :aria-label="__('Delete')" @click="$emit('remove')"><Icon name="trash" /></button>
             </div>
 
             <!-- Text -->
@@ -151,10 +152,10 @@ export default {
 
                 <div class="si-row">
                     <div class="si-segment" role="group" :aria-label="__('Align')">
-                        <button v-for="a in ['left', 'center', 'right']" :key="a" type="button" :class="{ 'is-on': layer.align === a }" :title="__(a)" @click="set({ align: a })">{{ { left: '⇤', center: '↔', right: '⇥' }[a] }}</button>
+                        <button v-for="a in ['left', 'center', 'right']" :key="a" type="button" :class="{ 'is-on': layer.align === a }" :title="{ left: __('Left'), center: __('Centre'), right: __('Right') }[a]" :aria-label="{ left: __('Left'), center: __('Centre'), right: __('Right') }[a]" :aria-pressed="layer.align === a ? 'true' : 'false'" @click="set({ align: a })"><Icon :name="'align-' + a" /></button>
                     </div>
                     <div class="si-segment" role="group" :aria-label="__('Vertical align')">
-                        <button v-for="a in ['top', 'middle', 'bottom']" :key="a" type="button" :class="{ 'is-on': layer.valign === a }" :title="__(a)" @click="set({ valign: a })">{{ { top: '⤒', middle: '↕', bottom: '⤓' }[a] }}</button>
+                        <button v-for="a in ['top', 'middle', 'bottom']" :key="a" type="button" :class="{ 'is-on': layer.valign === a }" :title="{ top: __('Top'), middle: __('Middle'), bottom: __('Bottom') }[a]" :aria-label="{ top: __('Top'), middle: __('Middle'), bottom: __('Bottom') }[a]" :aria-pressed="layer.valign === a ? 'true' : 'false'" @click="set({ valign: a })"><Icon :name="'align-' + a" /></button>
                     </div>
                 </div>
 

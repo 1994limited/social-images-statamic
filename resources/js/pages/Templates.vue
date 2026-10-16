@@ -9,11 +9,12 @@
 import { Head, router } from '@statamic/cms/inertia';
 import { Badge, Button, Dropdown, DropdownItem, DropdownMenu, DropdownSeparator, Header, Input, Modal, Textarea } from '@statamic/cms/ui';
 import icon from '../../brand/nav-icon.svg?raw';
+import Icon from '../components/designer/Icon.vue';
 import LayoutPreview from '../components/LayoutPreview.vue';
 import Thumbnail from '../components/Thumbnail.vue';
 
 export default {
-    components: { Badge, Button, Dropdown, DropdownItem, DropdownMenu, DropdownSeparator, Head, Header, Input, Modal, Textarea, LayoutPreview, Thumbnail },
+    components: { Badge, Button, Dropdown, DropdownItem, DropdownMenu, DropdownSeparator, Head, Header, Input, Modal, Textarea, Icon, LayoutPreview, Thumbnail },
 
     props: {
         templates: { type: Array, required: true },
@@ -176,7 +177,7 @@ export default {
         <p class="mb-4 text-sm text-gray-600 dark:text-gray-400">{{ __('Start from a design and change anything, or start blank.') }}</p>
         <div class="si-starters">
             <button type="button" class="si-starter" :disabled="busy" @click="create()">
-                <div class="si-starter__blank">+</div>
+                <div class="si-starter__blank"><Icon name="plus" /></div>
                 <span class="font-medium">{{ __('Blank') }}</span>
             </button>
             <button v-for="starter in starters" :key="starter.key" type="button" class="si-starter" :disabled="busy" @click="create(starter.key)">
@@ -260,7 +261,11 @@ export default {
     justify-content: center;
     border: 1px dashed rgb(0 0 0 / 0.2);
     border-radius: 0.375rem;
-    font-size: 2rem;
     color: #9ca3af;
+}
+
+.si-starter__blank .si-icon {
+    width: 2rem;
+    height: 2rem;
 }
 </style>
