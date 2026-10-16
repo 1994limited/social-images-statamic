@@ -48,15 +48,15 @@ class SettingsBlueprint
             'display' => __('Generating'),
             'fields' => [
                 $this->field('generate_on_save', ['type' => 'toggle', 'display' => __('Generate when an entry is saved'), 'instructions' => __('Otherwise images are made when a page first asks for one, or from Tools → Social Images → Images.'), 'default' => $defaults['generate_on_save'], 'width' => 50]),
-                $this->field('fallback_image', array_filter([
+                ...($container = AssetContainer::all()->first()) ? [$this->field('fallback_image', [
                     'type' => 'assets',
                     'display' => __('Fallback image'),
                     'instructions' => __('Shared while an entry’s image is being made, and for pages without one.'),
                     'max_files' => 1,
                     'mode' => 'list',
-                    'container' => AssetContainer::all()->first()?->handle(),
+                    'container' => $container->handle(),
                     'width' => 50,
-                ])),
+                ])] : [],
             ],
         ]];
 

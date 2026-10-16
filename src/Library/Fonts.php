@@ -178,6 +178,16 @@ class Fonts
             throw new InvalidArgumentException(__('Fonts must be smaller than 5 MB.'));
         }
 
+        $magic = substr($contents, 0, 4);
+
+        if (! match ($extension) {
+            'woff2' => $magic === 'wOF2',
+            'woff' => $magic === 'wOFF',
+            'ttf', 'otf' => in_array($magic, ["\x00\x01\x00\x00", 'OTTO', 'true'], true),
+        }) {
+            throw new InvalidArgumentException(__('That file isn’t the kind of font its name says it is.'));
+        }
+
         if ($this->isBundled($family)) {
             throw new InvalidArgumentException(__(':family comes with Social Images already.', ['family' => $family]));
         }

@@ -108,9 +108,8 @@ abstract class TestCase extends AddonTestCase
      */
     protected function asset(string $path = 'photo.png', int $width = 800, int $height = 600, array $data = []): Asset
     {
-        Storage::fake('assets');
-
         if (! AssetContainer::find('assets')) {
+            Storage::fake('assets', ['url' => '/assets']);
             AssetContainer::make('assets')->disk('assets')->save();
         }
 

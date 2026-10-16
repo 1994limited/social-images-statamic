@@ -55,6 +55,9 @@ class Images
     public function identity(Asset|string|null $image): string
     {
         if ($image instanceof Asset) {
+            // Fields can hand back a copy held from earlier in the request.
+            $image = AssetFacade::find($image->id()) ?? $image;
+
             return implode('|', [
                 $image->id(),
                 rescue(fn () => $image->lastModified()?->timestamp, 0, false),

@@ -107,7 +107,7 @@ class Cards
      */
     public function image(?Entry $entry, string $layout = Schema::BASE_LAYOUT): ?array
     {
-        if ($entry && $override = $this->override($entry)) {
+        if ($entry && ($override = $this->override($entry)) && $override->absoluteUrl()) {
             return [
                 'url' => $override->absoluteUrl(),
                 'width' => $override->width() ? (int) $override->width() : null,
