@@ -3,7 +3,9 @@
 ## Unreleased
 
 ### Fixed
-- An entry whose image was missing or out of date (after a template change or an update) showed "Generating…" in its panel without anything being made. Opening the entry now starts it.
+- An entry whose image was missing or out of date (after a template change or an update) showed "Generating…" in its panel without anything being made. Opening the entry now starts it, for people who can edit it (and not when the entry has its own image).
+- A job queued for an older version of an entry stands down instead of rendering the same image as the newer one.
+- The panel keeps checking (less often) for up to ten minutes, for busy queues.
 
 ### Added
 - The entry's panel shows where a render has got to (waiting to start, then rendering with a count of seconds) and the previous image while the new one is made.

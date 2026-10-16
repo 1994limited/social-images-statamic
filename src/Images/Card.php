@@ -89,7 +89,7 @@ class Card
 
     protected function renderingKey(): string
     {
-        return 'social-images:rendering:'.$this->entry->id().':'.$this->layout;
+        return 'social-images:rendering:'.$this->entry->id().':'.$this->layout.':'.$this->hash();
     }
 
     /**

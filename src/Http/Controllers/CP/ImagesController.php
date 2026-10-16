@@ -67,7 +67,12 @@ class ImagesController extends CpController
 
         // Missing or out of date (the template changed, say): start making
         // it, as a page asking for it would. Repeated asks are one render.
-        if ($card && ! $current && config('social-images.enabled')) {
+        // Not for an entry with its own image (it's never shown), and only
+        // for people who could make it anyway.
+        $user = User::current();
+        $mayMake = $user?->can('edit', $entry) || $user?->can('manage social image templates');
+
+        if ($card && ! $current && ! $override && $mayMake && config('social-images.enabled')) {
             GenerateImage::dispatchWithoutBlocking($entry, $layout);
         }
 

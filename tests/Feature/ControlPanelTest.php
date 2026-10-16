@@ -6,11 +6,16 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Queue;
+use NineteenNinetyFour\SocialImages\Images\Cards;
+use NineteenNinetyFour\SocialImages\Jobs\GenerateImage;
 use NineteenNinetyFour\SocialImages\Library\Fonts;
 use NineteenNinetyFour\SocialImages\Templates\Porter;
 use NineteenNinetyFour\SocialImages\Templates\TemplateRepository;
 use NineteenNinetyFour\SocialImages\Tests\FakeCamera;
 use NineteenNinetyFour\SocialImages\Tests\TestCase;
+use Statamic\Facades\Blueprint;
+use Statamic\Facades\Entry;
 
 class ControlPanelTest extends TestCase
 {
@@ -339,10 +344,44 @@ class ControlPanelTest extends TestCase
         // (Each test request finishes the render the last one started, so
         // change the template again for one that hasn't been made.)
         $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'Newer {title}']]);
-        Cache::put('social-images:rendering:one:og', time() - 2, 60);
+        $hash = app(Cards::class)->for(Entry::find('one'))->hash();
+        Cache::put('social-images:rendering:one:og:'.$hash, time() - 2, 60);
         $running = $this->getJson(cp_route('social-images.images.show', 'one'));
         $this->assertSame('rendering', $running->json('state'));
         $this->assertGreaterThanOrEqual(2, $running->json('seconds'));
+    }
+
+    public function test_viewers_and_entries_with_their_own_image_start_no_render(): void
+    {
+        Blueprint::make('article')->setNamespace('collections.articles')->setContents(['fields' => [
+            ['handle' => 'title', 'field' => ['type' => 'text']],
+            ['handle' => 'social_image_override', 'field' => ['type' => 'assets', 'container' => 'assets', 'max_files' => 1]],
+        ]])->save();
+        $this->asset('mine.png');
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $this->entry('one');
+        $this->entry('two', 'Own image', data: ['social_image_override' => 'mine.png']);
+        config(['queue.default' => 'redis']);
+        Queue::fake();
+
+        // Someone who can only view: told it's waiting, but nothing starts.
+        $this->actingAs($this->cpUser(['view social images', 'view articles entries']))
+            ->getJson(cp_route('social-images.images.show', 'one'))
+            ->assertOk()
+            ->assertJsonPath('state', 'queued');
+
+        // An entry with its own image: its generated one is never shown.
+        $this->actingAs($this->cpUser())
+            ->getJson(cp_route('social-images.images.show', 'two'))
+            ->assertOk()
+            ->assertJsonPath('override', fn ($url) => str_ends_with((string) $url, 'mine.png'));
+
+        Queue::assertNotPushed(GenerateImage::class);
+
+        // Someone who can edit it: the render starts.
+        $this->actingAs($this->cpUser())->getJson(cp_route('social-images.images.show', 'one'))->assertOk();
+        Queue::assertPushed(GenerateImage::class, 1);
     }
 
     public function test_the_settings_page_has_the_template_rules(): void

@@ -236,6 +236,23 @@ class ImagesTest extends TestCase
         Queue::assertPushed(GenerateImage::class);
     }
 
+    public function test_a_job_queued_for_an_older_version_stands_down(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+
+        $entry = $this->entry();
+        $old = app(Cards::class)->for($entry)->hash();
+        $entry->set('title', 'Changed')->save();
+
+        $this->assertNull((new GenerateImage('one', hash: $old))->handle());
+        $this->assertCount(0, $this->camera->captures);
+
+        $current = app(Cards::class)->for(Entry::find('one'))->hash();
+        $this->assertNotNull((new GenerateImage('one', hash: $current))->handle());
+        $this->assertCount(1, $this->camera->captures);
+    }
+
     public function test_jobs_are_unique_per_entry_layout_and_fingerprint(): void
     {
         $this->assertSame('one:og:abc', (new GenerateImage('one', 'og', hash: 'abc'))->uniqueId());

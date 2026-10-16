@@ -88,6 +88,7 @@ export default {
             }
 
             let attempts = 0;
+            let waited = 0;
             this.polling = true;
 
             const check = () => {
@@ -103,10 +104,17 @@ export default {
                     })
                     .catch(() => {})
                     .finally(() => {
-                        if (this.url || this.failed || ++attempts >= 45 || !this.polling) {
+                        // Every second at first, then backing off to every 15
+                        // seconds, for up to 10 minutes: a busy queue can
+                        // take a while to reach it.
+                        attempts++;
+                        const delay = Math.min(15000, 1000 * Math.pow(1.15, Math.max(0, attempts - 10)));
+                        waited += delay;
+
+                        if (this.url || this.failed || waited > 600000 || !this.polling) {
                             this.stopPolling();
                         } else {
-                            this.pollTimer = setTimeout(check, 1000);
+                            this.pollTimer = setTimeout(check, delay);
                         }
                     });
             };

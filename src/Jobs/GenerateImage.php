@@ -138,6 +138,13 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
             return $card->path();
         }
 
+        // The entry has changed since this job was queued: the change queued
+        // a job of its own for what it shows now, so this one stands down
+        // rather than render the same thing twice.
+        if (! $this->force && $this->hash !== null && $this->hash !== $card->hash()) {
+            return null;
+        }
+
         try {
             $path = $card->render();
         } catch (Throwable $exception) {
