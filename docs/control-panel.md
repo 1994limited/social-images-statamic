@@ -16,7 +16,8 @@ See [The designer](designer.md).
 
 Every entry that has a template, with each of its images and whether it's current. Search by title, or show one collection.
 
-- **Generate missing** makes the images that don't exist yet.
+- An image that's out of date (its entry or template changed) shows the image still in use, faded, marked **Out of date**.
+- **Generate missing** (or **Update out of date**) makes the images that don't exist yet or are out of date.
 - **Regenerate all** remakes them all, even current ones. Use it after changing a template, so you don't wait for each entry to be saved.
 - The ↻ beside an image remakes just that one.
 

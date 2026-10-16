@@ -49,6 +49,6 @@ So:
 
 - Changing a field the image shows, or replacing its picture, or moving the picture's focal point, makes a new image on save.
 - Changing a field the image doesn't show makes nothing.
-- Changing a template makes new images as each entry is next saved, or when you choose **Regenerate all** (or run `social-images:generate`), or when a page next asks for one. Until then, the old images stay in use.
+- Changing a template queues new images for every entry that uses it, if you run a queue worker. On the `sync` queue they're made as pages ask for them, as editors open entries, or when you choose **Update out of date** on the Images page (or run `social-images:generate`). Either way, nothing is deleted first: each entry keeps its old image, on its pages and in the Control Panel, until the new one is ready.
 
 Code templates are the exception: a view can show anything about an entry, so any change to the entry (or the view) makes a new image.

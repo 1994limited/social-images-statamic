@@ -5,6 +5,7 @@ namespace NineteenNinetyFour\SocialImages;
 use NineteenNinetyFour\SocialImages\Actions\GenerateSocialImages;
 use NineteenNinetyFour\SocialImages\Blueprints\SettingsBlueprint;
 use NineteenNinetyFour\SocialImages\Commands\Generate;
+use NineteenNinetyFour\SocialImages\Events\TemplateSaved;
 use NineteenNinetyFour\SocialImages\Fieldtypes\SocialImagePreview;
 use NineteenNinetyFour\SocialImages\Fieldtypes\SocialImageTemplate;
 use NineteenNinetyFour\SocialImages\Images\Camera;
@@ -15,6 +16,7 @@ use NineteenNinetyFour\SocialImages\Library\Fonts;
 use NineteenNinetyFour\SocialImages\Library\Uploads;
 use NineteenNinetyFour\SocialImages\Listeners\ForgetOnDelete;
 use NineteenNinetyFour\SocialImages\Listeners\GenerateOnSave;
+use NineteenNinetyFour\SocialImages\Listeners\RemakeOnTemplateSave;
 use NineteenNinetyFour\SocialImages\Rendering\Page;
 use NineteenNinetyFour\SocialImages\Tags\SocialImageTags;
 use NineteenNinetyFour\SocialImages\Templates\TemplateRepository;
@@ -50,6 +52,7 @@ class ServiceProvider extends AddonServiceProvider
     protected $listen = [
         EntrySaved::class => [GenerateOnSave::class],
         EntryDeleted::class => [ForgetOnDelete::class],
+        TemplateSaved::class => [RemakeOnTemplateSave::class],
     ];
 
     protected $vite = [

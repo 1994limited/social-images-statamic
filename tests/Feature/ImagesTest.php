@@ -253,6 +253,40 @@ class ImagesTest extends TestCase
         $this->assertCount(1, $this->camera->captures);
     }
 
+    public function test_saving_a_template_queues_new_images_for_its_entries_and_keeps_the_old_ones(): void
+    {
+        $this->template();
+        $this->template('other');
+        $this->settings(['templates' => [['collections' => ['articles'], 'template' => 'basic'], ['template' => 'other']], 'generate_on_save' => false]);
+
+        $article = $this->entry('a');
+        $this->entry('p', 'About', 'pages');
+        $old = app(Cards::class)->for($article);
+        $old->render();
+
+        config(['queue.default' => 'redis']);
+        Queue::fake();
+
+        $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'New {title}']]);
+
+        Queue::assertPushed(GenerateImage::class, fn ($job) => $job->entryId === 'a');
+        Queue::assertNotPushed(GenerateImage::class, fn ($job) => $job->entryId === 'p');
+        Storage::disk('public')->assertExists($old->path());
+        $this->assertSame('generated', app(Cards::class)->image(Entry::find('a'))['source']);
+    }
+
+    public function test_on_the_sync_queue_a_template_save_queues_nothing(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $this->entry();
+
+        $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'New {title}']]);
+        $this->app->terminate();
+
+        $this->assertCount(0, $this->camera->captures);
+    }
+
     public function test_jobs_are_unique_per_entry_layout_and_fingerprint(): void
     {
         $this->assertSame('one:og:abc', (new GenerateImage('one', 'og', hash: 'abc'))->uniqueId());

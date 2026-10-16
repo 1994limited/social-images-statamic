@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+- Saving a template queues new images for the entries that use it (with a queue worker). Old images stay in use until each new one is ready.
+- The Images page shows an out-of-date image (the one still in use, marked Out of date) instead of "Not generated yet", and its button says Update out of date.
+
 ## 1.0.3 (2026-10-16)
 
 ### Changed

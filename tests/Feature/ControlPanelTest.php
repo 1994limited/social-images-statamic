@@ -278,6 +278,21 @@ class ControlPanelTest extends TestCase
             ->assertDontSee('About');
     }
 
+    public function test_the_images_page_shows_an_out_of_date_image_with_the_one_still_in_use(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $entry = $this->entry();
+        $old = app(\NineteenNinetyFour\SocialImages\Images\Cards::class)->for($entry);
+        $old->render();
+
+        $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'New {title}']]);
+
+        $this->actingAs($this->cpUser())->get(cp_route('social-images.images.index'))
+            ->assertOk()
+            ->assertSee(str_replace('/', '\\/', $old->path()), false);
+    }
+
     public function test_regenerating_needs_edit_access_or_template_management(): void
     {
         $this->template();

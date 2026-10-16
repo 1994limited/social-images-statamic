@@ -31,7 +31,7 @@ export default {
                 ...layout,
                 key: `${entry.id}:${layout.layout}`,
                 entry,
-                status: layout.url ? 'current' : 'missing',
+                status: layout.url ? 'current' : layout.previous ? 'outdated' : 'missing',
             }))),
             queue: [],
             done: 0,
@@ -49,8 +49,31 @@ export default {
             return this.queue.length > 0;
         },
 
+        /**
+         * Images to make: missing ones, and out-of-date ones (whose previous
+         * image is still in use until then).
+         */
         missing() {
             return this.images.filter((image) => !image.url && image.entry.can_edit);
+        },
+
+        outdated() {
+            return this.missing.filter((image) => image.previous);
+        },
+
+        missingLabel() {
+            const out = this.outdated.length;
+            const none = this.missing.length - out;
+
+            if (out && !none) {
+                return this.__('Update :count out of date', { count: out });
+            }
+
+            if (out) {
+                return this.__('Generate :count missing or out of date', { count: this.missing.length });
+            }
+
+            return this.__('Generate :count missing', { count: none });
         },
 
         editable() {
@@ -175,6 +198,7 @@ export default {
             return {
                 current: { text: this.__('Current'), color: 'green' },
                 missing: { text: this.__('Missing'), color: 'amber' },
+                outdated: { text: this.__('Out of date'), color: 'amber' },
                 rendering: { text: this.__('Rendering…'), color: 'blue' },
                 waiting: { text: this.__('Waiting :s s', { s: this.waiting }), color: 'blue' },
                 failed: { text: this.__('Failed'), color: 'red' },
@@ -197,7 +221,7 @@ export default {
         <template v-else>
             <Button :href="urls.templates" :text="__('Templates')" icon="layout-grid" />
             <Button
-                :text="__('Generate :count missing', { count: missing.length })"
+                :text="missingLabel"
                 :disabled="!enabled || !missing.length"
                 @click="generateMissing"
             />
@@ -225,6 +249,9 @@ export default {
                 <div v-for="image in row.images" :key="image.key" class="si-card__image">
                     <a v-if="image.url" :href="image.url" target="_blank" rel="noopener" class="si-frame">
                         <img :src="image.url" alt="" loading="lazy" />
+                    </a>
+                    <a v-else-if="image.previous" :href="image.previous" target="_blank" rel="noopener" class="si-frame si-frame--outdated" :title="__('Still in use until the new one is made')">
+                        <img :src="image.previous" alt="" loading="lazy" />
                     </a>
                     <div v-else class="si-frame si-frame--empty">{{ __('Not generated yet') }}</div>
                     <div class="mt-1 flex items-center justify-between gap-2">
@@ -281,6 +308,10 @@ export default {
     display: block;
     width: 100%;
     height: auto;
+}
+
+.si-frame--outdated img {
+    opacity: 0.6;
 }
 
 .si-frame--empty {

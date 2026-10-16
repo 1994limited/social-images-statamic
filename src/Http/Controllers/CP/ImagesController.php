@@ -136,9 +136,13 @@ class ImagesController extends CpController
         $layouts = collect($this->cards->layoutsFor($entry))->map(function ($layout) use ($entry) {
             $card = $this->cards->for($entry, $layout);
 
+            $current = $card->exists();
+
             return [
                 'layout' => $layout,
-                'url' => $card->exists() ? $card->previewUrl() : null,
+                'url' => $current ? $card->previewUrl() : null,
+                // Out of date: the image still in use until the new one's made.
+                'previous' => $current ? null : $card->previousPreviewUrl(),
                 'regenerate_url' => cp_route('social-images.images.regenerate', [$entry->id(), 'layout' => $layout]),
             ];
         })->values()->all();
