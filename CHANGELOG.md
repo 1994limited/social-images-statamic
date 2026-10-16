@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.2 (2026-10-16)
 
 ### Fixed
 - An entry whose image was missing or out of date (after a template change or an update) showed "Generating…" in its panel without anything being made. Opening the entry now starts it, for people who can edit it (and not when the entry has its own image).
