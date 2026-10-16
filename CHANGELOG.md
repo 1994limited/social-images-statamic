@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.3 (2026-10-16)
 
 ### Changed
 - A code template's preview on the Templates page shows a recent entry that uses it, instead of a title with nothing else.
