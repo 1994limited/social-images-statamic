@@ -251,6 +251,27 @@ export function fitText({ element, inner, layer }) {
         inner.style.fontSize = `${size}px`;
     }
 
+    // A little smaller can mean a line fewer, and fewer lines wrap better
+    // ("In conversation / with Imogen Hale", not "... / with / ..."): take
+    // the largest size, down to 15% smaller, that needs the fewest lines.
+    if (fits(size)) {
+        let best = size;
+        let fewest = lines(size);
+        const floor = Math.max(min, size * 0.85);
+
+        for (let smaller = size - 2; smaller >= floor && fewest > 1; smaller -= 2) {
+            inner.style.fontSize = `${smaller}px`;
+
+            if (lines(smaller) < fewest) {
+                best = smaller;
+                fewest = lines(smaller);
+            }
+        }
+
+        size = best;
+        inner.style.fontSize = `${size}px`;
+    }
+
     if (!fits(size)) {
         inner.style.overflowWrap = 'break-word';
     }

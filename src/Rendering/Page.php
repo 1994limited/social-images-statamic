@@ -15,7 +15,7 @@ class Page
      * Part of every image's fingerprint. Bump it when a change to the
      * renderer changes how existing templates look, so they re-render.
      */
-    public const RUNTIME_VERSION = 2;
+    public const RUNTIME_VERSION = 3;
 
     protected ?string $runtime = null;
 

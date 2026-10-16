@@ -72,3 +72,20 @@ test('a single word too long for anything leaves just the ellipsis', () => {
     truncate(inner, () => inner.textContent.length <= 3);
     assert.equal(inner.textContent, '…');
 });
+
+test('a slightly smaller size that saves a line is preferred', () => {
+    const style = {};
+    // Three lines at 68px and above, two at 60px and below; 20px per line.
+    const inner = {
+        style,
+        get scrollHeight() { return parseFloat(style.fontSize) > 60 ? 3 * 68 * 1.1 : 2 * parseFloat(style.fontSize) * 1.1; },
+        get scrollWidth() { return 10; },
+        get clientWidth() { return 100; },
+    };
+    const element = { clientWidth: 500, clientHeight: 400 };
+    globalThis.getComputedStyle = () => ({ paddingLeft: '0', paddingRight: '0', paddingTop: '0', paddingBottom: '0' });
+
+    assert.equal(fitText({ element, inner, layer: { size: 68, min_size: 30, max_lines: 0, line_height: 1.1, hug: false, padding: [0, 0, 0, 0], border: null } }), 60);
+    // Not when it'd mean shrinking more than 15%.
+    assert.equal(fitText({ element, inner, layer: { size: 80, min_size: 30, max_lines: 0, line_height: 1.1, hug: false, padding: [0, 0, 0, 0], border: null } }), 80);
+});
