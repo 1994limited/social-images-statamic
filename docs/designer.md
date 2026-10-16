@@ -59,7 +59,7 @@ A text layer whose text comes out empty is left out of the image, so a label for
 
 ### Fitting
 
-**Size** is the largest the text can be, and **Smallest** the smallest. The text starts at Size and shrinks until it fits its box: in height, in the width of its longest word, and in **Max lines** if you set it (0 is no limit). If it still doesn't fit at the smallest size, it's cut at the last whole line that fits. Short titles stay big, long ones get smaller, and nothing spills out.
+**Size** is the largest the text can be, and **Smallest** the smallest. The text starts at Size and shrinks until it fits its box: in height, in the width of its longest word, and in **Max lines** if you set it (0 is no limit). If it still doesn't fit at the smallest size, it's cut at the last whole word that fits, with an ellipsis (…). Short titles stay big, long ones get smaller, and nothing spills out.
 
 **Balance lines** evens out the lines' lengths, so a title doesn't end with one word on its own.
 

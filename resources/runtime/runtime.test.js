@@ -58,3 +58,17 @@ test('silly sizes are clamped, so fitting always ends', () => {
     assert.equal(fitText({ ...fake(40), layer: layer(1e20, 1e20) }), 400);
     assert.equal(fitText({ ...fake(40), layer: layer(NaN, NaN) }), 40);
 });
+
+import { truncate } from './runtime.js';
+
+test('text that still does not fit is cut at a whole word with an ellipsis', () => {
+    const inner = { textContent: 'A field guide to leaving, and coming back again' };
+    truncate(inner, () => inner.textContent.length <= 26);
+    assert.equal(inner.textContent, 'A field guide to leaving…');
+});
+
+test('a single word too long for anything leaves just the ellipsis', () => {
+    const inner = { textContent: 'Supercalifragilistic' };
+    truncate(inner, () => inner.textContent.length <= 3);
+    assert.equal(inner.textContent, '…');
+});

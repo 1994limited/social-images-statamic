@@ -103,6 +103,19 @@ export async function render(root, layout, data = {}, options = {}) {
         height: `${layout.height}px`,
         overflow: 'hidden',
         background: fillCss(layout.background) || '#ffffff',
+        // In the designer the canvas sits in the Control Panel, whose own
+        // type settings (font features, spacing) would otherwise carry in.
+        fontFeatureSettings: 'normal',
+        fontVariationSettings: 'normal',
+        fontVariant: 'normal',
+        fontKerning: 'auto',
+        letterSpacing: 'normal',
+        wordSpacing: 'normal',
+        lineHeight: 'normal',
+        textTransform: 'none',
+        textIndent: '0',
+        textAlign: 'left',
+        color: '#000000',
     });
 
     const texts = [];
@@ -189,7 +202,9 @@ function drawText(element, layer, text, family, doc) {
         whiteSpace: 'pre-line',
         maxWidth: '100%',
         minHeight: '0',
-        overflow: 'hidden',
+        // Not clipped: a tight line height puts the last line's descenders
+        // (g, y, p) below its box, and they'd be cut off.
+        overflow: 'visible',
     });
 
     element.appendChild(inner);
@@ -245,14 +260,34 @@ export function fitText({ element, inner, layer }) {
         const room = Math.max(1, Math.floor((box.height - extra) / (size * layer.line_height)));
         const clamp = layer.max_lines ? Math.min(layer.max_lines, room) : room;
 
-        Object.assign(inner.style, {
-            display: '-webkit-box',
-            webkitBoxOrient: 'vertical',
-            webkitLineClamp: String(clamp),
-        });
+        truncate(inner, (n) => lines(size) <= clamp && inner.scrollHeight <= box.height + 1);
     }
 
     return size;
+}
+
+/**
+ * Cut text to as many whole words as pass `fits`, ending with an ellipsis.
+ * Nothing is clipped, so the last line keeps its descenders and the next
+ * line doesn't peek out under them.
+ */
+export function truncate(inner, fits) {
+    const words = String(inner.textContent ?? '').split(/(\s+)/);
+    let low = 0;
+    let high = words.length;
+
+    while (low < high) {
+        const middle = Math.ceil((low + high) / 2);
+        inner.textContent = words.slice(0, middle).join('').trimEnd() + '…';
+
+        if (fits()) {
+            low = middle;
+        } else {
+            high = middle - 1;
+        }
+    }
+
+    inner.textContent = low ? words.slice(0, low).join('').trimEnd().replace(/[\s,;:.\-–—]+$/, '') + '…' : '…';
 }
 
 function clamp(value, low, high, fallback) {
