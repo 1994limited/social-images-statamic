@@ -12,8 +12,8 @@ cp .env.example .env
 php artisan key:generate
 php artisan storage:link
 npm install
-php please demo:users
-php please demo:content
+php artisan demo:users
+php artisan demo:content
 php artisan serve
 ```
 
