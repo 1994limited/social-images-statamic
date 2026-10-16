@@ -19,7 +19,7 @@ Put the view anywhere in your views, say `resources/views/social-images/article.
 ],
 ```
 
-The key (`article`) is its handle; it can't be the same as a designer template's. `layouts` lists its sizes; Open Graph (`og`, 1200 × 630) is added if you leave it out. It then appears on **Tools → Social Images** (marked **Code**) and in the settings' template choices, like any other.
+The key (`article`) is its handle; it can't be the same as a designer template's. Pages render in the entry's own site and language, so dates and translations come out as they do on the entry's page. `layouts` lists its sizes; Open Graph (`og`, 1200 × 630) is added if you leave it out. It then appears on **Tools → Social Images** (marked **Code**) and in the settings' template choices, like any other.
 
 A view is a whole page, with nothing else around it:
 
@@ -110,7 +110,17 @@ Social Images adds its small script to the end of the page. Once the fonts and p
 
 ## When images change
 
-A code template can show anything about an entry, so its images are made again whenever the entry changes at all, or the view's file changes. See [When images change](choosing-templates.md#when-images-change).
+A code template can show anything about an entry, so its images are made again whenever the entry's values change at all (on a translation, its origin's too), or the view's file changes. See [When images change](choosing-templates.md#when-images-change).
+
+What isn't noticed: changes to partials or layouts the view includes, and to entries, terms or assets it reaches through fields (an author's name, a picture replaced in place). After changing those, give the template a `version` in the config, and change it whenever you want every image remade:
+
+```php
+'article' => [
+    'title' => 'Article',
+    'view' => 'social-images/article',
+    'version' => 2,
+],
+```
 
 ## Trying it
 

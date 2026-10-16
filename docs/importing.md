@@ -20,7 +20,7 @@ The template is added under its own title (with `_2` on its handle if you have o
 
 A template is layout and nothing else: positions, sizes, colours, gradients, font names, text with fields in braces, and where pictures come from. When it's imported, every value is checked and anything else in the file is thrown away. There's no HTML, CSS or script in a template, so importing one from anywhere is safe: it can't change your site, read your data or run code.
 
-The things a template brings with it are checked too: pictures must really be PNG, JPEG, WebP, GIF, SVG or AVIF, fonts must really be WOFF2, WOFF, TTF or OTF, and each must be under 5 MB. Addresses are fetched only over https, only from public servers, without following redirects, and up to 10 MB (see [Configuration](configuration.md#importing-from-an-address)).
+The things a template brings with it are checked too: pictures must really be PNG, JPEG, WebP, GIF, SVG or AVIF, fonts must really be WOFF2, WOFF, TTF or OTF, and each must be under 5 MB. Addresses are fetched only over https on the standard port, only from public servers (not your own network, cloud metadata services or addresses that wrap one), without following redirects, and up to 10 MB (see [Configuration](configuration.md#importing-from-an-address)).
 
 Templates refer to entry fields by handle (`{subtitle}`, `field:featured_image`). If your fields are called something else, change them in the designer after importing: **Insert a field** lists yours.
 

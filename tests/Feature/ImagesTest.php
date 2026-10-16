@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 use NineteenNinetyFour\SocialImages\Images\Cards;
 use NineteenNinetyFour\SocialImages\Jobs\GenerateImage;
+use NineteenNinetyFour\SocialImages\RateLimits;
 use NineteenNinetyFour\SocialImages\Tests\TestCase;
 use Statamic\Facades\Asset;
 use Statamic\Facades\AssetContainer;
@@ -134,6 +135,66 @@ class ImagesTest extends TestCase
         $this->entry('b');
 
         Queue::assertNotPushed(GenerateImage::class);
+    }
+
+    public function test_a_failed_render_isnt_retried_from_page_views_for_a_while(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $entry = $this->entry();
+        $this->camera->failWith('Chrome not found');
+
+        try {
+            (new GenerateImage('one'))->handle();
+        } catch (\RuntimeException) {
+        }
+
+        config(['queue.default' => 'redis']);
+        Queue::fake();
+
+        $this->assertSame('fallback', app(Cards::class)->image($entry)['source'] ?? 'fallback');
+        Queue::assertNotPushed(GenerateImage::class);
+
+        // Remaking it on purpose works, and the page then has its image.
+        (new GenerateImage('one', force: true))->handle();
+        $this->assertSame('generated', app(Cards::class)->image(Entry::find('one'))['source']);
+    }
+
+    public function test_the_images_own_queue_connection_decides_whether_jobs_run_inline(): void
+    {
+        config(['queue.default' => 'sync', 'social-images.queue.connection' => null]);
+        $this->assertTrue(GenerateImage::onSyncQueue());
+
+        config(['queue.connections.images' => ['driver' => 'redis'], 'social-images.queue.connection' => 'images']);
+        $this->assertFalse(GenerateImage::onSyncQueue());
+
+        config(['queue.default' => 'redis', 'queue.connections.now' => ['driver' => 'sync'], 'social-images.queue.connection' => 'now']);
+        $this->assertTrue(GenerateImage::onSyncQueue());
+    }
+
+    public function test_only_a_429_on_its_own_is_a_rate_limit(): void
+    {
+        $this->assertTrue(RateLimits::caused(new \RuntimeException('Cloudflare screenshot generation failed: {"code":429}')));
+        $this->assertTrue(RateLimits::caused(new \RuntimeException('HTTP 429 Too Many Requests')));
+        $this->assertFalse(RateLimits::caused(new \RuntimeException('Unable to write social-images/b4290c1e-0429-4a6b/og-429abc.png')));
+    }
+
+    public function test_an_older_render_finishing_late_keeps_the_current_image(): void
+    {
+        $this->template();
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+
+        $entry = $this->entry();
+        $old = app(Cards::class)->for($entry);
+        $old->hash();
+
+        $entry->set('title', 'Newer')->save();
+        $current = app(Cards::class)->for(Entry::find('one'));
+        $current->render();
+
+        $old->render();
+
+        Storage::disk('public')->assertExists($current->path());
     }
 
     public function test_jobs_are_unique_per_entry_layout_and_fingerprint(): void

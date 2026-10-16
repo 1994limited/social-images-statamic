@@ -28,3 +28,33 @@ test('shadows', () => {
     assert.equal(shadowCss({ x: 0, y: 10, blur: 30, color: '#0003' }), '0px 10px 30px #0003');
     assert.equal(shadowCss(null), '');
 });
+
+import { fitText } from './runtime.js';
+
+// A stand-in element whose text fits once the font is 40px or smaller.
+function fake(fitsAt) {
+    const style = {};
+    const inner = {
+        style,
+        get scrollHeight() { return parseFloat(style.fontSize) > fitsAt ? 999 : 10; },
+        get scrollWidth() { return 10; },
+        get clientWidth() { return 100; },
+    };
+    const element = { clientWidth: 100, clientHeight: 100 };
+    globalThis.getComputedStyle = () => ({ paddingLeft: '0', paddingRight: '0', paddingTop: '0', paddingBottom: '0' });
+
+    return { element, inner };
+}
+
+const layer = (size, min) => ({ size, min_size: min, max_lines: 0, line_height: 1.2, hug: false, padding: [0, 0, 0, 0], border: null });
+
+test('text shrinks until it fits, but not below its smallest size', () => {
+    assert.equal(fitText({ ...fake(40), layer: layer(80, 20) }), 40);
+    assert.equal(fitText({ ...fake(10), layer: layer(80, 30) }), 30);
+});
+
+test('silly sizes are clamped, so fitting always ends', () => {
+    assert.equal(fitText({ ...fake(40), layer: layer(Infinity, 20) }), 40);
+    assert.equal(fitText({ ...fake(40), layer: layer(1e20, 1e20) }), 400);
+    assert.equal(fitText({ ...fake(40), layer: layer(NaN, NaN) }), 40);
+});

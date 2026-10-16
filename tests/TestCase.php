@@ -130,7 +130,7 @@ abstract class TestCase extends AddonTestCase
         $this->settings(['templates' => [['template' => $handle, ...$rule]]]);
     }
 
-    protected function cpUser(array $permissions = ['view social images', 'manage social image templates']): \Statamic\Contracts\Auth\User
+    protected function cpUser(array $permissions = ['view social images', 'manage social image templates', 'view articles entries', 'view pages entries']): \Statamic\Contracts\Auth\User
     {
         $this->setTestRoles(['tester' => ['access cp', ...$permissions]]);
 

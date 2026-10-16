@@ -3,6 +3,7 @@
 namespace NineteenNinetyFour\SocialImages\Support;
 
 use NineteenNinetyFour\SocialImages\Images\Cards;
+use Statamic\Contracts\Auth\User;
 use Statamic\Contracts\Entries\Entry;
 use Statamic\Facades\Collection;
 use Statamic\Facades\Entry as Entries;
@@ -61,7 +62,7 @@ class Catalog
      *
      * @return array<int, array{id: string, title: string, collection: string, site: string}>
      */
-    public function entries(?string $search = null, ?string $collection = null, int $limit = 20): array
+    public function entries(?string $search = null, ?string $collection = null, ?User $user = null, int $limit = 20): array
     {
         $query = Entries::query()->whereIn('collection', collect($this->collections())->pluck('handle')->all());
 
@@ -73,7 +74,9 @@ class Catalog
             $query->where('title', 'like', '%'.$search.'%');
         }
 
-        return $query->orderBy('date', 'desc')->limit($limit)->get()
+        return $query->orderBy('date', 'desc')->limit($limit * 3)->get()
+            ->filter(fn (Entry $entry) => ! $user || $user->can('view', $entry))
+            ->take($limit)
             ->map(fn (Entry $entry) => $this->entry($entry))
             ->values()
             ->all();

@@ -46,6 +46,8 @@ Select entries and choose **Regenerate social images** from the actions to remak
 With Statamic Pro, under **Users → Permissions**:
 
 - **View social images and templates**: the Templates and Images pages, and each entry's image.
-  - **Design, import, export and delete templates, and generate any entry's image**: the designer, fonts and uploads, importing, and remaking any entry's image.
+  - **Design, import, export and delete templates, and generate any entry's image**: the designer (and its real renders), fonts and uploads, importing and exporting, and remaking any entry's image.
+
+Previewing a template with an entry shows that entry's values, so the designer only offers (and only accepts) entries the user can view.
 
 Anyone who can edit an entry can remake its image, from the entry or the Images page. Settings need **Configure addons**, as for any addon.

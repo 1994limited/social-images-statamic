@@ -4,7 +4,7 @@
 
 - **Is it saved?** Images are made from the saved entry, after the save.
 - **Is a queue worker running?** With a queue connection other than `sync`, jobs wait for a worker: `php artisan queue:work`. See [Queues](rendering.md#queues).
-- **Did the render fail?** Choose **Regenerate** in the entry's panel: it renders there and then and shows the error. Failures are also in `storage/logs`.
+- **Did the render fail?** Choose **Regenerate** in the entry's panel: it renders there and then and shows the error. Failures are also in `storage/logs`. After a failure, page views don't try that image again for five minutes, so a broken template or a used-up allowance doesn't cost a render on every visit; **Regenerate** always tries.
 - **Is it turned off?** `SOCIAL_IMAGES_ENABLED=false`, or **Generate when an entry is saved** off in the settings.
 
 ## "The image couldn't be rendered"

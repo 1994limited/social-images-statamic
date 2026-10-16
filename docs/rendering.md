@@ -68,7 +68,7 @@ SOCIAL_IMAGES_QUEUE_CONNECTION=redis
 SOCIAL_IMAGES_QUEUE=images
 ```
 
-On the `sync` queue (Laravel's default on new sites), there's no worker: the image is made **after** the response has been sent instead, so the editor saving the entry doesn't wait either. The entry's preview in the Control Panel shows the image when it's ready.
+On the `sync` queue (Laravel's default on new sites, or a `SOCIAL_IMAGES_QUEUE_CONNECTION` using the `sync` driver), there's no worker: the image is made **after** the response has been sent instead, so the editor saving the entry doesn't wait either. The entry's preview in the Control Panel shows the image when it's ready.
 
 Jobs are unique per entry, size and content: saving an entry five times in a minute without changing what its image shows makes nothing; changing it twice makes two renders, and the second replaces the first.
 

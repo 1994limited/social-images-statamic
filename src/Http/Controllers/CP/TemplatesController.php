@@ -13,6 +13,7 @@ use NineteenNinetyFour\SocialImages\Rendering\Resolver;
 use NineteenNinetyFour\SocialImages\Rendering\Tokens;
 use NineteenNinetyFour\SocialImages\Settings;
 use NineteenNinetyFour\SocialImages\Support\Catalog;
+use NineteenNinetyFour\SocialImages\Support\InSite;
 use NineteenNinetyFour\SocialImages\Templates\InvalidTemplate;
 use NineteenNinetyFour\SocialImages\Templates\JsonTemplate;
 use NineteenNinetyFour\SocialImages\Templates\Porter;
@@ -20,6 +21,7 @@ use NineteenNinetyFour\SocialImages\Templates\Schema;
 use NineteenNinetyFour\SocialImages\Templates\Template;
 use NineteenNinetyFour\SocialImages\Templates\TemplateRepository;
 use NineteenNinetyFour\SocialImages\Templates\ViewTemplate;
+use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
 use Statamic\Facades\User;
 use Statamic\Http\Controllers\CP\CpController;
@@ -159,7 +161,7 @@ class TemplatesController extends CpController
             'fonts' => app(Fonts::class)->families(),
             'presets' => Schema::PRESETS,
             'collections' => $this->catalog->collections(),
-            'entries' => $this->catalog->entries(),
+            'entries' => $this->catalog->entries(user: User::current()),
             'samples' => Tokens::SAMPLES,
             'urls' => [
                 'index' => cp_route('social-images.index'),
@@ -204,7 +206,7 @@ class TemplatesController extends CpController
 
     public function export(string $handle): StreamedResponse
     {
-        $this->authorize('view social images');
+        $this->authorize('manage social image templates');
 
         $template = $this->designerTemplate($handle);
         $json = json_encode($this->porter->export($template), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -222,11 +224,11 @@ class TemplatesController extends CpController
         $this->authorize('view social images');
 
         $layout = Schema::layout((array) $request->input('layout'));
-        $entry = $request->input('entry') ? Entry::find($request->input('entry')) : null;
+        $entry = $this->entry($request->input('entry'));
 
         return response()->json([
             'layout' => $layout,
-            'data' => app(Resolver::class)->resolve($layout, $entry),
+            'data' => InSite::run($entry, fn () => app(Resolver::class)->resolve($layout, $entry)),
         ]);
     }
 
@@ -236,9 +238,10 @@ class TemplatesController extends CpController
      */
     public function render(Request $request): JsonResponse
     {
-        $this->authorize('view social images');
+        // Renders spend the screenshot service's allowance.
+        $this->authorize('manage social image templates');
 
-        $entry = $request->input('entry') ? Entry::find($request->input('entry')) : null;
+        $entry = $this->entry($request->input('entry'));
 
         try {
             if ($request->filled('template')) {
@@ -249,7 +252,7 @@ class TemplatesController extends CpController
             } else {
                 $layout = Schema::layout((array) $request->input('layout'));
                 $size = ['width' => $layout['width'], 'height' => $layout['height']];
-                $html = app(Page::class)->designer($layout, app(Resolver::class)->resolve($layout, $entry));
+                $html = app(Page::class)->designer($layout, InSite::run($entry, fn () => app(Resolver::class)->resolve($layout, $entry)));
             }
 
             $png = app(Camera::class)->capture($html, $size['width'], $size['height']);
@@ -271,7 +274,7 @@ class TemplatesController extends CpController
         $this->authorize('view social images');
 
         $template = $this->templates->find($handle) ?? abort(404);
-        $entry = $request->query('entry') ? Entry::find($request->query('entry')) : null;
+        $entry = $this->entry($request->query('entry'));
 
         try {
             $html = $template->html($entry, Schema::BASE_LAYOUT);
@@ -281,7 +284,9 @@ class TemplatesController extends CpController
         }
 
         return response($html)->withHeaders([
-            'Content-Security-Policy' => "default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'",
+            // Sandboxed even when opened directly: a code template shows
+            // entry values unescaped, so its script must not run as the CP.
+            'Content-Security-Policy' => "sandbox allow-scripts; default-src 'none'; img-src data:; font-src data:; style-src 'unsafe-inline'; script-src 'unsafe-inline'",
             'X-Robots-Tag' => 'noindex',
         ]);
     }
@@ -290,7 +295,24 @@ class TemplatesController extends CpController
     {
         $this->authorize('view social images');
 
-        return response()->json(['entries' => $this->catalog->entries($request->query('search'), $request->query('collection'))]);
+        return response()->json(['entries' => $this->catalog->entries($request->query('search'), $request->query('collection'), User::current())]);
+    }
+
+    /**
+     * The entry to preview with, if the user may see it: its values are
+     * shown, so they're as private as the entry.
+     */
+    protected function entry(mixed $id): ?EntryContract
+    {
+        if (! is_string($id) || $id === '') {
+            return null;
+        }
+
+        $entry = Entry::find($id);
+
+        abort_unless($entry && User::current()->can('view', $entry), 404);
+
+        return $entry;
     }
 
     protected function designerTemplate(string $handle): JsonTemplate

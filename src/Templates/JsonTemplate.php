@@ -4,6 +4,7 @@ namespace NineteenNinetyFour\SocialImages\Templates;
 
 use NineteenNinetyFour\SocialImages\Rendering\Page;
 use NineteenNinetyFour\SocialImages\Rendering\Resolver;
+use NineteenNinetyFour\SocialImages\Support\InSite;
 use Statamic\Contracts\Entries\Entry;
 
 /**
@@ -61,12 +62,12 @@ class JsonTemplate implements Template
     {
         $layout = $this->layout($layout);
 
-        return app(Page::class)->designer($layout, app(Resolver::class)->resolve($layout, $entry), $this->lang($entry));
+        return InSite::run($entry, fn () => app(Page::class)->designer($layout, app(Resolver::class)->resolve($layout, $entry), $this->lang($entry)));
     }
 
     public function fingerprint(Entry $entry, string $layout): string
     {
-        return app(Resolver::class)->fingerprint($this->layout($layout), $entry);
+        return InSite::run($entry, fn () => app(Resolver::class)->fingerprint($this->layout($layout), $entry));
     }
 
     /**

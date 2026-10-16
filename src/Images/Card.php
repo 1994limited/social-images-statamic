@@ -2,8 +2,10 @@
 
 namespace NineteenNinetyFour\SocialImages\Images;
 
+use Illuminate\Support\Facades\Cache;
 use NineteenNinetyFour\SocialImages\Templates\Template;
 use Statamic\Contracts\Entries\Entry;
+use Statamic\Facades\Entry as Entries;
 
 /**
  * One entry's image in one layout, and the PNG file it's kept in.
@@ -98,13 +100,31 @@ class Card
 
         $png = app(Camera::class)->capture($this->template->html($this->entry, $this->layout), $size['width'], $size['height']);
 
-        $this->output()->put($this->path(), $png);
+        // One render at a time replaces this layout's files, and none
+        // deletes the image that's current now: a slow render of an older
+        // version can finish after a newer one.
+        Cache::lock('social-images:write:'.$this->entry->id().':'.$this->layout, 30)->block(10, function () use ($png) {
+            $this->output()->put($this->path(), $png);
 
-        collect($this->files())
-            ->reject(fn (string $file) => $file === $this->path())
-            ->each(fn (string $file) => $this->output()->delete($file));
+            $current = $this->currentPath();
+
+            collect($this->files())
+                ->reject(fn (string $file) => $file === $this->path() || $file === $current)
+                ->each(fn (string $file) => $this->output()->delete($file));
+        });
 
         return $this->path();
+    }
+
+    /**
+     * The path the entry's image has now, as saved, which may have moved
+     * on since this card was made.
+     */
+    protected function currentPath(): ?string
+    {
+        $entry = Entries::find($this->entry->id());
+
+        return $entry ? rescue(fn () => (new self($entry, $this->template, $this->layout))->path(), null, false) : null;
     }
 
     protected function output(): Output

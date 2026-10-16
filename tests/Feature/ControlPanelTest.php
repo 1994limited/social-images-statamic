@@ -96,6 +96,26 @@ class ControlPanelTest extends TestCase
         ])->assertOk()->assertJsonPath('data.layers.t.text', 'Hello world!');
     }
 
+    public function test_previewing_an_entry_needs_access_to_it(): void
+    {
+        $this->entry();
+
+        $this->actingAs($this->cpUser(['view social images', 'view pages entries']))->postJson(cp_route('social-images.preview'), [
+            'entry' => 'one',
+            'layout' => ['layers' => [['type' => 'text', 'id' => 't', 'text' => '{secret}']]],
+        ])->assertNotFound();
+    }
+
+    public function test_rendering_and_exporting_need_template_management(): void
+    {
+        $this->template();
+        $this->actingAs($this->cpUser(['view social images']));
+
+        $this->postJson(cp_route('social-images.render'), ['layout' => []])->assertForbidden();
+        $this->getJson(cp_route('social-images.templates.export', 'basic'))->assertForbidden();
+        $this->assertCount(0, $this->camera->captures);
+    }
+
     public function test_render_returns_a_png_from_the_camera(): void
     {
         $this->actingAs($this->cpUser())->postJson(cp_route('social-images.render'), [
@@ -121,6 +141,7 @@ class ControlPanelTest extends TestCase
         $response = $this->actingAs($this->cpUser())->get(cp_route('social-images.templates.thumbnail', 'basic'))->assertOk();
 
         $this->assertStringContainsString("default-src 'none'", $response->headers->get('Content-Security-Policy'));
+        $this->assertStringContainsString('sandbox allow-scripts', $response->headers->get('Content-Security-Policy'));
     }
 
     public function test_import_by_paste_file_and_url(): void
@@ -198,6 +219,22 @@ class ControlPanelTest extends TestCase
 
         Http::assertNotSent(fn ($request) => str_contains($request->url(), 'cyr.woff2'));
         $this->assertCount(1, app(Fonts::class)->match('Lora'));
+    }
+
+    public function test_a_variable_google_font_keeps_every_weight(): void
+    {
+        $css = fn ($weight) => "/* latin */\n@font-face { font-family: 'Lora'; font-style: normal; font-weight: {$weight}; src: url(https://fonts.gstatic.com/s/lora/v.woff2) format('woff2'); unicode-range: U+0000-00FF; }";
+
+        Http::fake([
+            'fonts.googleapis.com/*' => Http::response($css(400)."\n".$css(700)),
+            'fonts.gstatic.com/*' => Http::response('wOF2variable'),
+        ]);
+
+        $this->actingAs($this->cpUser())->postJson(cp_route('social-images.fonts.google'), ['family' => 'Lora', 'weights' => [400, 700]])->assertOk();
+
+        $family = collect(app(Fonts::class)->families())->firstWhere('family', 'Lora');
+        $this->assertSame([400, 500, 600, 700], $family['weights']);
+        $this->assertSame([400, 700], app(Fonts::class)->match('Lora', 400)->first()['weight']);
     }
 
     public function test_an_unknown_google_font_is_explained(): void

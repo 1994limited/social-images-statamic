@@ -10,6 +10,7 @@ use NineteenNinetyFour\SocialImages\Images\Cards;
 use NineteenNinetyFour\SocialImages\Templates\Schema;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
+use Throwable;
 
 /**
  * Renders an entry's image in one layout, and removes that layout's older
@@ -56,7 +57,11 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
 
         $hash = $card->hash();
 
-        if (config('queue.default') !== 'sync' && config('social-images.queue.connection') !== 'sync') {
+        if (self::recentlyFailed($entry->id(), $layout, $hash)) {
+            return;
+        }
+
+        if (! self::onSyncQueue()) {
             self::dispatch($entry->id(), $layout, hash: $hash);
 
             return;
@@ -75,6 +80,31 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
                 $lock->release();
             }
         });
+    }
+
+    /**
+     * Whether jobs run inline: the connection images use is the sync driver.
+     */
+    public static function onSyncQueue(): bool
+    {
+        $connection = config('social-images.queue.connection') ?? config('queue.default');
+
+        return config("queue.connections.{$connection}.driver", $connection) === 'sync';
+    }
+
+    /**
+     * A render that just failed isn't tried again from page views for a
+     * few minutes, so a broken template or a used-up allowance doesn't
+     * cost a render on every visit.
+     */
+    public static function recentlyFailed(string $entryId, string $layout, string $hash): bool
+    {
+        return Cache::has(self::failureKey($entryId, $layout, $hash));
+    }
+
+    protected static function failureKey(string $entryId, string $layout, string $hash): string
+    {
+        return 'social-images:failed:'.$entryId.':'.$layout.':'.$hash;
     }
 
     public function uniqueId(): string
@@ -108,6 +138,16 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
             return $card->path();
         }
 
-        return $card->render();
+        try {
+            $path = $card->render();
+        } catch (Throwable $exception) {
+            Cache::put(self::failureKey($this->entryId, $this->layout, $card->hash()), true, 300);
+
+            throw $exception;
+        }
+
+        Cache::forget(self::failureKey($this->entryId, $this->layout, $card->hash()));
+
+        return $path;
     }
 }

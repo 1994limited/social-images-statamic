@@ -207,17 +207,28 @@ class Fonts
             $this->files->put($this->directory().'/'.$file, $contents);
         }
 
+        $style = $style === 'italic' ? 'italic' : 'normal';
+        $id = 'site:'.$file.':'.$style;
+
+        // Google serves one file for every weight of a variable font: the
+        // same file added again widens the weights it covers.
+        $existing = collect($this->saved())->firstWhere('id', $id);
+
+        if ($existing) {
+            $weight = [min($weight[0], $existing['weight'][0]), max($weight[1], $existing['weight'][1])];
+        }
+
         $face = [
-            'id' => 'site:'.$file,
+            'id' => $id,
             'family' => $family,
-            'style' => $style === 'italic' ? 'italic' : 'normal',
+            'style' => $style,
             'weight' => $weight,
             'unicode_range' => $unicodeRange,
             'file' => $file,
             'source' => in_array($source, ['google', 'upload'], true) ? $source : 'upload',
         ];
 
-        $saved = collect($this->saved())->reject(fn ($existing) => $existing['id'] === $face['id'])->push($face)->values()->all();
+        $saved = collect($this->saved())->reject(fn ($face) => $face['id'] === $id)->push($face)->values()->all();
         $this->write($saved);
 
         return $face;

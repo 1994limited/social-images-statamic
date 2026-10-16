@@ -4,6 +4,7 @@ namespace NineteenNinetyFour\SocialImages\Templates;
 
 use NineteenNinetyFour\SocialImages\Rendering\Page;
 use NineteenNinetyFour\SocialImages\Rendering\Tokens;
+use NineteenNinetyFour\SocialImages\Support\InSite;
 use Statamic\Contracts\Entries\Entry;
 use Statamic\Facades\Site;
 use Throwable;
@@ -71,27 +72,31 @@ class ViewTemplate implements Template
             ? $entry->toAugmentedArray()
             : ['title' => Tokens::SAMPLES['title'], 'site' => Site::default()];
 
-        $html = view($this->view(), [
+        $html = InSite::run($entry, fn () => view($this->view(), [
             ...$data,
             'entry' => $entry,
             'social_layout' => ['handle' => $layout, ...$size],
-        ])->render();
+        ])->render());
 
         return app(Page::class)->view($html);
     }
 
     /**
-     * The view's source, the entry's data and where it lives: a code
-     * template can show anything about the entry, so any change to it
-     * counts.
+     * The view's source, the entry's values (its origin's too, on a
+     * translation) and where it lives: a code template can show anything
+     * about the entry, so any change to it counts. Partials the view
+     * includes, and entries, terms or assets it reaches through fields,
+     * aren't read: change the template's `version` in the config to remake
+     * its images after changing those.
      */
     public function fingerprint(Entry $entry, string $layout): string
     {
         return substr(sha1(json_encode([
             $this->source(),
+            $this->config['version'] ?? null,
             $this->layouts()[$layout] ?? null,
             $layout,
-            $entry->data()->all(),
+            $entry->values()->all(),
             $entry->uri(),
             $entry->locale(),
             $entry->hasDate() ? $entry->date()?->timestamp : null,

@@ -121,7 +121,8 @@ class PorterTest extends TestCase
     {
         Http::fake();
 
-        foreach (['http://1.1.1.1/t.json', 'https://127.0.0.1/t.json', 'https://10.0.0.5/t.json', 'https://169.254.169.254/latest', 'https://[::1]/t.json', 'file:///etc/passwd', 'https://user:pass@1.1.1.1/x'] as $url) {
+        foreach (['http://1.1.1.1/t.json', 'https://127.0.0.1/t.json', 'https://10.0.0.5/t.json', 'https://169.254.169.254/latest', 'https://[::1]/t.json', 'file:///etc/passwd', 'https://user:pass@1.1.1.1/x',
+            'https://100.100.100.200/latest', 'https://198.18.0.1/x', 'https://[64:ff9b::a9fe:a9fe]/x', 'https://[2002:a9fe:a9fe::]/x', 'https://1.1.1.1:8443/t.json'] as $url) {
             try {
                 $this->porter()->fetch($url);
                 $this->fail("{$url} was fetched");

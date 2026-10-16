@@ -183,7 +183,9 @@ function drawText(element, layer, text, family, doc) {
         textAlign: layer.align,
         textTransform: layer.transform === 'none' ? '' : layer.transform,
         textWrap: layer.balance ? 'balance' : '',
-        overflowWrap: 'break-word',
+        // Words aren't broken while fitting, so a long one shrinks the text
+        // rather than splitting; fitText breaks them only as a last resort.
+        overflowWrap: 'normal',
         whiteSpace: 'pre-line',
         maxWidth: '100%',
         minHeight: '0',
@@ -223,12 +225,19 @@ export function fitText({ element, inner, layer }) {
             && (!layer.max_lines || lines(size) <= layer.max_lines);
     };
 
-    let size = layer.size;
+    const max = clamp(layer.size, 6, 400, 64);
+    const min = clamp(layer.min_size, 6, max, 6);
+    let size = max;
+    inner.style.overflowWrap = 'normal';
     inner.style.fontSize = `${size}px`;
 
-    while (size > layer.min_size && !fits(size)) {
-        size = Math.max(layer.min_size, size - 2);
+    for (let step = 0; size > min && !fits(size) && step < 400; step++) {
+        size = Math.max(min, size - 2);
         inner.style.fontSize = `${size}px`;
+    }
+
+    if (!fits(size)) {
+        inner.style.overflowWrap = 'break-word';
     }
 
     if (!fits(size)) {
@@ -244,6 +253,12 @@ export function fitText({ element, inner, layer }) {
     }
 
     return size;
+}
+
+function clamp(value, low, high, fallback) {
+    const number = Number(value);
+
+    return Number.isFinite(number) ? Math.min(high, Math.max(low, number)) : fallback;
 }
 
 function drawImage(element, layer, src, doc, options) {
@@ -312,7 +327,7 @@ export async function ready(doc = document) {
             layer: {
                 size,
                 min_size: parseFloat(inner.dataset.fitMin) || Math.min(size, 16),
-                max_lines: parseInt(inner.dataset.fitLines, 10) || 0,
+                max_lines: clamp(parseInt(inner.dataset.fitLines, 10) || 0, 0, 50, 0),
                 line_height: lineHeight,
                 hug: false,
                 padding: [0, 0, 0, 0],

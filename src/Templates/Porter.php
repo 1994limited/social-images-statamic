@@ -8,6 +8,7 @@ use NineteenNinetyFour\SocialImages\Library\Fonts;
 use NineteenNinetyFour\SocialImages\Library\Uploads;
 use Statamic\Contracts\Assets\Asset;
 use Statamic\Facades\Asset as AssetFacade;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Throwable;
 
 /**
@@ -160,6 +161,10 @@ class Porter
 
         $host = $parts['host'];
         $port = $parts['port'] ?? 443;
+
+        if ($port !== 443) {
+            throw new InvalidTemplate(__('Templates can only be imported from https:// addresses.'));
+        }
         $ip = $this->publicAddress($host);
 
         $limit = max(1, (int) config('social-images.import.max_kilobytes', 10240)) * 1024;
@@ -206,13 +211,34 @@ class Porter
         $host = trim($host, '[]');
         $addresses = filter_var($host, FILTER_VALIDATE_IP) ? [$host] : $this->resolve($host);
 
-        $public = fn ($ip) => filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false;
+        $public = fn ($ip) => filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false
+            && ! $this->internal($ip);
 
         if (! $addresses || collect($addresses)->contains(fn ($ip) => ! $public($ip))) {
             throw new InvalidTemplate(__('Templates can only be imported from public addresses.'));
         }
 
         return $addresses[0];
+    }
+
+    /**
+     * Ranges PHP's private and reserved flags let through but that reach
+     * inside a network: carrier-grade NAT (where some clouds keep their
+     * metadata service), benchmarking, and IPv6 addresses that carry an
+     * IPv4 one (NAT64, 6to4, mapped).
+     */
+    protected const INTERNAL = [
+        '100.64.0.0/10',
+        '198.18.0.0/15',
+        '64:ff9b::/96',
+        '64:ff9b:1::/48',
+        '2002::/16',
+        '::ffff:0:0/96',
+    ];
+
+    protected function internal(string $ip): bool
+    {
+        return IpUtils::checkIp($ip, self::INTERNAL);
     }
 
     /**
