@@ -7,3 +7,207 @@
     variant (hover:, dark:) only wins with Tailwind's important modifier:
     hover:underline!, dark:divide-gray-700!.
 */
+
+/*
+    Colours for the designer, light and dark (Statamic puts .dark on the
+    html element).
+*/
+:root {
+    --si-surface: #ffffff;
+    --si-text: #1f2937;
+    --si-line: rgb(0 0 0 / 0.08);
+    --si-hover: rgb(0 0 0 / 0.04);
+    --si-canvas: #eef0f3;
+    --si-dots: rgb(0 0 0 / 0.08);
+    --si-input: #ffffff;
+    --si-input-line: rgb(0 0 0 / 0.15);
+}
+
+.dark {
+    --si-surface: #1c1f24;
+    --si-text: #e5e7eb;
+    --si-line: rgb(255 255 255 / 0.08);
+    --si-hover: rgb(255 255 255 / 0.06);
+    --si-canvas: #121417;
+    --si-dots: rgb(255 255 255 / 0.07);
+    --si-input: #262a31;
+    --si-input-line: rgb(255 255 255 / 0.14);
+}
+
+/*
+    The designer's compact controls. Plain CSS with the si- prefix, so
+    nothing here reaches the rest of the Control Panel.
+*/
+.si-input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--si-input-line);
+    background: var(--si-input);
+    color: var(--si-text);
+    font-size: 0.8125rem;
+    line-height: 1.4;
+}
+
+.si-input:focus {
+    outline: 2px solid rgb(59 130 246 / 0.5);
+    outline-offset: -1px;
+}
+
+textarea.si-input {
+    resize: vertical;
+}
+
+.si-input--narrow {
+    width: 4.5rem;
+    flex: none;
+}
+
+.si-label {
+    display: block;
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--si-text);
+    opacity: 0.8;
+}
+
+.si-hint {
+    margin: 0.25rem 0 0;
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.si-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.si-grid2,
+.si-grid4 {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.si-grid2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+.si-grid4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.si-num {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    font-size: 0.6875rem;
+    color: #6b7280;
+}
+
+.si-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    margin-right: 0.75rem;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+}
+
+.si-segment {
+    display: inline-flex;
+    border-radius: 0.375rem;
+    box-shadow: 0 0 0 1px var(--si-input-line);
+    overflow: hidden;
+}
+
+.si-segment button {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8125rem;
+}
+
+.si-segment button.is-on {
+    background: rgb(59 130 246 / 0.15);
+}
+
+.si-link {
+    font-size: 0.75rem;
+    color: #2563eb;
+}
+
+.si-link:hover {
+    text-decoration: underline;
+}
+
+.si-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    color: #6b7280;
+}
+
+.si-icon-button:hover {
+    background: var(--si-hover);
+    color: inherit;
+}
+
+.si-color {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.si-color input[type='color'] {
+    width: 2rem;
+    height: 1.9rem;
+    padding: 0;
+    border: 1px solid var(--si-input-line);
+    border-radius: 0.375rem;
+    background: none;
+    flex: none;
+}
+
+.si-color__hex {
+    font-family: ui-monospace, monospace;
+}
+
+.si-color__alpha.si-input {
+    width: 3.75rem;
+    flex: none;
+}
+
+.si-props__head {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.si-props__name {
+    font-weight: 600;
+}
+
+.si-props__title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.si-props__subtitle {
+    margin: 1rem 0 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.si-props__section {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--si-line);
+}

@@ -39,6 +39,7 @@ class SettingsBlueprint
                     'type' => 'grid',
                     'display' => __('Rules'),
                     'hide_display' => true,
+                    'full_width_setting' => true,
                     'mode' => 'stacked',
                     'add_row' => __('Add rule'),
                     'fields' => $ruleFields,

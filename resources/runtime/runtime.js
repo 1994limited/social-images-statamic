@@ -47,18 +47,18 @@ export function shadowCss(shadow) {
     return shadow ? `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.color}` : '';
 }
 
-export function fontStack(family, category) {
+export function fontStack(family, category, prefix = '') {
     const generic = category === 'serif' ? 'serif' : category === 'monospace' ? 'monospace' : 'sans-serif';
 
-    return `"${String(family).replace(/["\\]/g, '')}", ${generic}`;
+    return `"${(prefix + String(family)).replace(/["\\]/g, '')}", ${generic}`;
 }
 
 /**
  * Load the fonts the page needs (each once), as FontFace objects.
  */
-export async function loadFonts(fonts, doc = document) {
+export async function loadFonts(fonts, doc = document, prefix = '') {
     const loads = (fonts || []).map((font) => {
-        const key = [font.family, font.style, font.weight, font.unicode_range, font.src.length, font.src.slice(-40)].join('|');
+        const key = [prefix + font.family, font.style, font.weight, font.unicode_range, font.src.length, font.src.slice(-40)].join('|');
 
         if (!loadedFonts.has(key)) {
             const descriptors = { style: font.style, weight: font.weight, display: 'block' };
@@ -67,7 +67,7 @@ export async function loadFonts(fonts, doc = document) {
                 descriptors.unicodeRange = font.unicode_range;
             }
 
-            const face = new FontFace(font.family, `url(${font.src})`, descriptors);
+            const face = new FontFace(prefix + font.family, `url(${font.src})`, descriptors);
             doc.fonts.add(face);
             loadedFonts.set(key, face.load().catch(() => null));
         }
@@ -83,15 +83,18 @@ export async function loadFonts(fonts, doc = document) {
  * what the server resolved for each layer by id: { text }, { src } or
  * { hidden: true }. Resolves once fonts and images are in and text fitted.
  *
- * Options: `designer` keeps layers that would be hidden (faded instead) and
- * tags each with data-layer-id for the designer's handles.
+ * Options: `designer` keeps layers that would be hidden (faded instead);
+ * `fontPrefix` names the fonts apart from the page's own (the Control
+ * Panel has its own Inter, say).
  */
 export async function render(root, layout, data = {}, options = {}) {
     const doc = root.ownerDocument;
     const layers = data.layers || {};
     const categories = data.categories || {};
 
-    await loadFonts(data.fonts, doc);
+    const prefix = options.fontPrefix || '';
+
+    await loadFonts(data.fonts, doc, prefix);
 
     root.replaceChildren();
     Object.assign(root.style, {
@@ -127,7 +130,7 @@ export async function render(root, layout, data = {}, options = {}) {
         });
 
         if (layer.type === 'text') {
-            texts.push(drawText(element, layer, resolved.text ?? '', categories[layer.font.family], doc));
+            texts.push(drawText(element, layer, resolved.text ?? '', fontStack(layer.font.family, categories[layer.font.family], prefix), doc));
         } else if (layer.type === 'image') {
             const img = drawImage(element, layer, resolved.src, doc, options);
 
@@ -146,7 +149,7 @@ export async function render(root, layout, data = {}, options = {}) {
     texts.forEach(fitText);
 }
 
-function drawText(element, layer, text, category, doc) {
+function drawText(element, layer, text, family, doc) {
     const inner = doc.createElement('div');
     inner.textContent = text;
 
@@ -170,7 +173,7 @@ function drawText(element, layer, text, category, doc) {
     });
 
     Object.assign(inner.style, {
-        fontFamily: fontStack(layer.font.family, category),
+        fontFamily: family,
         fontWeight: String(layer.font.weight),
         fontStyle: layer.font.style,
         fontSize: `${layer.size}px`,

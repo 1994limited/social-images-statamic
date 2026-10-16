@@ -1,0 +1,191 @@
+{
+  "schema": "social-images/1",
+  "title": "Split",
+  "description": "Photo on the left, title and summary on the right, on a colour of your choosing.",
+  "layouts": {
+    "og": {
+      "width": 1200,
+      "height": 630,
+      "background": {
+        "type": "solid",
+        "color": "#0f3d3e"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 540,
+          "height": 630,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#14532d"
+          }
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 600,
+          "y": 80,
+          "width": 540,
+          "height": 330,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 64,
+          "min_size": 30,
+          "color": "#ffffff",
+          "valign": "bottom",
+          "line_height": 1.08,
+          "letter_spacing": -0.02
+        },
+        {
+          "id": "summary",
+          "name": "Summary",
+          "type": "text",
+          "text": "{excerpt ?? description ?? summary}",
+          "x": 600,
+          "y": 430,
+          "width": 540,
+          "height": 110,
+          "font": {
+            "family": "Manrope",
+            "weight": 400,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 18,
+          "color": "#d1fae5",
+          "line_height": 1.35,
+          "max_lines": 3
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 600,
+          "y": 550,
+          "width": 540,
+          "height": 40,
+          "font": {
+            "family": "Manrope",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 22,
+          "min_size": 14,
+          "color": "#5eead4",
+          "valign": "bottom",
+          "balance": false
+        }
+      ]
+    },
+    "portrait": {
+      "width": 1080,
+      "height": 1350,
+      "background": {
+        "type": "solid",
+        "color": "#0f3d3e"
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "name": "Photo",
+          "type": "image",
+          "source": [
+            "field:featured_image",
+            "field:image",
+            "field:hero_image",
+            "field:cover_image",
+            "field:photo",
+            "field:thumbnail"
+          ],
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 700,
+          "fit": "cover",
+          "background": {
+            "type": "solid",
+            "color": "#14532d"
+          }
+        },
+        {
+          "id": "title",
+          "name": "Title",
+          "type": "text",
+          "text": "{title}",
+          "x": 80,
+          "y": 760,
+          "width": 920,
+          "height": 330,
+          "font": {
+            "family": "Manrope",
+            "weight": 800,
+            "style": "normal"
+          },
+          "size": 80,
+          "min_size": 32,
+          "color": "#ffffff",
+          "line_height": 1.08,
+          "letter_spacing": -0.02
+        },
+        {
+          "id": "summary",
+          "name": "Summary",
+          "type": "text",
+          "text": "{excerpt ?? description ?? summary}",
+          "x": 80,
+          "y": 1100,
+          "width": 920,
+          "height": 140,
+          "font": {
+            "family": "Manrope",
+            "weight": 400,
+            "style": "normal"
+          },
+          "size": 30,
+          "min_size": 18,
+          "color": "#d1fae5",
+          "line_height": 1.35,
+          "max_lines": 3
+        },
+        {
+          "id": "site",
+          "name": "Site",
+          "type": "text",
+          "text": "{site:name}",
+          "x": 80,
+          "y": 1250,
+          "width": 920,
+          "height": 44,
+          "font": {
+            "family": "Manrope",
+            "weight": 700,
+            "style": "normal"
+          },
+          "size": 26,
+          "min_size": 14,
+          "color": "#5eead4",
+          "balance": false
+        }
+      ]
+    }
+  }
+}
