@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 (unreleased)
+## 1.0.0 (2026-10-16)
 
 ### Added
 - **The designer**: text, image, box and circle layers on a canvas drawn by the same code as the real image. Drag, resize, snap, rotate, undo; gradients, borders, shadows, blur; text that shrinks to fit between two sizes, with a line limit, balanced lines and label-style backgrounds.
