@@ -34,7 +34,7 @@
     },
     "require": {
         "php": "^8.3",
-        "1994/social-images-core": "@dev",
+        "1994/social-images-core": "^1.0",
         "spatie/laravel-screenshot": "^1.2",
         "statamic/cms": "^6.35"
     },
@@ -68,10 +68,5 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [{
-        "name": "social-images-core",
-        "type": "path",
-        "url": "../social-images-core"
-    }]
+    "prefer-stable": true
 }

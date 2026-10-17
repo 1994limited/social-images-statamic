@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 (unreleased)
+## 1.1.0 (2026-10-17)
 
 ### Added
 - Renderers: choose how images are rendered with `SOCIAL_IMAGES_RENDERER`. Besides `laravel-screenshot` (the default, as before), Social Images has its own `browsershot` and `cloudflare` drivers, and you can add one with `SocialImages::extend()`. See docs/rendering.md.
