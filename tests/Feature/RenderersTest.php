@@ -160,6 +160,11 @@ class RenderersTest extends TestCase
         $entry = $this->entry();
         $this->renderer->failWith(new RateLimited('Slow down', retryAfter: 10));
 
+        // An earlier try was turned away and is waiting.
+        $first = (new GenerateImage('one'))->withFakeQueueInteractions();
+        $this->renderer->failWith(new RateLimited('Slow down', retryAfter: 10));
+        $first->handle();
+
         $job = (new GenerateImage('one'))->withFakeQueueInteractions();
         $job->job->attempts = 4;
 
@@ -169,6 +174,7 @@ class RenderersTest extends TestCase
         } catch (RateLimited) {
             $hash = app(Cards::class)->for($entry)->hash();
             $this->assertTrue(GenerateImage::recentlyFailed('one', 'og', $hash));
+            $this->assertFalse(GenerateImage::waiting('one', 'og', $hash));
         }
     }
 

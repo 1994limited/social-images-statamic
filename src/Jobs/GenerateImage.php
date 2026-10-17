@@ -187,6 +187,7 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
 
             // Page views don't try again for a while (until the allowance is
             // back, if it's run out).
+            Cache::forget(self::waitingKey($this->entryId, $this->layout, $card->hash()));
             Cache::put(self::failureKey($this->entryId, $this->layout, $card->hash()), true, $resetsAt ?? 300);
 
             throw $exception;

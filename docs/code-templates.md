@@ -93,7 +93,7 @@ A view is a whole page, with nothing else around it:
 
 ## Loading nothing
 
-The page must load nothing over the network: the browser taking the screenshot may not be able to reach your site (Cloudflare can't reach a local site), and anything it waits for slows every image. So fonts and pictures go inside the page:
+The page must load nothing over the network: the browser taking the screenshot may not be able to reach your site (Cloudflare can't reach a local site), and anything it waits for slows every image. Since social-images-core 1.1 the page enforces this: it may use only inline styles and scripts and `data:` fonts and pictures, so a stylesheet, font or image from an address isn't loaded at all. So fonts and pictures go inside the page:
 
 - **`{{ social_image:font family="…" weight="…" style="italic" }}`** outputs `@font-face` rules for a font from your font library (the included fonts, or ones added in the designer), with the font inside. Use it inside `<style>`. The weight and style choose the nearest the font has.
 - **`{{ social_image:embed :src="field" width="…" height="…" fit="contain" }}`** outputs an asset as a `data:` URI, resized by Glide to the size you'll draw it at (cropped around its focal point, or `fit="contain"` to fit inside). `src` takes an assets field's value or an asset ID (`assets::logo.png`).
