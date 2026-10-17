@@ -1,6 +1,9 @@
 # Changelog
 
-## 1.1.2 (unreleased)
+## 1.1.2 (2026-10-17)
+
+### Changed
+- Requires social-images-core 1.1.1, in which code templates can load stylesheets, fonts and images from addresses again (1.1.0 had stopped them), and a few import, export and text fixes.
 
 ### Fixed
 - A render that was waiting out a rate limit and then failed for good still showed as queued for a minute or so.

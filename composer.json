@@ -34,7 +34,7 @@
     },
     "require": {
         "php": "^8.3",
-        "1994/social-images-core": "^1.0",
+        "1994/social-images-core": "^1.1.1",
         "spatie/laravel-screenshot": "^1.2",
         "statamic/cms": "^6.35"
     },
