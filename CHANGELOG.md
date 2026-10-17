@@ -6,7 +6,7 @@
 - A render that was waiting out a rate limit and then failed for good still showed as queued for a minute or so.
 
 ### Documentation
-- Code templates: since social-images-core 1.1 the page may load nothing from an address (stylesheets, fonts and images must be inlined with the social_image:font and social_image:embed tags).
+- Code templates: a note on content from other sources. The page is opened by Chrome on your server, so escape what others write (Antlers doesn't by default).
 
 ## 1.1.1 (2026-10-17)
 

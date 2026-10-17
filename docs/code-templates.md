@@ -93,12 +93,21 @@ A view is a whole page, with nothing else around it:
 
 ## Loading nothing
 
-The page must load nothing over the network: the browser taking the screenshot may not be able to reach your site (Cloudflare can't reach a local site), and anything it waits for slows every image. Since social-images-core 1.1 the page enforces this: it may use only inline styles and scripts and `data:` fonts and pictures, so a stylesheet, font or image from an address isn't loaded at all. So fonts and pictures go inside the page:
+The page should load nothing over the network: the browser taking the screenshot may not be able to reach your site (Cloudflare can't reach a local site), and anything it waits for slows every image. So fonts and pictures go inside the page:
 
 - **`{{ social_image:font family="…" weight="…" style="italic" }}`** outputs `@font-face` rules for a font from your font library (the included fonts, or ones added in the designer), with the font inside. Use it inside `<style>`. The weight and style choose the nearest the font has.
 - **`{{ social_image:embed :src="field" width="…" height="…" fit="contain" }}`** outputs an asset as a `data:` URI, resized by Glide to the size you'll draw it at (cropped around its focal point, or `fit="contain"` to fit inside). `src` takes an assets field's value or an asset ID (`assets::logo.png`).
 
 Write your CSS in the page. Don't link stylesheets, Google Fonts or your site's Vite build.
+
+## Content from other sources
+
+The page is opened by Chrome on your server (with Browsershot), so anything in it can reach what your server can: its files and its private network. Treat what goes into a code template the way you would on any page, and be careful with content that comes from other people, such as entries editors write, form submissions or imported content:
+
+- Antlers doesn't escape output: `{{ title }}` prints HTML in a title as HTML. Escape what others write with a modifier, `{{ title | entities }}`, or use Blade, whose `{{ $title }}` escapes.
+- Only output Bard, Markdown or other HTML from people you trust with the server. An `<iframe>` or `<img>` in it can point at a file on the server or an internal address, and what loads ends up in the public image.
+
+Designer templates don't have this concern: their text is always shown as text and their pictures are inlined.
 
 ## Fitting text
 
