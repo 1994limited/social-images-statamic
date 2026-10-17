@@ -48,7 +48,7 @@ class MultisiteTest extends TestCase
         Site::setCurrent('en');
         app()->setLocale('en');
 
-        $this->assertStringContainsString('16 octobre 2026 · Français', $card->template->html($entry, 'og'));
+        $this->assertStringContainsString('16 octobre 2026 · Français', $this->pageData($card->template->html($entry, 'og')));
         $this->assertSame('en', app()->getLocale(), 'The locale is put back.');
         $this->assertSame('en', Site::current()->handle());
         $this->assertStringContainsString('<html lang="fr">', $card->template->html($entry, 'og'));

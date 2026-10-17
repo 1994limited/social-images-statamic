@@ -19,6 +19,6 @@ class SmokeTest extends TestCase
 
         $this->assertNotNull($card);
         $this->assertTrue($card->exists());
-        $this->assertStringContainsString('Hello world', $this->camera->captures[0]['html']);
+        $this->assertStringContainsString('Hello world', $this->pageData($this->camera->captures[0]['html']));
     }
 }

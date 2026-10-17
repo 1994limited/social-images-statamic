@@ -12,9 +12,7 @@ class RenderingTest extends TestCase
 {
     protected function payload(string $html): array
     {
-        preg_match('/var p=(\{.*?\});SocialImages\.render/s', $html, $matches);
-
-        return json_decode($matches[1], true);
+        return json_decode($this->pageData($html), true);
     }
 
     public function test_the_page_inlines_the_renderer_and_the_resolved_layout(): void

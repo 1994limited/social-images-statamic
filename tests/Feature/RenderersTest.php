@@ -65,7 +65,7 @@ class RenderersTest extends TestCase
         $this->artisan('social-images:generate')->assertSuccessful();
 
         $this->assertCount(1, $this->renderer->requests);
-        $this->assertStringContainsString('Hello world', $this->renderer->requests[0]->html);
+        $this->assertStringContainsString('Hello world', $this->pageData($this->renderer->requests[0]->html));
     }
 
     public function test_a_driver_can_be_added(): void

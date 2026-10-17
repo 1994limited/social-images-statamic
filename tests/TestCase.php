@@ -156,4 +156,17 @@ abstract class TestCase extends AddonTestCase
         app(SettingsRepository::class)->make($addon, $values)->save();
         app(Settings::class)->refresh();
     }
+
+    /**
+     * What a designer page draws: its layout and data, as JSON. Core 1.1
+     * carries them base64-encoded; 1.0 inline.
+     */
+    protected function pageData(string $html): string
+    {
+        if (preg_match('/atob\("([A-Za-z0-9+\/=]+)"\)/', $html, $match)) {
+            return base64_decode($match[1]);
+        }
+
+        return preg_match('/var p=(\{.*?\});SocialImages\.render/s', $html, $match) ? $match[1] : $html;
+    }
 }
