@@ -58,7 +58,7 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
 
         $hash = $card->hash();
 
-        if (self::recentlyFailed($entry->id(), $layout, $hash)) {
+        if (self::recentlyFailed($entry->id(), $layout, $hash) || self::waiting($entry->id(), $layout, $hash)) {
             return;
         }
 
@@ -101,6 +101,20 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
     public static function recentlyFailed(string $entryId, string $layout, string $hash): bool
     {
         return Cache::has(self::failureKey($entryId, $layout, $hash));
+    }
+
+    /**
+     * A render the service turned away is waiting to try again: page views
+     * don't queue another meanwhile, and it shows as queued, not failed.
+     */
+    public static function waiting(string $entryId, string $layout, string $hash): bool
+    {
+        return Cache::has(self::waitingKey($entryId, $layout, $hash));
+    }
+
+    protected static function waitingKey(string $entryId, string $layout, string $hash): string
+    {
+        return 'social-images:waiting:'.$entryId.':'.$layout.':'.$hash;
     }
 
     protected static function failureKey(string $entryId, string $layout, string $hash): string
@@ -160,21 +174,26 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
         } catch (Throwable $exception) {
             $resetsAt = RateLimits::resetsAt($exception);
 
-            // Page views don't try again until the allowance is back.
-            Cache::put(self::failureKey($this->entryId, $this->layout, $card->hash()), true, $resetsAt ?? 300);
-
             // On a queue, a refusal waits as long as the service asked, or
-            // until the allowance resets, rather than spend a try early.
-            if ($this->job && $wait = $this->waitFor($exception, $resetsAt)) {
+            // until the allowance resets, rather than spend a try early. It's
+            // waiting, not failed, until the tries run out.
+            if ($this->job && RateLimits::caused($exception) && $this->attempts() < $this->tries) {
+                $wait = $this->waitFor($exception, $resetsAt) ?? ($this->backoff()[$this->attempts() - 1] ?? 300);
+                Cache::put(self::waitingKey($this->entryId, $this->layout, $card->hash()), true, $wait + 60);
                 $this->release($wait);
 
                 return null;
             }
 
+            // Page views don't try again for a while (until the allowance is
+            // back, if it's run out).
+            Cache::put(self::failureKey($this->entryId, $this->layout, $card->hash()), true, $resetsAt ?? 300);
+
             throw $exception;
         }
 
         Cache::forget(self::failureKey($this->entryId, $this->layout, $card->hash()));
+        Cache::forget(self::waitingKey($this->entryId, $this->layout, $card->hash()));
 
         return $path;
     }

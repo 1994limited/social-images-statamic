@@ -125,7 +125,51 @@ class RenderersTest extends TestCase
 
         // Page views don't try again in the meantime.
         $hash = app(Cards::class)->for($entry)->hash();
-        $this->assertTrue(GenerateImage::recentlyFailed('one', 'og', $hash));
+        $this->assertTrue(GenerateImage::waiting('one', 'og', $hash));
+        $this->assertFalse(GenerateImage::recentlyFailed('one', 'og', $hash));
+    }
+
+    public function test_a_waiting_render_shows_as_queued_and_isnt_queued_again(): void
+    {
+        $this->template();
+        $this->useTemplate('basic');
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $entry = $this->entry();
+        $this->renderer->failWith(new RateLimited('Slow down'));
+
+        $job = (new GenerateImage('one'))->withFakeQueueInteractions();
+        $job->handle();
+
+        // No wait given: the job's own backoff.
+        $job->assertReleased(15);
+
+        $this->actingAs($this->cpUser())->getJson(cp_route('social-images.images.show', 'one'))
+            ->assertJsonPath('state', 'queued')
+            ->assertJsonPath('failed', false);
+        $this->app->terminate();
+
+        // Asking about it didn't start another render.
+        $this->assertCount(0, $this->renderer->requests);
+    }
+
+    public function test_a_render_is_marked_failed_once_its_tries_run_out(): void
+    {
+        $this->template();
+        $this->useTemplate('basic');
+        $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
+        $entry = $this->entry();
+        $this->renderer->failWith(new RateLimited('Slow down', retryAfter: 10));
+
+        $job = (new GenerateImage('one'))->withFakeQueueInteractions();
+        $job->job->attempts = 4;
+
+        try {
+            $job->handle();
+            $this->fail('The last try didn\'t throw.');
+        } catch (RateLimited) {
+            $hash = app(Cards::class)->for($entry)->hash();
+            $this->assertTrue(GenerateImage::recentlyFailed('one', 'og', $hash));
+        }
     }
 
     public function test_a_render_outside_a_queue_still_throws(): void

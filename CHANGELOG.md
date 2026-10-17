@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 (2026-10-17)
+
+### Fixed
+- A render the screenshot service turned away, waiting on the queue to try again, showed as failed in the entry's panel and on the Images page. It now shows as queued, and page views don't queue it again meanwhile. It's marked failed only once its tries run out.
+- A refusal without a wait from the service (a plain 429) now waits out the job's own backoff (15 seconds, then a minute, then five) instead of counting as a failure.
+
 ## 1.1.0 (2026-10-17)
 
 ### Added
