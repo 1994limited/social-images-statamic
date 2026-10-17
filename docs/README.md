@@ -5,7 +5,7 @@ Social Images makes a share image (`og:image`) for each of your entries from a t
 ## Setting up
 
 1. [Installation](installation.md): requirements, installing, the fieldset, updating.
-2. [Rendering](rendering.md): Browsershot or Cloudflare, queues and rate limits.
+2. [Rendering](rendering.md): Browsershot or Cloudflare, renderers, queues and rate limits.
 3. [Choosing templates](choosing-templates.md): which entries get which template, extra sizes, an entry's own image, the fallback.
 
 ## Designing

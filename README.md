@@ -19,7 +19,7 @@ It works with SEO Pro, or with no SEO addon at all, and on any Statamic 6 site.
 - **Made in the background, only when needed.** An image is made when an entry is saved (or a page first asks for it), and only if what it shows has changed. Pages never wait: until an image exists, they use your fallback image.
 - **In bulk.** Make the missing images, or remake them all, from the Control Panel or with `php please social-images:generate`. Rate limits are waited out.
 - **Per collection, per entry.** Choose a template for each collection (and site), let an entry choose another, or upload an image for an entry to use instead.
-- **No Chrome needed on your server.** Images are rendered with [spatie/laravel-screenshot](https://github.com/spatie/laravel-screenshot), using Browsershot (Chrome on your server) or Cloudflare Browser Rendering (no Chrome at all).
+- **No Chrome needed on your server.** Images are rendered with Browsershot (Chrome on your server) or Cloudflare Browser Rendering (no Chrome at all), or a renderer of your own. `php please social-images:doctor` checks it works.
 
 | The designer | Every entry's image | In the entry |
 | --- | --- | --- |
@@ -71,7 +71,7 @@ Start with [the documentation's contents](docs/README.md).
 
 Social Images is commercial software, sold through the [Statamic Marketplace](https://statamic.com/marketplace). You can try it free on local and staging sites; a licence is needed for each live site. See [LICENSE.md](LICENSE.md).
 
-The included fonts are under the SIL Open Font License; each has its licence beside it in `resources/fonts`.
+The included fonts are under the SIL Open Font License; each has its licence beside it in social-images-core's `resources/fonts`.
 
 ## Support
 

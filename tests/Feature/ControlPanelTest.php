@@ -283,7 +283,7 @@ class ControlPanelTest extends TestCase
         $this->template();
         $this->settings(['templates' => [['template' => 'basic']], 'generate_on_save' => false]);
         $entry = $this->entry();
-        $old = app(\NineteenNinetyFour\SocialImages\Images\Cards::class)->for($entry);
+        $old = app(Cards::class)->for($entry);
         $old->render();
 
         $this->template(layers: [['id' => 'title', 'type' => 'text', 'text' => 'New {title}']]);

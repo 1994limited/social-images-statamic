@@ -1,6 +1,6 @@
 # Rendering
 
-An image is a screenshot of a web page: Social Images builds the page for an entry (its template, with the entry's text, pictures and fonts inside it) and has a browser take a picture of it. The browser is [spatie/laravel-screenshot](https://github.com/spatie/laravel-screenshot), which can use either of two:
+An image is a screenshot of a web page: Social Images builds the page for an entry (its template, with the entry's text, pictures and fonts inside it) and has a browser take a picture of it. That browser is either of two:
 
 | | Browsershot | Cloudflare Browser Rendering |
 | --- | --- | --- |
@@ -12,6 +12,29 @@ An image is a screenshot of a web page: Social Images builds the page for an ent
 Each image takes one to three seconds either way.
 
 The page is sent to the browser as HTML, with everything inside it, so the browser never fetches anything from your site. That's why Cloudflare can render images for a site it can't reach, like a local `.test` site.
+
+## Renderers
+
+What drives the browser is a *renderer*, chosen with `SOCIAL_IMAGES_RENDERER` in `.env`:
+
+| Renderer | Set up with |
+| --- | --- |
+| `laravel-screenshot` (the default) | [spatie/laravel-screenshot](https://github.com/spatie/laravel-screenshot)'s own `LARAVEL_SCREENSHOT_*` settings, Browsershot or Cloudflare. What Social Images 1.0 used, so nothing changes for sites made with it. |
+| `browsershot` | Social Images' own Browsershot driver. Reads the same `LARAVEL_SCREENSHOT_*` paths, or `SOCIAL_IMAGES_NODE_BINARY`, `SOCIAL_IMAGES_NPM_BINARY`, `SOCIAL_IMAGES_CHROME_PATH`, `SOCIAL_IMAGES_NODE_MODULES_PATH` and `SOCIAL_IMAGES_NO_SANDBOX`. |
+| `cloudflare` | Social Images' own Cloudflare driver: `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Tells a per-minute limit from a used-up day, and honours Cloudflare's `Retry-After`. |
+| Your own | See [Adding a renderer](php-api.md#adding-a-renderer). |
+
+Each renderer's options are under `renderer.drivers` in `config/social-images.php`. Keep tokens in `.env` only: never in config files or the repository.
+
+**Privacy.** A remote renderer (Cloudflare, or a service you add) is sent each image's page: the entry's title and the other text and pictures its template shows. Only fields the template uses are included, but if those aren't public yet (a draft entry, say), choose a renderer that runs on your server.
+
+### Checking it works
+
+```bash
+php please social-images:doctor
+```
+
+renders a small test image and says whether it worked, and if not, what to change. `--driver=cloudflare` checks another renderer before you switch to it. In the Control Panel, **Settings → Rendering → Test** does the same for the renderer in use.
 
 ## Browsershot
 
@@ -53,8 +76,8 @@ Keep the token in `.env` only: never in config files or the repository.
 
 Cloudflare's free plan allows a limited amount of rendering a day and a few browsers at once (see [Cloudflare's limits](https://developers.cloudflare.com/browser-rendering/limits/) for today's numbers). When a render is turned away for going too fast:
 
-- **On save**, the queued job tries again after 15 seconds, then a minute, then five.
-- **`social-images:generate`** waits and tries again, longer each time, and stops after four refusals in a row, saying the day's allowance has probably run out. Run it again later: it skips the images already made. See [Commands](commands.md).
+- **On save**, the queued job tries again after the wait the service asks for, or after 15 seconds, then a minute, then five. When the day's allowance has run out (the `cloudflare` renderer can tell), it waits until it resets, at midnight UTC, and pages don't try again in the meantime.
+- **`social-images:generate`** waits and tries again, longer each time, and stops after four refusals in a row, saying the day's allowance has probably run out (or straight away, when the renderer says so). Run it again later: it skips the images already made. See [Commands](commands.md).
 - **Generate missing / Regenerate all** in the Control Panel does the same, with a countdown on the page.
 
 A site with a few hundred entries fits in a day on the free plan. For more, generate in batches (`--collection`), or use a paid plan.

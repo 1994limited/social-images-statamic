@@ -117,12 +117,21 @@ class ImagesController extends CpController
         } catch (Throwable $exception) {
             report($exception);
 
+            $limited = RateLimits::caused($exception);
+            $exhausted = RateLimits::exhausted($exception);
+
             return response()->json([
-                'message' => RateLimits::caused($exception)
-                    ? __('The screenshot service is busy or its limit has been reached. Try again in a minute.')
-                    : __('The image couldn’t be generated. See the log for details.'),
-                'rate_limited' => RateLimits::caused($exception),
-            ], RateLimits::caused($exception) ? 429 : 500);
+                'message' => match (true) {
+                    $exhausted => __('The screenshot service’s allowance has run out. Try again once it resets.'),
+                    $limited => __('The screenshot service is busy or its limit has been reached. Try again in a minute.'),
+                    default => __('The image couldn’t be generated. See the log for details.'),
+                },
+                'fix' => RateLimits::fix($exception),
+                'rate_limited' => $limited,
+                'quota' => $exhausted,
+                'retry_after' => RateLimits::retryAfter($exception),
+                'resets_at' => RateLimits::resetsAt($exception)?->format(DATE_ATOM),
+            ], $limited ? 429 : 500);
         }
 
         return response()->json([

@@ -3,7 +3,7 @@
     width of its box. Used for the starters, which aren't saved templates.
 -->
 <script>
-import { render } from '../../runtime/runtime.js';
+import { render } from '@social-images-core/runtime/runtime.js';
 
 export default {
     props: {

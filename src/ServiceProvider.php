@@ -4,9 +4,13 @@ namespace NineteenNinetyFour\SocialImages;
 
 use NineteenNinetyFour\SocialImages\Actions\GenerateSocialImages;
 use NineteenNinetyFour\SocialImages\Blueprints\SettingsBlueprint;
+use NineteenNinetyFour\SocialImages\Commands\Doctor;
 use NineteenNinetyFour\SocialImages\Commands\Generate;
+use NineteenNinetyFour\SocialImages\Core\Rendering\RendererManager;
+use NineteenNinetyFour\SocialImages\Core\Support\Lang;
 use NineteenNinetyFour\SocialImages\Events\TemplateSaved;
 use NineteenNinetyFour\SocialImages\Fieldtypes\SocialImagePreview;
+use NineteenNinetyFour\SocialImages\Fieldtypes\SocialImagesRenderer;
 use NineteenNinetyFour\SocialImages\Fieldtypes\SocialImageTemplate;
 use NineteenNinetyFour\SocialImages\Images\Camera;
 use NineteenNinetyFour\SocialImages\Images\Cards;
@@ -17,6 +21,7 @@ use NineteenNinetyFour\SocialImages\Library\Uploads;
 use NineteenNinetyFour\SocialImages\Listeners\ForgetOnDelete;
 use NineteenNinetyFour\SocialImages\Listeners\GenerateOnSave;
 use NineteenNinetyFour\SocialImages\Listeners\RemakeOnTemplateSave;
+use NineteenNinetyFour\SocialImages\Rendering\LaravelScreenshotRenderer;
 use NineteenNinetyFour\SocialImages\Rendering\Page;
 use NineteenNinetyFour\SocialImages\Tags\SocialImageTags;
 use NineteenNinetyFour\SocialImages\Templates\TemplateRepository;
@@ -39,6 +44,7 @@ class ServiceProvider extends AddonServiceProvider
     protected $fieldtypes = [
         SocialImagePreview::class,
         SocialImageTemplate::class,
+        SocialImagesRenderer::class,
     ];
 
     protected $actions = [
@@ -47,6 +53,7 @@ class ServiceProvider extends AddonServiceProvider
 
     protected $commands = [
         Generate::class,
+        Doctor::class,
     ];
 
     protected $listen = [
@@ -92,11 +99,23 @@ class ServiceProvider extends AddonServiceProvider
         $this->app->singleton(Page::class);
         $this->app->singleton(Cards::class);
         $this->app->bind(Camera::class);
+        $this->app->singleton(RendererManager::class, function () {
+            $config = (array) config('social-images.renderer', []);
+            $config['driver'] = ($config['driver'] ?? null) ?: 'laravel-screenshot';
+
+            $manager = new RendererManager($config);
+            $manager->extend('laravel-screenshot', fn () => new LaravelScreenshotRenderer);
+
+            return $manager;
+        });
     }
 
     public function bootAddon(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'social-images');
+
+        // The core package's messages, in the site's language.
+        Lang::using(fn (string $text, array $replace) => __($text, $replace));
 
         $this->publishes([__DIR__.'/../config/social-images.php' => config_path('social-images.php')], 'social-images-config');
 

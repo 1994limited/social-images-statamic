@@ -21,6 +21,8 @@
     --si-dots: rgb(0 0 0 / 0.08);
     --si-input: #ffffff;
     --si-input-line: rgb(0 0 0 / 0.15);
+    --si-ok: #15803d;
+    --si-bad: #b91c1c;
 }
 
 .dark {
@@ -32,6 +34,8 @@
     --si-dots: rgb(255 255 255 / 0.07);
     --si-input: #262a31;
     --si-input-line: rgb(255 255 255 / 0.14);
+    --si-ok: #4ade80;
+    --si-bad: #f87171;
 }
 
 /*

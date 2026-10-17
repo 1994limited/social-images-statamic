@@ -15,6 +15,7 @@ php artisan vendor:publish --tag=social-images-config
 | Templates | The rules: which collections (and sites) use which template, and which extra sizes they make on save. See [Choosing templates](choosing-templates.md). |
 | Generate when an entry is saved | On by default. Off: images are made when a page first asks for one, or from the Images page or the command. |
 | Fallback image | For pages with no image yet. |
+| Rendering | Which renderer is in use, and a Test button that renders a test image. The renderer is chosen in `.env`, not here. |
 | SEO Pro | When the social image is used for SEO Pro's tags. See [SEO Pro](seo.md). |
 
 ## `config/social-images.php`
@@ -86,6 +87,20 @@ How long the command and the Images page wait (in seconds, more each time) when 
 
 The largest template that can be imported from an address or a file, and how long to wait for one.
 
+### Rendering
+
+```php
+'renderer' => [
+    'driver' => env('SOCIAL_IMAGES_RENDERER', 'laravel-screenshot'),
+    'drivers' => [
+        'browsershot' => [/* node_binary, npm_binary, chrome_path, node_modules_path, no_sandbox */],
+        'cloudflare' => ['api_token' => env('CLOUDFLARE_API_TOKEN'), 'account_id' => env('CLOUDFLARE_ACCOUNT_ID')],
+    ],
+],
+```
+
+Which renderer makes the images, and each one's options. See [Renderers](rendering.md#renderers).
+
 ## The screenshot service
 
-Rendering is set up with spatie/laravel-screenshot's own settings, in `.env`: `LARAVEL_SCREENSHOT_DRIVER` and the rest. See [Rendering](rendering.md). To change more, publish its config with `php artisan vendor:publish --tag=laravel-screenshot-config`.
+With the `laravel-screenshot` renderer (the default), rendering is set up with spatie/laravel-screenshot's own settings, in `.env`: `LARAVEL_SCREENSHOT_DRIVER` and the rest. See [Rendering](rendering.md). To change more, publish its config with `php artisan vendor:publish --tag=laravel-screenshot-config`.

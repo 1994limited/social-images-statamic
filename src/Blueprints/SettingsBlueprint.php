@@ -62,6 +62,13 @@ class SettingsBlueprint
         ]];
 
         $sections[] = [
+            'display' => __('Rendering'),
+            'fields' => [
+                $this->field('renderer', ['type' => 'social_images_renderer', 'display' => __('Renderer'), 'hide_display' => true]),
+            ],
+        ];
+
+        $sections[] = [
             'display' => 'SEO Pro',
             'instructions' => SeoPro::installed() ? null : __('SEO Pro isn’t installed. Without it, add {{ social_image:meta }} to your layout’s <head>.'),
             'fields' => [

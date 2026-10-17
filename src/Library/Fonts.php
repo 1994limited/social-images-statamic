@@ -5,13 +5,14 @@ namespace NineteenNinetyFour\SocialImages\Library;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use NineteenNinetyFour\SocialImages\Core\Core;
 use NineteenNinetyFour\SocialImages\Templates\Schema;
 
 /**
  * The fonts templates can use.
  *
  * Two kinds: the open-licence fonts that come with the addon
- * (resources/fonts), and the site's own, added in the designer from Google
+ * (in social-images-core's resources/fonts), and the site's own, added in the designer from Google
  * Fonts or uploaded, kept in the fonts folder beside the templates with a
  * fonts.json listing them. Every font reaches the renderer as a data URI,
  * so a render never fetches one.
@@ -347,7 +348,7 @@ class Fonts
     protected function absolute(array $face): string
     {
         return $face['source'] === 'bundled'
-            ? __DIR__.'/../../resources/fonts/'.$face['file']
+            ? Core::path('resources/fonts/'.$face['file'])
             : $this->directory().'/'.$face['file'];
     }
 
@@ -357,7 +358,7 @@ class Fonts
             return $this->bundled;
         }
 
-        $manifest = json_decode((string) file_get_contents(__DIR__.'/../../resources/fonts/fonts.json'), true) ?: [];
+        $manifest = json_decode((string) file_get_contents(Core::path('resources/fonts/fonts.json')), true) ?: [];
 
         return $this->bundled = collect($manifest)->flatMap(fn ($family) => collect($family['files'])->map(fn ($file) => [
             'id' => 'bundled:'.$file['file'],

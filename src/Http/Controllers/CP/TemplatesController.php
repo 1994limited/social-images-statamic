@@ -9,6 +9,7 @@ use Inertia\Response;
 use NineteenNinetyFour\SocialImages\Images\Camera;
 use NineteenNinetyFour\SocialImages\Images\Cards;
 use NineteenNinetyFour\SocialImages\Library\Fonts;
+use NineteenNinetyFour\SocialImages\RateLimits;
 use NineteenNinetyFour\SocialImages\Rendering\Page;
 use NineteenNinetyFour\SocialImages\Rendering\Resolver;
 use NineteenNinetyFour\SocialImages\Rendering\Tokens;
@@ -260,7 +261,10 @@ class TemplatesController extends CpController
         } catch (Throwable $exception) {
             report($exception);
 
-            return response()->json(['message' => __('The image couldn’t be rendered: :message', ['message' => str($exception->getMessage())->limit(300)])], 500);
+            return response()->json([
+                'message' => __('The image couldn’t be rendered: :message', ['message' => str($exception->getMessage())->limit(300)]),
+                'fix' => RateLimits::fix($exception),
+            ], RateLimits::caused($exception) ? 429 : 500);
         }
 
         return response()->json(['image' => 'data:image/png;base64,'.base64_encode($png)]);

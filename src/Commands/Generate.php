@@ -74,13 +74,19 @@ class Generate extends Command
                 $this->components->twoColumnDetail($label, '<fg=green>'.$path.'</>');
             } catch (RateLimitReached $exception) {
                 $this->components->twoColumnDetail($label, '<fg=red>stopped</>');
-                $this->components->error('The screenshot service keeps refusing renders: its limit has probably been reached (Cloudflare\'s free plan allows 10 minutes of rendering a day). Run this again later to carry on.');
+                $this->components->error(RateLimits::exhausted($exception)
+                    ? 'The screenshot service\'s allowance has run out'.(($at = RateLimits::resetsAt($exception)) ? ' until '.$at->format('j M H:i T') : '').'. Run this again then to carry on.'
+                    : 'The screenshot service keeps refusing renders: its limit has probably been reached (Cloudflare\'s free plan allows 10 minutes of rendering a day). Run this again later to carry on.');
 
                 return self::FAILURE;
             } catch (Throwable $exception) {
                 $failed++;
                 $this->components->twoColumnDetail($label, '<fg=red>failed</>');
                 $this->components->error($exception->getMessage());
+
+                if ($fix = RateLimits::fix($exception)) {
+                    $this->components->bulletList([$fix]);
+                }
             }
         }
 
@@ -96,11 +102,12 @@ class Generate extends Command
                 throw $exception;
             }
 
-            if ($attempt >= max(1, (int) config('social-images.rate_limit_attempts', 4))) {
+            // No use waiting when the day's allowance is gone.
+            if (RateLimits::exhausted($exception) || $attempt >= max(1, (int) config('social-images.rate_limit_attempts', 4))) {
                 throw new RateLimitReached($exception->getMessage(), previous: $exception);
             }
 
-            $wait = (int) config('social-images.rate_limit_wait', 15) * $attempt;
+            $wait = RateLimits::retryAfter($exception) ?? (int) config('social-images.rate_limit_wait', 15) * $attempt;
             $this->components->warn("Rate limited, trying again in {$wait}s…");
             sleep($wait);
 

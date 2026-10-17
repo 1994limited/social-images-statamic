@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0 (unreleased)
+
+### Added
+- Renderers: choose how images are rendered with `SOCIAL_IMAGES_RENDERER`. Besides `laravel-screenshot` (the default, as before), Social Images has its own `browsershot` and `cloudflare` drivers, and you can add one with `SocialImages::extend()`. See docs/rendering.md.
+- `php please social-images:doctor`, and a Test button under Settings → Rendering: renders a test image and says what to change if it can't.
+- A queued render that's turned away waits as long as the service asks, and until the next day when the day's allowance has run out, instead of spending its tries.
+
+### Changed
+- The template format, the page renderer, the starters and the fonts now come from the `1994/social-images-core` package, shared with Social Images for other platforms. Nothing changes for your templates or images.
+- `Camera` renders through the configured renderer. Binding your own `Camera` still works, but adding a renderer is the better way now.
+
 ## 1.0.4 (2026-10-16)
 
 ### Changed

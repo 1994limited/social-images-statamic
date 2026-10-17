@@ -73,12 +73,18 @@ use NineteenNinetyFour\SocialImages\Events\TemplateSaved;
 Event::listen(TemplateSaved::class, fn () => Artisan::queue('social-images:generate', ['--queue' => true]));
 ```
 
-## Rendering another way
+## Adding a renderer
 
-The screenshot is taken by `NineteenNinetyFour\SocialImages\Images\Camera`, which takes the page's HTML and a size and returns PNG bytes. To use another service, bind your own class in a service provider:
+A renderer takes a page and a size and returns an image. To render with another service, write a class that implements `NineteenNinetyFour\SocialImages\Core\Rendering\Renderer` and register it in a service provider's `boot()` method:
 
 ```php
-$this->app->bind(\NineteenNinetyFour\SocialImages\Images\Camera::class, MyCamera::class);
+use NineteenNinetyFour\SocialImages\SocialImages;
+
+SocialImages::extend('urlbox', fn (array $options) => new UrlboxRenderer($options['key']));
 ```
 
-Wait for `html[data-social-ready]` before taking the picture.
+Its options come from `renderer.drivers.urlbox` in `config/social-images.php` (read secrets there with `env()`). Choose it with `SOCIAL_IMAGES_RENDERER=urlbox`, then check it with `php please social-images:doctor`.
+
+The contract, the exceptions to throw (`RateLimited`, `QuotaExhausted`, `NotConfigured`, `RenderFailed`) and a PHPUnit trait that tests a driver against it are in social-images-core's [docs/drivers.md](https://github.com/1994limited/social-images-core/blob/main/docs/drivers.md). The page signals it's ready by setting `data-social-ready` on `<html>`: wait for `html[data-social-ready]` before taking the picture.
+
+`SocialImages::renderer()` returns the renderer in use (or a named one, `SocialImages::renderer('cloudflare')`).

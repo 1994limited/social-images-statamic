@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Cache;
 use NineteenNinetyFour\SocialImages\Images\Cards;
+use NineteenNinetyFour\SocialImages\RateLimits;
 use NineteenNinetyFour\SocialImages\Templates\Schema;
 use Statamic\Contracts\Entries\Entry as EntryContract;
 use Statamic\Facades\Entry;
@@ -122,6 +123,15 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
         return [15, 60, 300];
     }
 
+    protected function waitFor(Throwable $exception, ?\DateTimeImmutable $resetsAt): ?int
+    {
+        if ($resetsAt) {
+            return max(60, $resetsAt->getTimestamp() - time());
+        }
+
+        return RateLimits::retryAfter($exception);
+    }
+
     /**
      * @return string|null the image's path, or null if the entry has none
      */
@@ -148,7 +158,18 @@ class GenerateImage implements ShouldBeUnique, ShouldQueue
         try {
             $path = $card->render();
         } catch (Throwable $exception) {
-            Cache::put(self::failureKey($this->entryId, $this->layout, $card->hash()), true, 300);
+            $resetsAt = RateLimits::resetsAt($exception);
+
+            // Page views don't try again until the allowance is back.
+            Cache::put(self::failureKey($this->entryId, $this->layout, $card->hash()), true, $resetsAt ?? 300);
+
+            // On a queue, a refusal waits as long as the service asked, or
+            // until the allowance resets, rather than spend a try early.
+            if ($this->job && $wait = $this->waitFor($exception, $resetsAt)) {
+                $this->release($wait);
+
+                return null;
+            }
 
             throw $exception;
         }

@@ -130,8 +130,8 @@ export default {
                 const result = await this.render(image);
                 this.done++;
 
-                if (result === 'limit') {
-                    stoppedByLimit = true;
+                if (result === 'limit' || result === 'quota') {
+                    stoppedByLimit = result;
                     break;
                 }
             }
@@ -140,7 +140,9 @@ export default {
             const stopped = this.stopping;
             this.queue = [];
 
-            if (stoppedByLimit) {
+            if (stoppedByLimit === 'quota') {
+                this.$toast.error(this.__('The screenshot service’s allowance has run out for now. Try again once it resets; finished images are kept.'));
+            } else if (stoppedByLimit) {
                 this.$toast.error(this.__('The screenshot service keeps refusing: its limit has probably been reached. Try again later; finished images are kept.'));
             } else if (this.failed.length) {
                 this.$toast.error(this.__(':count images failed. See the log for details.', { count: this.failed.length }));
@@ -161,16 +163,23 @@ export default {
 
                 return 'ok';
             } catch (error) {
-                if (error.response?.data?.rate_limited && attempt < ATTEMPTS && !this.stopping) {
+                const data = error.response?.data ?? {};
+
+                // An allowance that's run out won't come back in a minute.
+                if (data.rate_limited && !data.quota && attempt < ATTEMPTS && !this.stopping) {
                     image.status = 'waiting';
-                    await this.wait(WAIT * attempt);
+                    await this.wait(data.retry_after || WAIT * attempt);
 
                     return this.render(image, attempt + 1);
                 }
 
                 image.status = 'failed';
 
-                return error.response?.data?.rate_limited ? 'limit' : 'failed';
+                if (data.quota) {
+                    return 'quota';
+                }
+
+                return data.rate_limited ? 'limit' : 'failed';
             }
         },
 

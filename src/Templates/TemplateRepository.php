@@ -5,6 +5,7 @@ namespace NineteenNinetyFour\SocialImages\Templates;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use NineteenNinetyFour\SocialImages\Core\Core;
 use NineteenNinetyFour\SocialImages\Events\TemplateDeleted;
 use NineteenNinetyFour\SocialImages\Events\TemplateSaved;
 
@@ -12,7 +13,7 @@ use NineteenNinetyFour\SocialImages\Events\TemplateSaved;
  * Every template: the site's designer templates (JSON files in the
  * templates folder) and its code templates (the config's `views`).
  *
- * The starters that come with the addon (resources/templates) aren't
+ * The starters (in social-images-core's resources/templates) aren't
  * templates until one is added to the site, which copies it.
  */
 class TemplateRepository
@@ -134,7 +135,7 @@ class TemplateRepository
      */
     public function starters(): array
     {
-        return collect($this->files->glob(__DIR__.'/../../resources/templates/*.json') ?: [])
+        return collect($this->files->glob(Core::path('resources/templates/*.json')) ?: [])
             ->mapWithKeys(fn ($path) => [pathinfo($path, PATHINFO_FILENAME) => json_decode((string) $this->files->get($path), true)])
             ->filter(fn ($data) => is_array($data))
             ->all();

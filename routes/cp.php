@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use NineteenNinetyFour\SocialImages\Http\Controllers\CP\ImagesController;
 use NineteenNinetyFour\SocialImages\Http\Controllers\CP\LibraryController;
+use NineteenNinetyFour\SocialImages\Http\Controllers\CP\RendererController;
 use NineteenNinetyFour\SocialImages\Http\Controllers\CP\TemplatesController;
 
 Route::prefix('social-images')->name('social-images.')->group(function () {
@@ -27,6 +28,8 @@ Route::prefix('social-images')->name('social-images.')->group(function () {
     Route::delete('fonts', [LibraryController::class, 'deleteFont'])->name('fonts.destroy');
     Route::post('uploads', [LibraryController::class, 'upload'])->name('uploads.store');
     Route::get('uploads/{name}', [LibraryController::class, 'show'])->name('uploads.show');
+
+    Route::post('renderer/check', [RendererController::class, 'check'])->name('renderer.check');
 
     Route::get('images', [ImagesController::class, 'index'])->name('images.index');
     Route::get('images/{entryId}', [ImagesController::class, 'show'])->name('images.show');

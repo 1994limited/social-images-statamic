@@ -7,7 +7,7 @@
     when the drag ends (so text is refitted once, not on every pixel).
 -->
 <script>
-import { render } from '../../../runtime/runtime.js';
+import { render } from '@social-images-core/runtime/runtime.js';
 import { resize, snap } from '../../designer/geometry.js';
 
 const HANDLES = [

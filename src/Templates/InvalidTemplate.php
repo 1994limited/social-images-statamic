@@ -1,11 +1,10 @@
 <?php
 
-namespace NineteenNinetyFour\SocialImages\Templates;
+use NineteenNinetyFour\SocialImages\Core\Templates\InvalidTemplate;
 
-use RuntimeException;
-
-/**
- * A template that can't be used: the wrong format, or missing its base
- * layout. The message is written for the person importing it.
+/*
+ * InvalidTemplate lives in social-images-core now, shared by every Social Images
+ * product. This name is kept for code that uses it.
  */
-class InvalidTemplate extends RuntimeException {}
+
+class_alias(InvalidTemplate::class, 'NineteenNinetyFour\SocialImages\Templates\InvalidTemplate');
