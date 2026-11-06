@@ -2,7 +2,7 @@
 
 Open a template from **Tools → Social Images**. Layers are on the left, the canvas in the middle, and the selected layer's settings on the right. Select nothing (click the canvas's surroundings, or **Background**) to change the layout's background.
 
-![The designer](images/designer.png)
+![The designer](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/social-images/charts/designer.png)
 
 The canvas is drawn by the same code that draws the real image, so what you see is what's made. To be sure, **Render** takes a real screenshot through your [rendering service](rendering.md) and shows it.
 

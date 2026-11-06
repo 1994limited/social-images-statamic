@@ -2,7 +2,7 @@
 
 Share images for every entry, made for you. Design a card once in the Control Panel, bind it to your entries' titles, photos, authors and dates, and Social Images makes a 1200 × 630 image for each entry when it's saved. Your `og:image` and `twitter:image` point at it, so links to your site look like they were designed one by one.
 
-![Nine of the seventeen starter templates, each showing the same journal post](docs/images/gallery.png)
+![Nine of the seventeen starter templates, each showing the same journal post](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/social-images/charts/gallery.png)
 
 It works with SEO Pro, or with no SEO addon at all, and on any Statamic 6 site.
 
@@ -23,7 +23,7 @@ It works with SEO Pro, or with no SEO addon at all, and on any Statamic 6 site.
 
 | The designer | Every entry's image | In the entry |
 | --- | --- | --- |
-| ![The designer, editing the Editorial template with a real entry](docs/images/designer.png) | ![The Images page, listing each entry's images](docs/images/images.png) | ![The Social image panel in an entry's sidebar](docs/images/entry.png) |
+| ![The designer, editing the Editorial template with a real entry](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/social-images/charts/designer.png) | ![The Images page, listing each entry's images](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/social-images/charts/images.png) | ![The Social image panel in an entry's sidebar](https://raw.githubusercontent.com/1994limited/statamic-marketplace/main/social-images/charts/entry.png) |
 
 The screenshots are from Dog-ear Books, a made-up bookshop. See [The demo](docs/demo.md).
 
